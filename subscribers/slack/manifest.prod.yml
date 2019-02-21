@@ -3,7 +3,7 @@ buildpack: dotnet_core_buildpack
 health-check-type: process
 instances: 1
 memory: 50M
-disk_quota: 50M
+disk_quota: 100M
 services:
 - ups-dm-slack-worker
 applications:

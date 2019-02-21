@@ -1,3 +1,4 @@
+using Amazon;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -27,7 +28,9 @@ namespace Dta.Marketplace.Subscriber.Slack {
         public Task StartAsync(CancellationToken cancellationToken) {
             _logger.LogInformation("Starting daemon: Slack Subscriber");
 
-            var sqsConfig = new AmazonSQSConfig();
+            var sqsConfig = new AmazonSQSConfig {
+                RegionEndpoint = RegionEndpoint.GetBySystemName(_config.Value.AWS_SQS_REGION)
+            };
             if (string.IsNullOrWhiteSpace(_config.Value.AWS_SQS_SERVICE_URL) == false) {
                 sqsConfig.ServiceURL = _config.Value.AWS_SQS_SERVICE_URL;
             }
@@ -37,7 +40,7 @@ namespace Dta.Marketplace.Subscriber.Slack {
             } else {
                 _sqsClient = new AmazonSQSClient(sqsConfig);
             }
-            
+
             _timer = new Timer(DoWork, null, TimeSpan.Zero, TimeSpan.FromSeconds(_config.Value.WORK_INTERVAL_IN_SECONDS));
             return Task.CompletedTask;
         }
@@ -71,7 +74,9 @@ namespace Dta.Marketplace.Subscriber.Slack {
         public void Dispose() {
             _logger.LogInformation("Disposing....");
             _timer?.Dispose();
-            _sqsClient.Dispose();
+            if (_sqsClient != null) {
+                _sqsClient.Dispose();
+            }
         }
 
         private async Task DeleteMessage(Message message) {
