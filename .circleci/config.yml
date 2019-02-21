@@ -16,6 +16,9 @@ references:
       - image: microsoft/dotnet:2.2-sdk
         environment:
           TZ: "/usr/share/zoneinfo/Australia/Sydney"
+  circleci_deploy: &circleci_deploy
+    docker:
+      - image: circleci/node:8-stretch
   # required_for_deploy: &required_for_deploy
   #   requires:
   #     - check_styles
@@ -73,7 +76,7 @@ jobs:
   #           npm run eslint
 
   deploy_to_rc:
-    <<: *deploy_docker
+    <<: *circleci_deploy
     steps:
       - attach_workspace:
           at: .
@@ -130,18 +133,18 @@ workflows:
           filters:
             tags:
               only: /[0-9]+(\.[0-9]+)*/
-      - check_styles:
-          requires:
-            - build
-          filters:
-            tags:
-              only: /[0-9]+(\.[0-9]+)*/
-      - run_tests:
-          requires:
-            - build
-          filters:
-            tags:
-              only: /[0-9]+(\.[0-9]+)*/
+      # - check_styles:
+      #     requires:
+      #       - build
+      #     filters:
+      #       tags:
+      #         only: /[0-9]+(\.[0-9]+)*/
+      # - run_tests:
+      #     requires:
+      #       - build
+      #     filters:
+      #       tags:
+      #         only: /[0-9]+(\.[0-9]+)*/
       - deploy_to_rc:
           # <<: *required_for_deploy
           filters:
