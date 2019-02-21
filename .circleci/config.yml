@@ -19,7 +19,7 @@ references:
   # required_for_deploy: &required_for_deploy
   #   requires:
   #     - check_styles
-  #     - run_tests
+  #     - run_tests 
 
 jobs:
   build:
