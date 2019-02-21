@@ -19,10 +19,11 @@ references:
   circleci_deploy: &circleci_deploy
     docker:
       - image: circleci/node:8-stretch
-  # required_for_deploy: &required_for_deploy
-  #   requires:
-  #     - check_styles
-  #     - run_tests 
+  required_for_deploy: &required_for_deploy
+    requires:
+      - build
+      # - check_styles
+      # - run_tests 
 
 jobs:
   build:
@@ -146,28 +147,28 @@ workflows:
       #       tags:
       #         only: /[0-9]+(\.[0-9]+)*/
       - deploy_to_rc:
-          # <<: *required_for_deploy
+          <<: *required_for_deploy
           filters:
             tags:
               ignore: /.*/
             branches:
               only: slack-subscriber
       - deploy_to_staging:
-          # <<: *required_for_deploy
+          <<: *required_for_deploy
           filters:
             tags:
               ignore: /.*/
             branches:
               only: master
       - deploy_to_production:
-          # <<: *required_for_deploy
+          <<: *required_for_deploy
           filters:
             tags:
               only: /[0-9]+(\.[0-9]+)*/
             branches:
               ignore: /.*/
       - deploy_to_production_clone:
-          # <<: *required_for_deploy
+          <<: *required_for_deploy
           filters:
             tags:
               only: /[0-9]+(\.[0-9]+)*/
