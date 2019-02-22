@@ -1,6 +1,6 @@
 using System;
 
-namespace Dta.Marketplace.Subscriber.Slack {
+namespace Dta.Marketplace.Subscribers.Slack {
     public class AppConfig {
         public string AWS_SQS_REGION { get; set; } = "ap-southeast-2";
         public string AWS_SQS_QUEUE_URL { get; set; }

@@ -1,4 +1,4 @@
-namespace Dta.Marketplace.Subscriber.Slack.Services {
+namespace Dta.Marketplace.Subscribers.Slack.Services {
     public interface IService {
     }
 }

@@ -1,16 +1,18 @@
 ﻿using System;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using Dta.Marketplace.Subscriber.Slack.Processors;
-using Dta.Marketplace.Subscriber.Slack.Services;
-using Dta.Marketplace.Subscriber.Slack.Model;
+using Dta.Marketplace.Subscribers.Slack.Processors;
+using Dta.Marketplace.Subscribers.Slack.Services;
+using Dta.Marketplace.Subscribers.Slack.Model;
 
-namespace Dta.Marketplace.Subscriber.Slack {
+[assembly: InternalsVisibleToAttribute("slack.test")]
+namespace Dta.Marketplace.Subscribers.Slack {
     class Program {
         public static async Task Main(string[] args) {
             var builder = new HostBuilder()

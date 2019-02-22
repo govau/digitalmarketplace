@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
-using Dta.Marketplace.Subscriber.Slack.Model;
+using Dta.Marketplace.Subscribers.Slack.Model;
 
-namespace Dta.Marketplace.Subscriber.Slack.Processors {
+namespace Dta.Marketplace.Subscribers.Slack.Processors {
     public interface IMessageProcessor {
         Task<bool> ProcessMessage(AwsSnsMessage message);
     }

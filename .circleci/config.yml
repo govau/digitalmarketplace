@@ -21,9 +21,8 @@ references:
       - image: circleci/node:8-stretch
   required_for_deploy: &required_for_deploy
     requires:
-      - build
       # - check_styles
-      # - run_tests 
+      - run_tests 
 
 jobs:
   build:
@@ -56,15 +55,16 @@ jobs:
           paths:
             - ~
 
-  # run_tests:
-  #   <<: *deploy_docker
-  #   steps:
-  #     - attach_workspace:
-  #         at: .
-  #     - run: 
-  #         name: Run Tests
-  #         command: |
-  #           npm test
+  run_tests:
+    <<: *deploy_docker
+    steps:
+      - attach_workspace:
+          at: .
+      - run: 
+          name: Run Tests
+          command: |
+            cd tests/subscribers/slack
+            dotnet test
     
   # check_styles:
   #   <<: *deploy_docker
@@ -140,12 +140,12 @@ workflows:
       #     filters:
       #       tags:
       #         only: /[0-9]+(\.[0-9]+)*/
-      # - run_tests:
-      #     requires:
-      #       - build
-      #     filters:
-      #       tags:
-      #         only: /[0-9]+(\.[0-9]+)*/
+      - run_tests:
+          requires:
+            - build
+          filters:
+            tags:
+              only: /[0-9]+(\.[0-9]+)*/
       - deploy_to_rc:
           <<: *required_for_deploy
           filters:
@@ -168,7 +168,9 @@ workflows:
             branches:
               ignore: /.*/
       - deploy_to_production_clone:
-          <<: *required_for_deploy
+          requires:
+            - deploy_to_production
+            - run_tests 
           filters:
             tags:
               only: /[0-9]+(\.[0-9]+)*/

@@ -9,10 +9,10 @@ using Microsoft.Extensions.Options;
 using Amazon.SQS;
 using Amazon.SQS.Model;
 using Newtonsoft.Json;
-using Dta.Marketplace.Subscriber.Slack.Processors;
-using Dta.Marketplace.Subscriber.Slack.Model;
+using Dta.Marketplace.Subscribers.Slack.Processors;
+using Dta.Marketplace.Subscribers.Slack.Model;
 
-namespace Dta.Marketplace.Subscriber.Slack {
+namespace Dta.Marketplace.Subscribers.Slack {
     public class AppService : IHostedService, IDisposable {
         private readonly ILogger _logger;
         private readonly IOptions<AppConfig> _config;

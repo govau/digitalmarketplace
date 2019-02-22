@@ -3,9 +3,9 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Amazon.SQS.Model;
-using Dta.Marketplace.Subscriber.Slack.Model;
+using Dta.Marketplace.Subscribers.Slack.Model;
 
-namespace Dta.Marketplace.Subscriber.Slack.Services {
+namespace Dta.Marketplace.Subscribers.Slack.Services {
     internal class SlackService : ISlackService {
         private readonly ILogger _logger;
         public SlackService(ILogger<AppService> logger) {

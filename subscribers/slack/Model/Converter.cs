@@ -2,7 +2,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System.Globalization;
 
-namespace Dta.Marketplace.Subscriber.Slack.Model {
+namespace Dta.Marketplace.Subscribers.Slack.Model {
     internal static class Converter {
         public static readonly JsonSerializerSettings Settings = new JsonSerializerSettings {
             MetadataPropertyHandling = MetadataPropertyHandling.Ignore,
