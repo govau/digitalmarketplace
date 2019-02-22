@@ -31,7 +31,7 @@ Domain: {domain}";
 
                         return await _slackService.SendSlackMessage(_config.Value.USER_SLACK_URL, slackMessage);
                     } else {
-                        _logger.LogWarning($"No enough for slack. {awsSnsMessage.MessageAttributes.ObjectType.Value} {awsSnsMessage.MessageAttributes.EventType.Value}");
+                        _logger.LogWarning($"Not enough to create slack message: {awsSnsMessage.MessageAttributes.ObjectType.Value} {awsSnsMessage.MessageAttributes.EventType.Value}");
                     }
                     break;
                 default:

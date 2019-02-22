@@ -39,8 +39,12 @@ namespace Dta.Marketplace.Subscribers.Slack {
                             ac.BUYER_SLACK_URL = credentials.BuyerSlackUrl;
                             ac.SUPPLIER_SLACK_URL = credentials.SupplierSlackUrl;
                             ac.USER_SLACK_URL = credentials.UserSlackUrl;
-                            ac.WORK_INTERVAL_IN_SECONDS = credentials.WorkIntervalInSeconds;
-                            ac.AWS_SQS_LONG_POLL_TIME_IN_SECONDS = credentials.AwsSqsLongPollTimeInSeconds;
+                            if (credentials.WorkIntervalInSeconds != 0) {
+                                ac.WORK_INTERVAL_IN_SECONDS = credentials.WorkIntervalInSeconds;
+                            }
+                            if (credentials.AwsSqsLongPollTimeInSeconds != 0) {
+                                ac.AWS_SQS_LONG_POLL_TIME_IN_SECONDS = credentials.AwsSqsLongPollTimeInSeconds;
+                            }
                         }
                     });
 
@@ -68,7 +72,6 @@ namespace Dta.Marketplace.Subscribers.Slack {
                 .ConfigureLogging((hostingContext, logging) => {
                     logging.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
                     logging.AddConsole();
-                    logging.SetMinimumLevel(LogLevel.Information);
                 });
 
             await builder.RunConsoleAsync();

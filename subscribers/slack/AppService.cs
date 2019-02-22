@@ -49,6 +49,7 @@ namespace Dta.Marketplace.Subscribers.Slack {
                 QueueUrl = _config.Value.AWS_SQS_QUEUE_URL,
                 WaitTimeSeconds = _config.Value.AWS_SQS_LONG_POLL_TIME_IN_SECONDS
             };
+            _logger.LogInformation($"Heartbeat: {DateTime.Now}");
             var receiveMessageResponse = await _sqsClient.ReceiveMessageAsync(receiveMessageRequest);
             foreach (var message in receiveMessageResponse.Messages) {
                 _logger.LogInformation($"Message Id: {message.MessageId}");
@@ -74,9 +75,7 @@ namespace Dta.Marketplace.Subscribers.Slack {
         public void Dispose() {
             _logger.LogInformation("Disposing....");
             _timer?.Dispose();
-            if (_sqsClient != null) {
-                _sqsClient.Dispose();
-            }
+            _sqsClient?.Dispose();
         }
 
         private async Task DeleteMessage(Message message) {
