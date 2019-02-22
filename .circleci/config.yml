@@ -34,11 +34,11 @@ jobs:
 
       # - restore_cache:
       #     <<: *npm_cache_key
-      - run: 
-          name: Dotnet Restore
-          command: |
-            cd subscribers/slack
-            dotnet restore
+      # - run: 
+      #     name: Dotnet Restore
+      #     command: |
+      #       cd subscribers/slack
+      #       dotnet restore
       # - save_cache:
       #     <<: *npm_cache_key
       #     paths:
@@ -85,9 +85,8 @@ jobs:
       - run:
           name: Deploy to RC
           command: |
-            cd subscribers/slack
             cf login -a https://api.system.y.cld.gov.au -o dta -s marketplace -u $CF_USER_STAGING -p $CF_PASSWORD_STAGING
-            cf zero-downtime-push dm-rc-slack-worker -f manifest.rc.yml --show-app-log
+            cf zero-downtime-push -f manifest.rc.yml --show-app-log
 
   deploy_to_production_clone:
     <<: *deploy_docker
@@ -98,9 +97,8 @@ jobs:
       - run:
           name: Deploy to Production Clone
           command: |
-            cd subscribers/slack
             cf login -a https://api.system.y.cld.gov.au -o dta -s marketplace -u $CF_USER_STAGING -p $CF_PASSWORD_STAGING
-            cf zero-downtime-push dm-pc-slack-worker -f manifest.pc.yml --show-app-log
+            cf zero-downtime-push -f manifest.pc.yml --show-app-log
 
   deploy_to_staging:
     <<: *deploy_docker
@@ -111,9 +109,8 @@ jobs:
       - run:
           name: Deploy to Staging
           command: |
-            cd subscribers/slack
             cf login -a https://api.system.y.cld.gov.au -o dta -s marketplace -u $CF_USER_STAGING -p $CF_PASSWORD_STAGING
-            cf zero-downtime-push dm-dev-slack-worker -f manifest.dev.yml --show-app-log
+            cf zero-downtime-push -f manifest.dev.yml --show-app-log
 
   deploy_to_production:
     <<: *deploy_docker
@@ -124,10 +121,9 @@ jobs:
       - run:
           name: Deploy to Production
           command: |
-            cd subscribers/slack
             cf login -a https://api.system.b.cld.gov.au -o dta -s marketplace -u $CF_USER_PROD -p $CF_PASSWORD_PROD
-            cf zero-downtime-push dm-slack-worker -f manifest.prod.yml --show-app-log
-            ./scripts/ci-notify.sh
+            cf zero-downtime-push -f manifest.prod.yml --show-app-log
+            # ./scripts/ci-notify.sh
 
 
 workflows:
