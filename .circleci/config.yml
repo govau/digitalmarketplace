@@ -152,7 +152,7 @@ workflows:
             tags:
               ignore: /.*/
             branches:
-              only: slack-subscriber
+              only: rc
       - deploy_to_staging:
           <<: *required_for_deploy
           filters:
