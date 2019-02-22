@@ -85,8 +85,9 @@ jobs:
       - run:
           name: Deploy to RC
           command: |
+            cd subscribers/slack
             cf login -a https://api.system.y.cld.gov.au -o dta -s marketplace -u $CF_USER_STAGING -p $CF_PASSWORD_STAGING
-            cf zero-downtime-push dm-rc-frontend -f subscribers/slack/manifest.rc.yml --show-app-log
+            cf zero-downtime-push dm-rc-frontend -f manifest.rc.yml --show-app-log
 
   deploy_to_production_clone:
     <<: *deploy_docker
@@ -97,8 +98,9 @@ jobs:
       - run:
           name: Deploy to Production Clone
           command: |
+            cd subscribers/slack
             cf login -a https://api.system.y.cld.gov.au -o dta -s marketplace -u $CF_USER_STAGING -p $CF_PASSWORD_STAGING
-            cf zero-downtime-push dm-pc-frontend -f subscribers/slack/manifest.pc.yml --show-app-log
+            cf zero-downtime-push dm-pc-frontend -f manifest.pc.yml --show-app-log
 
   deploy_to_staging:
     <<: *deploy_docker
@@ -109,8 +111,9 @@ jobs:
       - run:
           name: Deploy to Staging
           command: |
+            cd subscribers/slack
             cf login -a https://api.system.y.cld.gov.au -o dta -s marketplace -u $CF_USER_STAGING -p $CF_PASSWORD_STAGING
-            cf zero-downtime-push dm-dev-frontend -f subscribers/slack/manifest.dev.yml --show-app-log
+            cf zero-downtime-push dm-dev-frontend -f manifest.dev.yml --show-app-log
 
   deploy_to_production:
     <<: *deploy_docker
@@ -121,8 +124,9 @@ jobs:
       - run:
           name: Deploy to Production
           command: |
+            cd subscribers/slack
             cf login -a https://api.system.b.cld.gov.au -o dta -s marketplace -u $CF_USER_PROD -p $CF_PASSWORD_PROD
-            cf zero-downtime-push dm-frontend -f subscribers/slack/manifest.prod.yml --show-app-log
+            cf zero-downtime-push dm-frontend -f manifest.prod.yml --show-app-log
             ./scripts/ci-notify.sh
 
 
