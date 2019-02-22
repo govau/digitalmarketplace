@@ -47,11 +47,11 @@ namespace Dta.Marketplace.Subscribers.Slack {
         private async void DoWork(object state) {
             var receiveMessageRequest = new ReceiveMessageRequest() {
                 QueueUrl = _config.Value.AWS_SQS_QUEUE_URL,
-                WaitTimeSeconds = 20
+                WaitTimeSeconds = _config.Value.AWS_SQS_LONG_POLL_TIME_IN_SECONDS
             };
             var receiveMessageResponse = await _sqsClient.ReceiveMessageAsync(receiveMessageRequest);
             foreach (var message in receiveMessageResponse.Messages) {
-                _logger.LogInformation(message.MessageId);
+                _logger.LogInformation($"Message Id: {message.MessageId}");
                 var awsSnsMessage = AwsSnsMessage.FromJson(message.Body);
                 var messageProcessor = _messageProcessor(awsSnsMessage.MessageAttributes.ObjectType.Value);
                 if (messageProcessor == null) {

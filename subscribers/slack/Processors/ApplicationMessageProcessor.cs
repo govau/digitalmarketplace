@@ -41,7 +41,12 @@ Application Id: {message.application.id}
 {message.name} ({message.email_address})";
 
                         return await _slackService.SendSlackMessage(_config.Value.SUPPLIER_SLACK_URL, slackMessage);
+                    } else {
+                        _logger.LogWarning($"No enough for slack. {awsSnsMessage.MessageAttributes.ObjectType.Value} {awsSnsMessage.MessageAttributes.EventType.Value}");
                     }
+                    break;
+                default:
+                    _logger.LogInformation($"Unknown message. {awsSnsMessage.MessageAttributes.ObjectType.Value} {awsSnsMessage.MessageAttributes.EventType.Value}");
                     break;
             }
             return true;

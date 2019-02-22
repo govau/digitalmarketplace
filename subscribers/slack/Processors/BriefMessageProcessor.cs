@@ -34,6 +34,10 @@ By: {message.name} ({message.email_address})
 {message.url}";
 
                     return await _slackService.SendSlackMessage(_config.Value.BUYER_SLACK_URL, slackMessage);
+                
+                default:
+                    _logger.LogInformation($"Unknown message. {awsSnsMessage.MessageAttributes.ObjectType.Value} {awsSnsMessage.MessageAttributes.EventType.Value}");
+                    break;
             }
             return true;
         }
