@@ -68,6 +68,7 @@ namespace Dta.Marketplace.Subscribers.Slack {
                 .ConfigureLogging((hostingContext, logging) => {
                     logging.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
                     logging.AddConsole();
+                    logging.SetMinimumLevel(LogLevel.Information);
                 });
 
             await builder.RunConsoleAsync();
