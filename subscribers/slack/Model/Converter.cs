@@ -7,8 +7,7 @@ namespace Dta.Marketplace.Subscribers.Slack.Model {
         public static readonly JsonSerializerSettings Settings = new JsonSerializerSettings {
             MetadataPropertyHandling = MetadataPropertyHandling.Ignore,
             DateParseHandling = DateParseHandling.None,
-            Converters =
-            {
+            Converters = {
                 new IsoDateTimeConverter { DateTimeStyles = DateTimeStyles.AssumeUniversal }
             }
         };

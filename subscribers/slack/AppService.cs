@@ -44,6 +44,17 @@ namespace Dta.Marketplace.Subscribers.Slack {
             _timer = new Timer(DoWork, null, TimeSpan.Zero, TimeSpan.FromSeconds(_config.Value.WORK_INTERVAL_IN_SECONDS));
             return Task.CompletedTask;
         }
+        public Task StopAsync(CancellationToken cancellationToken) {
+            _logger.LogInformation("Stopping daemon.");
+            _timer?.Change(Timeout.Infinite, 0);
+            return Task.CompletedTask;
+        }
+        public void Dispose() {
+            _logger.LogInformation("Disposing....");
+            _timer?.Dispose();
+            _sqsClient?.Dispose();
+        }
+        
         private async void DoWork(object state) {
             var receiveMessageRequest = new ReceiveMessageRequest() {
                 QueueUrl = _config.Value.AWS_SQS_QUEUE_URL,
@@ -66,18 +77,6 @@ namespace Dta.Marketplace.Subscribers.Slack {
                 }
             }
         }
-        public Task StopAsync(CancellationToken cancellationToken) {
-            _logger.LogInformation("Stopping daemon.");
-            _timer?.Change(Timeout.Infinite, 0);
-            return Task.CompletedTask;
-        }
-
-        public void Dispose() {
-            _logger.LogInformation("Disposing....");
-            _timer?.Dispose();
-            _sqsClient?.Dispose();
-        }
-
         private async Task DeleteMessage(Message message) {
             var deleteMessageRequest = new DeleteMessageRequest {
                 QueueUrl = _config.Value.AWS_SQS_QUEUE_URL,

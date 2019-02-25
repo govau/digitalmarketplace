@@ -11,6 +11,7 @@ namespace Dta.Marketplace.Subscribers.Slack.Services {
         public SlackService(ILogger<AppService> logger) {
             _logger = logger;
         }
+
         public async Task<bool> SendSlackMessage(string slackUrl, string message) {
             if (string.IsNullOrWhiteSpace(slackUrl)) {
                 _logger.LogInformation($"Slack message: {message}");

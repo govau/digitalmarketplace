@@ -12,6 +12,7 @@ namespace Dta.Marketplace.Subscribers.Slack.Processors {
         public BriefMessageProcessor(ILogger<AppService> logger, IOptions<AppConfig> config, ISlackService slackService) : base(logger, config) {
             _slackService = slackService;
         }
+
         public async override Task<bool> Process(AwsSnsMessage awsSnsMessage) {
             switch (awsSnsMessage.MessageAttributes.EventType.Value) {
                 case "published":
