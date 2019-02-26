@@ -76,7 +76,7 @@ namespace Dta.Marketplace.Subscribers.Slack.Model {
         public int AwsSqsLongPollTimeInSeconds { get; set; }
 
         [JsonProperty("SENTRY_DSN")]
-        public int SentryDsn { get; set; }
+        public string SentryDsn { get; set; }
     }
 
     public partial class VcapServices {
