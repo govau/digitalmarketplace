@@ -27,7 +27,7 @@ http://brief.url";
 
             var config = new Mock<IOptions<AppConfig>>();
             config.Setup(ac => ac.Value).Returns(new AppConfig {
-                BUYER_SLACK_URL = buyer_slack_url
+                BuyerSlackUrl = buyer_slack_url
             });
             var slackService = new Mock<ISlackService>();
             slackService.Setup(ss => ss.SendSlackMessage(buyer_slack_url, message)).ReturnsAsync(true);

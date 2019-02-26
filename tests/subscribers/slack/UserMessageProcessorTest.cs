@@ -24,7 +24,7 @@ Domain: b.com";
 
             var config = new Mock<IOptions<AppConfig>>();
             config.Setup(ac => ac.Value).Returns(new AppConfig {
-                USER_SLACK_URL = user_slack_url
+                UserSlackUrl = user_slack_url
             });
             var slackService = new Mock<ISlackService>();
             slackService.Setup(ss => ss.SendSlackMessage(user_slack_url, message)).ReturnsAsync(true);

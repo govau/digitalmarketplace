@@ -10,6 +10,7 @@ using System.Linq;
 namespace Dta.Marketplace.Subscribers.Slack.Processors {
     internal class UserMessageProcessor : AbstractMessageProcessor {
         private readonly ISlackService _slackService;
+
         public UserMessageProcessor(ILogger<AppService> logger, IOptions<AppConfig> config, ISlackService slackService) : base(logger, config) {
             _slackService = slackService;
         }
@@ -30,13 +31,13 @@ namespace Dta.Marketplace.Subscribers.Slack.Processors {
 $@"*A new buyer has signed up*
 Domain: {domain}";
 
-                        return await _slackService.SendSlackMessage(_config.Value.USER_SLACK_URL, slackMessage);
+                        return await _slackService.SendSlackMessage(_config.Value.UserSlackUrl, slackMessage);
                     } else {
-                        _logger.LogWarning($"Not enough to create slack message: {awsSnsMessage.MessageAttributes.ObjectType.Value} {awsSnsMessage.MessageAttributes.EventType.Value}");
+                        _logger.LogInformation("Supplier not supported for {@AwsSnsMessage}.", awsSnsMessage);
                     }
                     break;
                 default:
-                    _logger.LogInformation($"Unknown message. {awsSnsMessage.MessageAttributes.ObjectType.Value} {awsSnsMessage.MessageAttributes.EventType.Value}");
+                        _logger.LogInformation("Unknown processor for {@AwsSnsMessage}.", awsSnsMessage);
                     break;
             }
             return true;

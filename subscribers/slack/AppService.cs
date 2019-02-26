@@ -19,6 +19,7 @@ namespace Dta.Marketplace.Subscribers.Slack {
         private readonly Func<string, IMessageProcessor> _messageProcessor;
         private AmazonSQSClient _sqsClient;
         private Timer _timer;
+
         public AppService(ILogger<AppService> logger, IOptions<AppConfig> config, Func<string, IMessageProcessor> messageProcessor) {
             _logger = logger;
             _config = config;
@@ -26,22 +27,25 @@ namespace Dta.Marketplace.Subscribers.Slack {
         }
 
         public Task StartAsync(CancellationToken cancellationToken) {
-            _logger.LogInformation("Starting daemon: Slack Subscriber");
+            _logger.LogInformation("Starting daemon: Slack Subscriber. {Timer}", new {
+                _config.Value.AwsSqsLongPollTimeInSeconds,
+                _config.Value.WorkIntervalInSeconds
+            });
 
             var sqsConfig = new AmazonSQSConfig {
-                RegionEndpoint = RegionEndpoint.GetBySystemName(_config.Value.AWS_SQS_REGION)
+                RegionEndpoint = RegionEndpoint.GetBySystemName(_config.Value.AwsSqsRegion)
             };
-            if (string.IsNullOrWhiteSpace(_config.Value.AWS_SQS_SERVICE_URL) == false) {
-                sqsConfig.ServiceURL = _config.Value.AWS_SQS_SERVICE_URL;
+            if (string.IsNullOrWhiteSpace(_config.Value.AwsSqsServiceUrl) == false) {
+                sqsConfig.ServiceURL = _config.Value.AwsSqsServiceUrl;
             }
-            if (string.IsNullOrWhiteSpace(_config.Value.AWS_SQS_SECRET_ACCESS_KEY) == false &&
-                string.IsNullOrWhiteSpace(_config.Value.AWS_SQS_ACCESS_KEY_ID) == false) {
-                _sqsClient = new AmazonSQSClient(_config.Value.AWS_SQS_ACCESS_KEY_ID, _config.Value.AWS_SQS_SECRET_ACCESS_KEY, sqsConfig);
+            if (string.IsNullOrWhiteSpace(_config.Value.AwsSqsSecretAccessKey) == false &&
+                string.IsNullOrWhiteSpace(_config.Value.AwsSqsAccessKeyId) == false) {
+                _sqsClient = new AmazonSQSClient(_config.Value.AwsSqsAccessKeyId, _config.Value.AwsSqsSecretAccessKey, sqsConfig);
             } else {
                 _sqsClient = new AmazonSQSClient(sqsConfig);
             }
 
-            _timer = new Timer(DoWork, null, TimeSpan.Zero, TimeSpan.FromSeconds(_config.Value.WORK_INTERVAL_IN_SECONDS));
+            _timer = new Timer(DoWork, null, TimeSpan.Zero, TimeSpan.FromSeconds(_config.Value.WorkIntervalInSeconds));
             return Task.CompletedTask;
         }
         public Task StopAsync(CancellationToken cancellationToken) {
@@ -57,17 +61,17 @@ namespace Dta.Marketplace.Subscribers.Slack {
         
         private async void DoWork(object state) {
             var receiveMessageRequest = new ReceiveMessageRequest() {
-                QueueUrl = _config.Value.AWS_SQS_QUEUE_URL,
-                WaitTimeSeconds = _config.Value.AWS_SQS_LONG_POLL_TIME_IN_SECONDS
+                QueueUrl = _config.Value.AwsSqsQueueUrl,
+                WaitTimeSeconds = _config.Value.AwsSqsLongPollTimeInSeconds
             };
-            _logger.LogInformation($"Heartbeat: {DateTime.Now}");
+            _logger.LogInformation("Heartbeat: {Now}", DateTime.Now);
             var receiveMessageResponse = await _sqsClient.ReceiveMessageAsync(receiveMessageRequest);
             foreach (var message in receiveMessageResponse.Messages) {
-                _logger.LogInformation($"Message Id: {message.MessageId}");
+                _logger.LogInformation("Message Id: {MessageId}", message.MessageId);
                 var awsSnsMessage = AwsSnsMessage.FromJson(message.Body);
                 var messageProcessor = _messageProcessor(awsSnsMessage.MessageAttributes.ObjectType.Value);
                 if (messageProcessor == null) {
-                    _logger.LogWarning($"Message processor not found for '{awsSnsMessage.MessageAttributes.ObjectType.Value}'. Deleting message");
+                    _logger.LogInformation("Message processor not found for {AwsSnsMessage}. Deleting message", awsSnsMessage);
                     await DeleteMessage(message);
                     continue;
                 }
@@ -79,7 +83,7 @@ namespace Dta.Marketplace.Subscribers.Slack {
         }
         private async Task DeleteMessage(Message message) {
             var deleteMessageRequest = new DeleteMessageRequest {
-                QueueUrl = _config.Value.AWS_SQS_QUEUE_URL,
+                QueueUrl = _config.Value.AwsSqsQueueUrl,
                 ReceiptHandle = message.ReceiptHandle
             };
             await _sqsClient.DeleteMessageAsync(deleteMessageRequest);

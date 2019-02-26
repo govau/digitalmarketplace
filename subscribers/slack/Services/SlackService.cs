@@ -8,13 +8,14 @@ using Dta.Marketplace.Subscribers.Slack.Model;
 namespace Dta.Marketplace.Subscribers.Slack.Services {
     internal class SlackService : ISlackService {
         private readonly ILogger _logger;
+        
         public SlackService(ILogger<AppService> logger) {
             _logger = logger;
         }
 
         public async Task<bool> SendSlackMessage(string slackUrl, string message) {
             if (string.IsNullOrWhiteSpace(slackUrl)) {
-                _logger.LogInformation($"Slack message: {message}");
+                _logger.LogInformation("Slack ({slackUrl}) message: {Message}", slackUrl, message);
                 return true;
             }
             using (var client = new HttpClient()) {

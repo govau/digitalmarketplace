@@ -11,6 +11,7 @@ namespace Dta.Marketplace.Subscribers.Slack.Processors {
     internal abstract class AbstractMessageProcessor : IMessageProcessor {
         protected readonly ILogger _logger;
         protected readonly IOptions<AppConfig> _config;
+        
         public AbstractMessageProcessor(ILogger<AppService> logger, IOptions<AppConfig> config) {
             _logger = logger;
             _config = config;

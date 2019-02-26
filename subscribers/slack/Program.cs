@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using Serilog;
 using Dta.Marketplace.Subscribers.Slack.Processors;
 using Dta.Marketplace.Subscribers.Slack.Services;
 using Dta.Marketplace.Subscribers.Slack.Model;
@@ -15,6 +16,14 @@ using Dta.Marketplace.Subscribers.Slack.Model;
 namespace Dta.Marketplace.Subscribers.Slack {
     class Program {
         public static async Task Main(string[] args) {
+            Log.Logger = new LoggerConfiguration()
+                        .MinimumLevel.Information()
+                        .WriteTo.Console()
+                        .WriteTo.Sentry(o => {
+                            o.InitializeSdk = false;
+                        })
+                        .CreateLogger();
+
             var builder = new HostBuilder()
                 .ConfigureAppConfiguration((hostingContext, config) => {
                     config.AddEnvironmentVariables();
@@ -27,24 +36,49 @@ namespace Dta.Marketplace.Subscribers.Slack {
                     services.Configure<AppConfig>(hostContext.Configuration.GetSection("Daemon"));
                     services.Configure<AppConfig>(hostContext.Configuration);
                     services.Configure<AppConfig>(ac => {
+                        ac.AwsSqsAccessKeyId = Environment.GetEnvironmentVariable("AWS_SQS_ACCESS_KEY_ID");
+                        ac.AwsSqsQueueUrl = Environment.GetEnvironmentVariable("AWS_SQS_QUEUE_URL");
+                        ac.AwsSqsServiceUrl = Environment.GetEnvironmentVariable("AWS_SQS_SERVICE_URL");
+                        var awsSqsRegion = Environment.GetEnvironmentVariable("AWS_SQS_REGION");
+                        if (string.IsNullOrWhiteSpace(awsSqsRegion) == false) {
+                            ac.AwsSqsRegion = awsSqsRegion;
+                        }
+                        ac.AwsSqsSecretAccessKey = Environment.GetEnvironmentVariable("AWS_SQS_SECRET_ACCESS_KEY");
+                        ac.BuyerSlackUrl = Environment.GetEnvironmentVariable("BUYER_SLACK_URL");
+                        ac.SupplierSlackUrl = Environment.GetEnvironmentVariable("SUPPLIER_SLACK_URL");
+                        ac.UserSlackUrl = Environment.GetEnvironmentVariable("USER_SLACK_URL");
+                        var workIntervalInSeconds = Environment.GetEnvironmentVariable("WORK_INTERVAL_IN_SECONDS");
+                        if (string.IsNullOrWhiteSpace(workIntervalInSeconds) == false) {
+                            ac.WorkIntervalInSeconds = int.Parse(workIntervalInSeconds);
+                        }
+                        var awsSqsLongPollTimeInSeconds = Environment.GetEnvironmentVariable("AWS_SQS_LONG_POLL_TIME_IN_SECONDS");
+                        if (string.IsNullOrWhiteSpace(awsSqsLongPollTimeInSeconds) == false) {
+                            ac.AwsSqsLongPollTimeInSeconds = int.Parse(awsSqsLongPollTimeInSeconds);
+                        }
+                        ac.SentryDsn = Environment.GetEnvironmentVariable("SENTRY_DSN");
+
                         var vcapServicesString = Environment.GetEnvironmentVariable("VCAP_SERVICES");
                         if (vcapServicesString != null) {
                             var vcapServices = VcapServices.FromJson(vcapServicesString);
                             var credentials = vcapServices.UserProvided.First().Credentials;
 
-                            ac.AWS_SQS_ACCESS_KEY_ID = credentials.AwsSqsAccessKeyId;
-                            ac.AWS_SQS_QUEUE_URL = credentials.AwsSqsQueueUrl;
-                            ac.AWS_SQS_REGION = credentials.AwsSqsRegion;
-                            ac.AWS_SQS_SECRET_ACCESS_KEY = credentials.AwsSqsSecretAccessKey;
-                            ac.BUYER_SLACK_URL = credentials.BuyerSlackUrl;
-                            ac.SUPPLIER_SLACK_URL = credentials.SupplierSlackUrl;
-                            ac.USER_SLACK_URL = credentials.UserSlackUrl;
+                            ac.AwsSqsAccessKeyId = credentials.AwsSqsAccessKeyId;
+                            ac.AwsSqsQueueUrl = credentials.AwsSqsQueueUrl;
+                            if (string.IsNullOrWhiteSpace(credentials.AwsSqsRegion) == false) {
+                                ac.AwsSqsRegion = credentials.AwsSqsRegion;
+                            }
+                            ac.AwsSqsSecretAccessKey = credentials.AwsSqsSecretAccessKey;
+                            ac.BuyerSlackUrl = credentials.BuyerSlackUrl;
+                            ac.SupplierSlackUrl = credentials.SupplierSlackUrl;
+                            ac.UserSlackUrl = credentials.UserSlackUrl;
                             if (credentials.WorkIntervalInSeconds != 0) {
-                                ac.WORK_INTERVAL_IN_SECONDS = credentials.WorkIntervalInSeconds;
+                                ac.WorkIntervalInSeconds = credentials.WorkIntervalInSeconds;
                             }
                             if (credentials.AwsSqsLongPollTimeInSeconds != 0) {
-                                ac.AWS_SQS_LONG_POLL_TIME_IN_SECONDS = credentials.AwsSqsLongPollTimeInSeconds;
+                                ac.AwsSqsLongPollTimeInSeconds = credentials.AwsSqsLongPollTimeInSeconds;
                             }
+                            ac.SentryDsn = credentials.SentryDsn;
+                            Sentry.SentrySdk.Init(ac.SentryDsn);
                         }
                     });
 
@@ -72,7 +106,8 @@ namespace Dta.Marketplace.Subscribers.Slack {
                 .ConfigureLogging((hostingContext, logging) => {
                     logging.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
                     logging.AddConsole();
-                });
+                })
+                .UseSerilog();
 
             await builder.RunConsoleAsync();
         }

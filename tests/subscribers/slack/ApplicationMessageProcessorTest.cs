@@ -25,7 +25,7 @@ test supplier (test@supplier.com)";
 
             var config = new Mock<IOptions<AppConfig>>();
             config.Setup(ac => ac.Value).Returns(new AppConfig {
-                SUPPLIER_SLACK_URL = supplier_slack_url
+                SupplierSlackUrl = supplier_slack_url
             });
             var slackService = new Mock<ISlackService>();
             slackService.Setup(ss => ss.SendSlackMessage(supplier_slack_url, message)).ReturnsAsync(true);

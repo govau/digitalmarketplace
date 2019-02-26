@@ -10,6 +10,7 @@ using Dta.Marketplace.Subscribers.Slack.Services;
 namespace Dta.Marketplace.Subscribers.Slack.Processors {
     internal class ApplicationMessageProcessor : AbstractMessageProcessor {
         private readonly ISlackService _slackService;
+
         public ApplicationMessageProcessor(ILogger<AppService> logger, IOptions<AppConfig> config, ISlackService slackService) : base(logger, config) {
             _slackService = slackService;
         }
@@ -41,13 +42,14 @@ $@"*{subject}*
 Application Id: {message.application.id}
 {message.name} ({message.email_address})";
 
-                        return await _slackService.SendSlackMessage(_config.Value.SUPPLIER_SLACK_URL, slackMessage);
+                        return await _slackService.SendSlackMessage(_config.Value.SupplierSlackUrl, slackMessage);
+
                     } else {
-                        _logger.LogWarning($"No enough for slack. {awsSnsMessage.MessageAttributes.ObjectType.Value} {awsSnsMessage.MessageAttributes.EventType.Value}");
+                        _logger.LogError("Unknow application type for {@AwsSnsMessage}.", awsSnsMessage);
                     }
                     break;
                 default:
-                    _logger.LogInformation($"Unknown message. {awsSnsMessage.MessageAttributes.ObjectType.Value} {awsSnsMessage.MessageAttributes.EventType.Value}");
+                        _logger.LogInformation("Unknown processor for {@AwsSnsMessage}.", awsSnsMessage);
                     break;
             }
             return true;

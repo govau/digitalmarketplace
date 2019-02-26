@@ -9,6 +9,7 @@ using Dta.Marketplace.Subscribers.Slack.Services;
 namespace Dta.Marketplace.Subscribers.Slack.Processors {
     internal class BriefMessageProcessor : AbstractMessageProcessor {
         private readonly ISlackService _slackService;
+
         public BriefMessageProcessor(ILogger<AppService> logger, IOptions<AppConfig> config, ISlackService slackService) : base(logger, config) {
             _slackService = slackService;
         }
@@ -34,10 +35,10 @@ $@"*A buyer has published a new opportunity*
 By: {message.name} ({message.email_address})
 {message.url}";
 
-                    return await _slackService.SendSlackMessage(_config.Value.BUYER_SLACK_URL, slackMessage);
+                    return await _slackService.SendSlackMessage(_config.Value.BuyerSlackUrl, slackMessage);
                 
                 default:
-                    _logger.LogInformation($"Unknown message. {awsSnsMessage.MessageAttributes.ObjectType.Value} {awsSnsMessage.MessageAttributes.EventType.Value}");
+                        _logger.LogInformation("Unknown processor for {@AwsSnsMessage}.", awsSnsMessage);
                     break;
             }
             return true;
