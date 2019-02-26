@@ -19,7 +19,9 @@ namespace Dta.Marketplace.Subscribers.Slack {
             Log.Logger = new LoggerConfiguration()
                         .MinimumLevel.Information()
                         .WriteTo.Console()
-                        .WriteTo.Sentry()
+                        .WriteTo.Sentry(o => {
+                            o.MinimumEventLevel = Serilog.Events.LogEventLevel.Warning;
+                        })
                         .CreateLogger();
 
             var builder = new HostBuilder()
