@@ -33,11 +33,11 @@ Domain: {domain}";
 
                         return await _slackService.SendSlackMessage(_config.Value.UserSlackUrl, slackMessage);
                     } else {
-                        _logger.LogInformation("Supplier not supported for {@AwsSnsMessage}.", awsSnsMessage);
+                        _logger.LogDebug("Supplier not supported for {@AwsSnsMessage}.", awsSnsMessage);
                     }
                     break;
                 default:
-                        _logger.LogInformation("Unknown processor for {@AwsSnsMessage}.", awsSnsMessage);
+                        _logger.LogDebug("Unknown processor for {@AwsSnsMessage}.", awsSnsMessage);
                     break;
             }
             return true;

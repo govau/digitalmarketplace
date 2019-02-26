@@ -38,7 +38,7 @@ By: {message.name} ({message.email_address})
                     return await _slackService.SendSlackMessage(_config.Value.BuyerSlackUrl, slackMessage);
                 
                 default:
-                        _logger.LogInformation("Unknown processor for {@AwsSnsMessage}.", awsSnsMessage);
+                        _logger.LogDebug("Unknown processor for {@AwsSnsMessage}.", awsSnsMessage);
                     break;
             }
             return true;

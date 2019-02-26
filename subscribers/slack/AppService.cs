@@ -72,7 +72,7 @@ namespace Dta.Marketplace.Subscribers.Slack {
                 var awsSnsMessage = AwsSnsMessage.FromJson(message.Body);
                 var messageProcessor = _messageProcessor(awsSnsMessage.MessageAttributes.ObjectType.Value);
                 if (messageProcessor == null) {
-                    _logger.LogInformation("Message processor not found for {@AwsSnsMessage}. Deleting message", awsSnsMessage);
+                    _logger.LogDebug("Message processor not found for {@AwsSnsMessage}. Deleting message", awsSnsMessage);
                     await DeleteMessage(message);
                     continue;
                 }

@@ -49,7 +49,7 @@ Application Id: {message.application.id}
                     }
                     break;
                 default:
-                        _logger.LogInformation("Unknown processor for {@AwsSnsMessage}.", awsSnsMessage);
+                        _logger.LogDebug("Unknown processor for {@AwsSnsMessage}.", awsSnsMessage);
                     break;
             }
             return true;
