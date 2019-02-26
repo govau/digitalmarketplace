@@ -1,0 +1,178 @@
+version: 2
+references:
+  # npm_cache_key: &npm_cache_key
+  #   key: npm-cache-{{ checksum "package.json" }}
+  cf_install: &cf_install
+    run:
+      name: Install Cloud Foundry CLI
+      command: |
+        curl -v -L -o cf-cli_amd64.deb 'https://cli.run.pivotal.io/stable?release=debian64&source=github'
+        sudo dpkg -i cf-cli_amd64.deb
+        cf install-plugin https://github.com/govau/autopilot/releases/download/0.0.5-venapp/autopilot-linux -f
+        cf install-plugin https://github.com/govau/cf-run-and-wait/releases/download/0.1/run-and-wait.linux64 -f
+        cf -v
+  deploy_docker: &deploy_docker
+    docker:
+      - image: microsoft/dotnet:2.2-sdk
+        environment:
+          TZ: "/usr/share/zoneinfo/Australia/Sydney"
+  circleci_deploy: &circleci_deploy
+    docker:
+      - image: circleci/node:8-stretch
+  required_for_deploy: &required_for_deploy
+    requires:
+      # - check_styles
+      - run_tests 
+
+jobs:
+  build:
+    <<: *deploy_docker
+    steps:
+      - attach_workspace:
+          at: .
+      - checkout
+
+      # - restore_cache:
+      #     <<: *npm_cache_key
+      # - run: 
+      #     name: Dotnet Restore
+      #     command: |
+      #       cd subscribers/slack
+      #       dotnet restore
+      # - save_cache:
+      #     <<: *npm_cache_key
+      #     paths:
+      #       - node_modules
+
+      - run: 
+          name: Dotnet Build
+          command: |
+            cd subscribers/slack
+            dotnet build
+      
+      - persist_to_workspace:
+          root: .
+          paths:
+            - ~
+
+  run_tests:
+    <<: *deploy_docker
+    steps:
+      - attach_workspace:
+          at: .
+      - run: 
+          name: Run Tests
+          command: |
+            cd tests/subscribers/slack
+            dotnet test
+    
+  # check_styles:
+  #   <<: *deploy_docker
+  #   steps:
+  #     - attach_workspace:
+  #         at: .
+  #     - run: 
+  #         name: Check Styles
+  #         command: |
+  #           npm run eslint
+
+  deploy_to_rc:
+    <<: *circleci_deploy
+    steps:
+      - attach_workspace:
+          at: .
+      - *cf_install
+      - run:
+          name: Deploy to RC
+          command: |
+            cf login -a https://api.system.y.cld.gov.au -o dta -s marketplace -u $CF_USER_STAGING -p $CF_PASSWORD_STAGING
+            cf zero-downtime-push -f manifest.rc.yml --show-app-log
+
+  deploy_to_production_clone:
+    <<: *deploy_docker
+    steps:
+      - attach_workspace:
+          at: .
+      - *cf_install
+      - run:
+          name: Deploy to Production Clone
+          command: |
+            cf login -a https://api.system.y.cld.gov.au -o dta -s marketplace -u $CF_USER_STAGING -p $CF_PASSWORD_STAGING
+            cf zero-downtime-push -f manifest.pc.yml --show-app-log
+
+  deploy_to_staging:
+    <<: *deploy_docker
+    steps:
+      - attach_workspace:
+          at: .
+      - *cf_install
+      - run:
+          name: Deploy to Staging
+          command: |
+            cf login -a https://api.system.y.cld.gov.au -o dta -s marketplace -u $CF_USER_STAGING -p $CF_PASSWORD_STAGING
+            cf zero-downtime-push -f manifest.dev.yml --show-app-log
+
+  deploy_to_production:
+    <<: *deploy_docker
+    steps:
+      - attach_workspace:
+          at: .
+      - *cf_install
+      - run:
+          name: Deploy to Production
+          command: |
+            cf login -a https://api.system.b.cld.gov.au -o dta -s marketplace -u $CF_USER_PROD -p $CF_PASSWORD_PROD
+            cf zero-downtime-push -f manifest.prod.yml --show-app-log
+            # ./scripts/ci-notify.sh
+
+
+workflows:
+  version: 2
+  build_and_deploy:
+    jobs:
+      - build:
+          filters:
+            tags:
+              only: /[0-9]+(\.[0-9]+)*/
+      # - check_styles:
+      #     requires:
+      #       - build
+      #     filters:
+      #       tags:
+      #         only: /[0-9]+(\.[0-9]+)*/
+      - run_tests:
+          requires:
+            - build
+          filters:
+            tags:
+              only: /[0-9]+(\.[0-9]+)*/
+      - deploy_to_rc:
+          <<: *required_for_deploy
+          filters:
+            tags:
+              ignore: /.*/
+            branches:
+              only: rc
+      - deploy_to_staging:
+          <<: *required_for_deploy
+          filters:
+            tags:
+              ignore: /.*/
+            branches:
+              only: master
+      - deploy_to_production:
+          <<: *required_for_deploy
+          filters:
+            tags:
+              only: /[0-9]+(\.[0-9]+)*/
+            branches:
+              ignore: /.*/
+      - deploy_to_production_clone:
+          requires:
+            - deploy_to_production
+            - run_tests 
+          filters:
+            tags:
+              only: /[0-9]+(\.[0-9]+)*/
+            branches:
+              ignore: /.*/

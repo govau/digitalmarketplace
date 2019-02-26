@@ -1,0 +1,10 @@
+applications:
+- name: dm-pc-slack-worker
+  buildpack: dotnet_core_buildpack
+  path: subscribers/slack
+  health-check-type: process
+  instances: 1
+  memory: 50M
+  disk_quota: 100M
+  services:
+  - ups-dm-pc-slack-worker
