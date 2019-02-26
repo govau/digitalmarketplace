@@ -64,10 +64,10 @@ namespace Dta.Marketplace.Subscribers.Slack {
                 QueueUrl = _config.Value.AwsSqsQueueUrl,
                 WaitTimeSeconds = _config.Value.AwsSqsLongPollTimeInSeconds
             };
-            _logger.LogInformation("Heartbeat: {Now}", DateTime.Now);
+            _logger.LogDebug("Heartbeat: {Now}", DateTime.Now);
             var receiveMessageResponse = await _sqsClient.ReceiveMessageAsync(receiveMessageRequest);
             foreach (var message in receiveMessageResponse.Messages) {
-                _logger.LogInformation("Message Id: {MessageId}", message.MessageId);
+                _logger.LogDebug("Message Id: {MessageId}", message.MessageId);
                 var awsSnsMessage = AwsSnsMessage.FromJson(message.Body);
                 var messageProcessor = _messageProcessor(awsSnsMessage.MessageAttributes.ObjectType.Value);
                 if (messageProcessor == null) {

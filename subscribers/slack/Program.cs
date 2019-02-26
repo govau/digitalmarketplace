@@ -19,9 +19,7 @@ namespace Dta.Marketplace.Subscribers.Slack {
             Log.Logger = new LoggerConfiguration()
                         .MinimumLevel.Information()
                         .WriteTo.Console()
-                        .WriteTo.Sentry(o => {
-                            o.InitializeSdk = false;
-                        })
+                        .WriteTo.Sentry()
                         .CreateLogger();
 
             var builder = new HostBuilder()
@@ -107,7 +105,7 @@ namespace Dta.Marketplace.Subscribers.Slack {
                     logging.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
                     logging.AddConsole();
                 })
-                .UseSerilog();
+                .UseSerilog(Log.Logger);
 
             await builder.RunConsoleAsync();
         }
