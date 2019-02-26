@@ -29,7 +29,8 @@ namespace Dta.Marketplace.Subscribers.Slack {
         public Task StartAsync(CancellationToken cancellationToken) {
             _logger.LogInformation("Starting daemon: Slack Subscriber. {Timer}", new {
                 _config.Value.AwsSqsLongPollTimeInSeconds,
-                _config.Value.WorkIntervalInSeconds
+                _config.Value.WorkIntervalInSeconds,
+                sentryEnabled = string.IsNullOrWhiteSpace(_config.Value.SentryDsn) ? false : true
             });
 
             var sqsConfig = new AmazonSQSConfig {
