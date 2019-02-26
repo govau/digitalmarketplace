@@ -45,7 +45,7 @@ Application Id: {message.application.id}
                         return await _slackService.SendSlackMessage(_config.Value.SupplierSlackUrl, slackMessage);
 
                     } else {
-                        _logger.LogError("Unknow application type for {@AwsSnsMessage}.", awsSnsMessage);
+                        _logger.LogError("Unknown application type for {@AwsSnsMessage}.", awsSnsMessage);
                     }
                     break;
                 default:
