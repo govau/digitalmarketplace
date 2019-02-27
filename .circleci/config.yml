@@ -89,7 +89,7 @@ jobs:
             cf zero-downtime-push -f manifest.rc.yml --show-app-log
 
   deploy_to_production_clone:
-    <<: *deploy_docker
+    <<: *circleci_deploy
     steps:
       - attach_workspace:
           at: .
@@ -101,7 +101,7 @@ jobs:
             cf zero-downtime-push -f manifest.pc.yml --show-app-log
 
   deploy_to_staging:
-    <<: *deploy_docker
+    <<: *circleci_deploy
     steps:
       - attach_workspace:
           at: .
@@ -113,7 +113,7 @@ jobs:
             cf zero-downtime-push -f manifest.dev.yml --show-app-log
 
   deploy_to_production:
-    <<: *deploy_docker
+    <<: *circleci_deploy
     steps:
       - attach_workspace:
           at: .
