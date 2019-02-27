@@ -86,7 +86,7 @@ jobs:
           name: Deploy to RC
           command: |
             cf login -a https://api.system.y.cld.gov.au -o dta -s marketplace -u $CF_USER_STAGING -p $CF_PASSWORD_STAGING
-            cf push -f manifest.rc.yml --show-app-log
+            cf push -f manifest.rc.yml
 
   deploy_to_production_clone:
     <<: *circleci_deploy
@@ -110,7 +110,7 @@ jobs:
           name: Deploy to Staging
           command: |
             cf login -a https://api.system.y.cld.gov.au -o dta -s marketplace -u $CF_USER_STAGING -p $CF_PASSWORD_STAGING
-            cf push -f manifest.dev.yml --show-app-log
+            cf push -f manifest.dev.yml
 
   deploy_to_production:
     <<: *circleci_deploy
