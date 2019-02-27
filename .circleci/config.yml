@@ -110,7 +110,7 @@ jobs:
           name: Deploy to Staging
           command: |
             cf login -a https://api.system.y.cld.gov.au -o dta -s marketplace -u $CF_USER_STAGING -p $CF_PASSWORD_STAGING
-            cf push -f manifest.dev.yml
+            cf zero-downtime-push -f manifest.dev.yml --show-app-log
 
   deploy_to_production:
     <<: *circleci_deploy
