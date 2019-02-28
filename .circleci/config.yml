@@ -8,7 +8,7 @@ references:
       command: |
         curl -v -L -o cf-cli_amd64.deb 'https://cli.run.pivotal.io/stable?release=debian64&source=github'
         sudo dpkg -i cf-cli_amd64.deb
-        cf install-plugin https://github.com/govau/autopilot/releases/download/0.0.8-venapp/autopilot-linux -f
+        cf install-plugin https://github.com/contraband/autopilot/releases/download/0.0.8/autopilot-linux -f
         cf install-plugin https://github.com/govau/cf-run-and-wait/releases/download/0.1/run-and-wait.linux64 -f
         cf -v
   deploy_docker: &deploy_docker
