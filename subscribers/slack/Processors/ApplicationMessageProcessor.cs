@@ -19,21 +19,21 @@ namespace Dta.Marketplace.Subscribers.Slack.Processors {
             switch (awsSnsMessage.MessageAttributes.EventType.Value) {
                 case "created":
                     var definition = new {
-                        supplier_code = -1,
                         name = "",
                         email_address = "",
-                        application_type = "",
                         application = new {
                             id = -1,
                             name = "",
-                            status = ""
+                            status = "",
+                            type = "",
+                            supplier_code = -1
                         }
                     };
                     var message = JsonConvert.DeserializeAnonymousType(awsSnsMessage.Message, definition);
                     string subject = null;
-                    if (message.application_type == "edit") {
+                    if (message.application.type == "edit") {
                         subject = "An existing seller has started a new application";
-                    } else if (message.application_type == "new") {
+                    } else if (message.application.type == "new") {
                         subject = "A new seller has started an application";
                     }
                     if (string.IsNullOrEmpty(subject) == false) {
