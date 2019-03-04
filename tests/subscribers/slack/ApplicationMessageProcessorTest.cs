@@ -53,7 +53,6 @@ test supplier (test@supplier.com)";
             //Then
             slackService.Verify((ss) => ss.SendSlackMessage(supplier_slack_url, message), Times.Exactly(1));
             Assert.True(result, "created should return true");
-            
         }
 
         [Fact]
