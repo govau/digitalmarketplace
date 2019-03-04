@@ -26,7 +26,7 @@ namespace Dta.Marketplace.Subscribers.Slack.Processors {
                             name = "",
                             status = "",
                             type = "",
-                            supplier_code = -1
+                            supplier_code = default(int?)
                         }
                     };
                     var message = JsonConvert.DeserializeAnonymousType(awsSnsMessage.Message, definition);
