@@ -34,12 +34,12 @@ test supplier (test@supplier.com)";
             //When
             var awsSnsMessage = new AwsSnsMessage {
                 Message = JsonConvert.SerializeObject(new {
-                    supplier_code = 123,
                     name = "test supplier",
                     email_address = "test@supplier.com",
-                    application_type = "new",
                     application = new {
-                        id = 321
+                        id = 321,
+                        type = "new",
+                        supplier_code = 123
                     }
                 }),
                 MessageAttributes = new MessageAttributes {
