@@ -21,13 +21,13 @@ namespace Dta.Marketplace.Subscribers.Slack.Worker.Processors {
                     var definition = new {
                         name = "",
                         email_address = "",
+                        from_expired = default(bool?),
                         application = new {
                             id = -1,
                             name = "",
                             status = "",
                             type = "",
-                            supplier_code = default(int?),
-                            from_expired = default(bool?)
+                            supplier_code = default(int?)
                         }
                     };
                     var message = JsonConvert.DeserializeAnonymousType(awsSnsMessage.Message, definition);
@@ -36,7 +36,7 @@ namespace Dta.Marketplace.Subscribers.Slack.Worker.Processors {
                         subject = "An existing seller has started a new application";
                     } else if (message.application.type == "new") {
                         subject = "A new seller has started an application";
-                        if (message.application.from_expired.GetValueOrDefault(false)) {
+                        if (message.from_expired.GetValueOrDefault(false)) {
                             subject += " (from expired)";
                         }
                     }
