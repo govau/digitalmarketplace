@@ -37,7 +37,7 @@ namespace Dta.Marketplace.Subscribers.Slack.Worker.Processors {
                     } else if (message.application.type == "new") {
                         subject = "A new seller has started an application";
                         if (message.application.from_expired.GetValueOrDefault(false)) {
-                            subject += " (from deleted)";
+                            subject += " (from expired)";
                         }
                     }
                     if (string.IsNullOrEmpty(subject) == false) {
