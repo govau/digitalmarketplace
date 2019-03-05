@@ -4,10 +4,10 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Amazon.SQS.Model;
-using Dta.Marketplace.Subscribers.Slack.Model;
+using Dta.Marketplace.Subscribers.Slack.Worker.Model;
 
 
-namespace Dta.Marketplace.Subscribers.Slack.Processors {
+namespace Dta.Marketplace.Subscribers.Slack.Worker.Processors {
     internal abstract class AbstractMessageProcessor : IMessageProcessor {
         protected readonly ILogger _logger;
         protected readonly IOptions<AppConfig> _config;

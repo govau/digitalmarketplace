@@ -47,7 +47,7 @@ jobs:
       - run: 
           name: Dotnet Build
           command: |
-            cd subscribers/slack
+            cd subscribers/slack/worker
             dotnet build
       
       - persist_to_workspace:
@@ -63,7 +63,7 @@ jobs:
       - run: 
           name: Run Tests
           command: |
-            cd tests/subscribers/slack
+            cd subscribers/slack/worker.tests
             dotnet test
     
   # check_styles:

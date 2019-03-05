@@ -5,12 +5,12 @@ using Newtonsoft.Json;
 using System;
 using System.Threading.Tasks;
 using Xunit;
-using Dta.Marketplace.Subscribers.Slack;
-using Dta.Marketplace.Subscribers.Slack.Model;
-using Dta.Marketplace.Subscribers.Slack.Processors;
-using Dta.Marketplace.Subscribers.Slack.Services;
+using Dta.Marketplace.Subscribers.Slack.Worker;
+using Dta.Marketplace.Subscribers.Slack.Worker.Model;
+using Dta.Marketplace.Subscribers.Slack.Worker.Processors;
+using Dta.Marketplace.Subscribers.Slack.Worker.Services;
 
-namespace Dta.Marketplace.tests.Subscribers.Slack {
+namespace Dta.Marketplace.Subscribers.Slack.Worker.Tests {
     public class UserMessageProcessorTest {
         [Fact]
         public async void CanProcessUserMessage() {
