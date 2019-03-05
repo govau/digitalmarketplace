@@ -8,12 +8,12 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Serilog;
-using Dta.Marketplace.Subscribers.Slack.Processors;
-using Dta.Marketplace.Subscribers.Slack.Services;
-using Dta.Marketplace.Subscribers.Slack.Model;
+using Dta.Marketplace.Subscribers.Slack.Worker.Processors;
+using Dta.Marketplace.Subscribers.Slack.Worker.Services;
+using Dta.Marketplace.Subscribers.Slack.Worker.Model;
 
-[assembly: InternalsVisibleToAttribute("slack.test")]
-namespace Dta.Marketplace.Subscribers.Slack {
+[assembly: InternalsVisibleToAttribute("slack.worker.test")]
+namespace Dta.Marketplace.Subscribers.Slack.Worker {
     class Program {
         public static async Task Main(string[] args) {
             Log.Logger = new LoggerConfiguration()

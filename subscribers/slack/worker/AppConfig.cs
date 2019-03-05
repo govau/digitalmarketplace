@@ -1,6 +1,6 @@
 using System;
 
-namespace Dta.Marketplace.Subscribers.Slack {
+namespace Dta.Marketplace.Subscribers.Slack.Worker {
     public class AppConfig {
         public string AwsSqsRegion { get; set; } = "ap-southeast-2";
         public string AwsSqsQueueUrl { get; set; }

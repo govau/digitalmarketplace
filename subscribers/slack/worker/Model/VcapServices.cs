@@ -3,7 +3,7 @@
 //
 // To parse this JSON data, add NuGet 'Newtonsoft.Json' then do:
 //
-//    using Dta.Marketplace.Subscribers.Slack.Model;
+//    using Dta.Marketplace.Subscribers.Slack.Worker.Model;
 //
 //    var vcapServices = VcapServices.FromJson(jsonString);
 
@@ -14,7 +14,7 @@ using System.Globalization;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
-namespace Dta.Marketplace.Subscribers.Slack.Model {
+namespace Dta.Marketplace.Subscribers.Slack.Worker.Model {
 
     public partial class VcapServices {
         [JsonProperty("user-provided")]

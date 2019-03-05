@@ -2,12 +2,12 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Dta.Marketplace.Subscribers.Slack.Model;
-using Dta.Marketplace.Subscribers.Slack.Services;
+using Dta.Marketplace.Subscribers.Slack.Worker.Model;
+using Dta.Marketplace.Subscribers.Slack.Worker.Services;
 using System;
 using System.Linq;
 
-namespace Dta.Marketplace.Subscribers.Slack.Processors {
+namespace Dta.Marketplace.Subscribers.Slack.Worker.Processors {
     internal class UserMessageProcessor : AbstractMessageProcessor {
         private readonly ISlackService _slackService;
 
