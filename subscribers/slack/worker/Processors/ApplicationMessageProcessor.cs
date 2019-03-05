@@ -26,7 +26,8 @@ namespace Dta.Marketplace.Subscribers.Slack.Worker.Processors {
                             name = "",
                             status = "",
                             type = "",
-                            supplier_code = default(int?)
+                            supplier_code = default(int?),
+                            from_expired = default(bool?)
                         }
                     };
                     var message = JsonConvert.DeserializeAnonymousType(awsSnsMessage.Message, definition);
@@ -35,6 +36,9 @@ namespace Dta.Marketplace.Subscribers.Slack.Worker.Processors {
                         subject = "An existing seller has started a new application";
                     } else if (message.application.type == "new") {
                         subject = "A new seller has started an application";
+                        if (message.application.from_expired.GetValueOrDefault(false)) {
+                            subject += " (from deleted)";
+                        }
                     }
                     if (string.IsNullOrEmpty(subject) == false) {
                         var slackMessage =
