@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/subscribers/slack/slack.csproj"
+                "${workspaceFolder}/subscribers/slack/worker/worker.csproj"
             ],
             "problemMatcher": "$msCompile"
         }

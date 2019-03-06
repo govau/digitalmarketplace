@@ -21,6 +21,7 @@ namespace Dta.Marketplace.Subscribers.Slack.Worker.Processors {
                     var definition = new {
                         name = "",
                         email_address = "",
+                        from_expired = default(bool?),
                         application = new {
                             id = -1,
                             name = "",
@@ -35,6 +36,9 @@ namespace Dta.Marketplace.Subscribers.Slack.Worker.Processors {
                         subject = "An existing seller has started a new application";
                     } else if (message.application.type == "new") {
                         subject = "A new seller has started an application";
+                        if (message.from_expired.GetValueOrDefault(false)) {
+                            subject += " (from expired)";
+                        }
                     }
                     if (string.IsNullOrEmpty(subject) == false) {
                         var slackMessage =
