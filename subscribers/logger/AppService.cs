@@ -1,3 +1,4 @@
+/* */
 using Amazon;
 using System;
 using System.Threading;
@@ -9,27 +10,27 @@ using Microsoft.Extensions.Options;
 using Amazon.SQS;
 using Amazon.SQS.Model;
 using Newtonsoft.Json;
-using Dta.Marketplace.Subscribers.Slack.Worker.Processors;
-using Dta.Marketplace.Subscribers.Slack.Worker.Model;
 
-namespace Dta.Marketplace.Subscribers.Slack.Worker {
+//look at publish_task in api folder 
+namespace Dta.Marketplace.Subscribers.Logger.Worker {
     public class AppService : IHostedService, IDisposable {
         private readonly ILogger _logger;
         private readonly IOptions<AppConfig> _config;
-        private readonly Func<string, IMessageProcessor> _messageProcessor;
         private AmazonSQSClient _sqsClient;
         private Timer _timer;
 
-        public AppService(ILogger<AppService> logger, IOptions<AppConfig> config, Func<string, IMessageProcessor> messageProcessor) {
+        public AppService(ILogger<AppService> logger, IOptions<AppConfig> config) {
             _logger = logger;
             _config = config;
-            _messageProcessor = messageProcessor;
         }
 
         public Task StartAsync(CancellationToken cancellationToken) {
-            _logger.LogInformation("Starting daemon: Slack Subscriber. {Timer}", new {
+            _logger.LogInformation("Starting daemon: Logger. {Timer}", new {
                 _config.Value.AwsSqsLongPollTimeInSeconds,
                 _config.Value.WorkIntervalInSeconds,
+                _config.Value.AwsSqsRegion,
+                _config.Value.AwsSqsServiceUrl,
+                _config.Value.AwsSqsQueueUrl,
                 sentryEnabled = string.IsNullOrWhiteSpace(_config.Value.SentryDsn) ? false : true
             });
 
@@ -45,7 +46,7 @@ namespace Dta.Marketplace.Subscribers.Slack.Worker {
             } else {
                 _sqsClient = new AmazonSQSClient(sqsConfig);
             }
-
+        
             _timer = new Timer(DoWork, null, TimeSpan.Zero, TimeSpan.FromSeconds(_config.Value.WorkIntervalInSeconds));
             return Task.CompletedTask;
         }
@@ -59,7 +60,6 @@ namespace Dta.Marketplace.Subscribers.Slack.Worker {
             _timer?.Dispose();
             _sqsClient?.Dispose();
         }
-        
         private async void DoWork(object state) {
             var receiveMessageRequest = new ReceiveMessageRequest() {
                 QueueUrl = _config.Value.AwsSqsQueueUrl,
@@ -67,22 +67,22 @@ namespace Dta.Marketplace.Subscribers.Slack.Worker {
             };
             _logger.LogDebug("Heartbeat: {Now}", DateTime.Now);
             var receiveMessageResponse = await _sqsClient.ReceiveMessageAsync(receiveMessageRequest);
-            foreach (var message in receiveMessageResponse.Messages) {
-                _logger.LogDebug("Message Id: {MessageId}", message.MessageId);
-                _logger.LogInformation(message.Body);
-                var awsSnsMessage = AwsSnsMessage.FromJson(message.Body);
-                var messageProcessor = _messageProcessor(awsSnsMessage.MessageAttributes.ObjectType.Value);
-                if (messageProcessor == null) {
-                    _logger.LogDebug("Message processor not found for {@AwsSnsMessage}. Deleting message", awsSnsMessage);
-                    await DeleteMessage(message);
-                    continue;
-                }
-                var result = await messageProcessor.ProcessMessage(awsSnsMessage);
-                if (result == true) {
-                    await DeleteMessage(message);
-                }
+            
+                 using (var context = new loggerContext())
+            {
+                var a = JsonConvert.SerializeObject(new {
+                    name= "asdf"
+                });
+                foreach (var message in receiveMessageResponse.Messages) {
+                    _logger.LogDebug("Message Id: {MessageId}", message.MessageId);
+                    _logger.LogInformation(message.Body);
+                    context.LogEntry.Add(new LogEntry { Data = message.Body });
+                    context.SaveChanges(); 
+                   await DeleteMessage(message);
             }
-        }
+        }   
+    }
+        
         private async Task DeleteMessage(Message message) {
             var deleteMessageRequest = new DeleteMessageRequest {
                 QueueUrl = _config.Value.AwsSqsQueueUrl,
