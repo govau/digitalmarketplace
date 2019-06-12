@@ -1,5 +1,5 @@
 import { buyerLogin, sellerLogin, signOut } from "../../flows/login/actions";
-import Utils from "../../flows/utils";
+import * as utils from "../../utils";
 
 describe("should fail sign in", function() {
   const testCases = [
@@ -10,7 +10,7 @@ describe("should fail sign in", function() {
   for (const test of testCases) {
     it(`sign in fails ${test.args.length} args`, async function() {
       await buyerLogin(test.args[0], test.args[1]);
-      await Utils.matchText(test.expected[0], test.expected[1]);
+      await utils.matchText(test.expected[0], test.expected[1]);
     });
   }
 });
@@ -18,12 +18,12 @@ describe("should fail sign in", function() {
 describe("should sign in", function() {
   it("buyer should be able to login", async function() {
     await buyerLogin(process.env.BUYER_EMAIL, process.env.BUYER_PASSWORD);
-    await Utils.matchText("h1", "Dashboard");
+    await utils.matchText("h1", "Dashboard");
     await signOut();
   });
   it("seller should be able to login", async function() {
     await sellerLogin(process.env.SELLER_EMAIL, process.env.SELLER_PASSWORD);
-    await Utils.matchText("h1", "Opportunities");
+    await utils.matchText("h1", "Opportunities");
     await signOut();
   });
 });

@@ -21,7 +21,7 @@
   "scripts": {
     "test": "mocha tests/bootstrap.ts -r ts-node/register --no-timeouts --recursive src/**/*.ts",
     "lint": "tslint --project ./",
-    "linting-fix": "tslint --project ./ --fix"
+    "lint-fix": "tslint --project ./ --fix"
   },
   "author": "",
   "license": "ISC"

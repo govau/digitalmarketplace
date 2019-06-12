@@ -1,8 +1,8 @@
-import Utils from "../utils";
+import * as utils from "../../utils";
 
 export const login = async (email: string, password: string) => {
-  await Utils.clickLink("Log in");
-  await Utils.matchText("h1", "Sign in to the Marketplace");
+  await utils.clickLink("Log in");
+  await utils.matchText("h1", "Sign in to the Marketplace");
 
   if (email === undefined) {
     console.log("email check");
@@ -13,9 +13,9 @@ export const login = async (email: string, password: string) => {
     // eslint-disable-next-line no-param-reassign
     password = process.env.SELLER_PASSWORD;
   }
-  await Utils.type("input_email_address", { value: email });
-  await Utils.type("input_password", { value: password });
-  await Utils.clickInputButton("Sign in");
+  await utils.type("input_email_address", { value: email });
+  await utils.type("input_password", { value: password });
+  await utils.clickInputButton("Sign in");
 };
 
 export const buyerLogin = async (email: string, password: string) => {
@@ -46,6 +46,6 @@ export const sellerLogin = async (email: string, password: string) => {
 };
 
 export const signOut = async () => {
-  await Utils.clickLink("Sign out");
-  await Utils.matchText("h1", "Sign in to the Marketplace");
+  await utils.clickLink("Sign out");
+  await utils.matchText("h1", "Sign in to the Marketplace");
 };
