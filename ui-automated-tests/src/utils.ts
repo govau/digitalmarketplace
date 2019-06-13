@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import { ElementHandle } from "puppeteer";
-import randomWords from "random-words";
-// import clipboardy from 'clipboardy'
+// @ts-ignore: TS1202
+import randomWords = require("random-words");
 import Global from "./global";
 
 export const getElementHandles = async (xpath: string): Promise<ElementHandle[]> => {
@@ -24,7 +24,7 @@ export const getElementHandle = async (xpath: string): Promise<ElementHandle> =>
   }
   return elements[0];
 };
-export const selectCheck = async (value: string, attribute: string) => {
+export const selectCheck = async (value: string, attribute?: string) => {
   if (!attribute) {
     attribute = "value";
   }
@@ -40,7 +40,7 @@ export const selectRadio = async (value: string, attribute?: string) => {
   const radio = await this.getElementHandle(`//input[@${attribute}="${value}"]`);
   await radio.press("Space");
 };
-const words = (numberOfWords, numberOfCharacters) => {
+const words = (numberOfWords: number, numberOfCharacters: number): string => {
   let text = randomWords({ exactly: numberOfWords }).join(" ");
 
   if (numberOfCharacters) {
@@ -61,7 +61,7 @@ export const type = async (id: string, options: {
     if (numberOfCharacters) {
       numberOfWords = numberOfCharacters;
     }
-    value = this.words(numberOfWords, numberOfCharacters);
+    value = words(numberOfWords, numberOfCharacters);
   }
   reactInput = reactInput && reactInput === true;
   const input = await this.getElementHandle(`//*[@id="${id}"]`);
@@ -96,7 +96,7 @@ export const typeInReactInput = async (id: string, options: {
   const value = await this.type(id, options);
   return value;
 };
-export const upload = async (id: string, file: string, title: string) => {
+export const upload = async (id: string, file: string, title?: string) => {
   let xpath = `//input[@id="${id}" and @type="file"]`;
   if (title) {
     xpath = `//input[@id="${id}" and @type="file" and @title="${title}"]`;
@@ -105,7 +105,7 @@ export const upload = async (id: string, file: string, title: string) => {
   const input = await this.getElementHandle(xpath);
   await input.uploadFile(file);
 };
-export const clickButtonvalue = async (value: string) => {
+export const clickButton = async (value: string) => {
   console.log(`Clicking button "//button[.="${value}"]"`);
   const button = await this.getElementHandle(`//button[.="${value}"]`);
   await button.click();

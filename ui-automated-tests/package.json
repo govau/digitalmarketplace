@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "dependencies": {},
+  "dependencies": {
+    "date-fns": "^1.30.1"
+  },
   "devDependencies": {
     "@types/chai": "^4.1.7",
     "@types/mocha": "^5.2.7",
@@ -21,7 +23,7 @@
   "scripts": {
     "test": "mocha tests/bootstrap.ts -r ts-node/register --no-timeouts --recursive src/**/*.ts",
     "lint": "tslint --project ./",
-    "lint-fix": "tslint --project ./ --fix"
+    "lint:fix": "tslint --project ./ --fix"
   },
   "author": "",
   "license": "ISC"

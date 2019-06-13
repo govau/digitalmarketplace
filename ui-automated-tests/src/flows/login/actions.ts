@@ -18,7 +18,7 @@ export const login = async (email: string, password: string) => {
   await utils.clickInputButton("Sign in");
 };
 
-export const buyerLogin = async (email: string, password: string) => {
+export const buyerLogin = async (email?: string, password?: string) => {
   if (email === undefined) {
     console.log("buyer email");
     // eslint-disable-next-line no-param-reassign
@@ -33,7 +33,7 @@ export const buyerLogin = async (email: string, password: string) => {
   await login(email, password);
 };
 
-export const sellerLogin = async (email: string, password: string) => {
+export const sellerLogin = async (email?: string, password?: string) => {
   if (email === undefined) {
     // eslint-disable-next-line no-param-reassign
     email = process.env.SELLER_EMAIL;
