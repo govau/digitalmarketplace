@@ -17,8 +17,8 @@ const respond = async (params: {specialistNumber: number}) => {
   await clickStartApplication(params.specialistNumber);
   await util.matchText("a", "Given name(s) is required");
   await util.matchText("a", "Surname is required");
-  const givenNames = await util.typeInReactInput("specialistGivenNames", { numberOfCharacters: 100 });
-  const surname = await util.typeInReactInput("specialistSurname", { numberOfCharacters: 100 });
+  const givenNames = await util.type("specialistGivenNames", { numberOfCharacters: 100 });
+  const surname = await util.type("specialistSurname", { numberOfCharacters: 100 });
   await clickStartApplication(params.specialistNumber);
 
   await clickSubmitApplication();
@@ -30,14 +30,14 @@ const respond = async (params: {specialistNumber: number}) => {
   await util.matchText("a", `Has ${givenNames} ${surname} previously worked for the Digital Transformation Agency?`);
   await util.matchText("a", "Upload a file for your résumé");
 
-  await util.typeInReactInput("availability", { numberOfCharacters: 100 });
-  await util.typeInReactInput("hourRateExcludingGST", { value: "500" });
+  await util.type("availability", { numberOfCharacters: 100 });
+  await util.type("hourRateExcludingGST", { value: "500" });
   await util.upload("file_0", "document.pdf");
   await util.selectRadio("visaStatus-AustralianCitizen", "id");
   await util.selectRadio("securityClearance-Yes", "id");
   await util.selectRadio("previouslyWorked-Yes", "id");
-  await util.typeInReactInput("essentialRequirement.0", { numberOfWords: 150 });
-  await util.typeInReactInput("niceToHaveRequirement.0", { numberOfWords: 150 });
+  await util.type("essentialRequirement.0", { numberOfWords: 150 });
+  await util.type("niceToHaveRequirement.0", { numberOfWords: 150 });
 
   await clickSubmitApplication();
   await util.matchText("strong", `You have submitted`);

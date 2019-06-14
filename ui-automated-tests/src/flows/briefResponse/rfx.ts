@@ -22,7 +22,7 @@ const respond = async () => {
   await clickSubmitApplication();
 
   await util.matchText("a", "You must add a valid phone number");
-  await util.typeInReactInput("respondToPhone", { value: "0123456789" });
+  await util.type("respondToPhone", { value: "0123456789" });
   await clickSubmitApplication();
 
   await util.matchText("h4", "Your response has been successfully submitted.");

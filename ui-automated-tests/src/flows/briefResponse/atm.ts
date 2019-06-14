@@ -16,15 +16,15 @@ const respond = async (params: IAtmResult) => {
   }
   await utils.matchText("a", "You must upload your written proposal");
   await utils.matchText("a", "You must add a phone number");
-  await utils.typeInReactInput("availability", { numberOfCharacters: 100 });
+  await utils.type("availability", { numberOfCharacters: 100 });
   if (params.criteria) {
     for (let i = 0; i < params.criteria.length; i += 1) {
       // eslint-disable-next-line no-await-in-loop
-      await utils.typeInReactInput(`criteria.${i}`, { numberOfWords: 500 });
+      await utils.type(`criteria.${i}`, { numberOfWords: 500 });
     }
   }
   await utils.upload("file_0", "document.pdf");
-  await utils.typeInReactInput("respondToPhone", { value: "0123456789" });
+  await utils.type("respondToPhone", { value: "0123456789" });
   await clickSubmitApplication();
   await utils.matchText("h4", "Thanks, your response has been successfully submitted.");
 };

@@ -38,9 +38,9 @@ const fillWhoCanRespond = async () => {
 };
 
 const fillAbout = async (title: string, locations: string[]) => {
-  await utils.typeInReactInput("title", { value: title });
-  await utils.typeInReactInput("organisation", { numberOfCharacters: 100 });
-  await utils.typeInReactInput("summary", { numberOfWords: 150 });
+  await utils.type("title", { value: title });
+  await utils.type("organisation", { numberOfCharacters: 100 });
+  await utils.type("summary", { numberOfWords: 150 });
 
   locations.forEach(async (location) => {
     await utils.selectCheck(location);
@@ -70,11 +70,11 @@ const fillObjectives = async () => {
   await utils.matchText("li", "Enter the user needs for your opportunity");
   await utils.matchText("li", "Enter the work already done for your opportunity");
 
-  await utils.typeInReactInput("backgroundInformation", { numberOfWords: 500 });
-  await utils.typeInReactInput("outcome", { numberOfWords: 500 });
-  await utils.typeInReactInput("endUsers", { numberOfWords: 500 });
-  await utils.typeInReactInput("workAlreadyDone", { numberOfWords: 500 });
-  await utils.typeInReactInput("industryBriefing", { numberOfWords: 500 });
+  await utils.type("backgroundInformation", { numberOfWords: 500 });
+  await utils.type("outcome", { numberOfWords: 500 });
+  await utils.type("endUsers", { numberOfWords: 500 });
+  await utils.type("workAlreadyDone", { numberOfWords: 500 });
+  await utils.type("industryBriefing", { numberOfWords: 500 });
   await utils.upload("file_0", "document.pdf");
   await clickSaveContinue();
 };
@@ -83,8 +83,8 @@ const fillTimeframes = async () => {
   await clickSaveContinue();
   await utils.matchText("li", "Enter an estimated start date for the brief");
 
-  await utils.typeInReactInput("start_date", { numberOfWords: 10 });
-  await utils.typeInReactInput("timeframeConstraints", { numberOfWords: 150 });
+  await utils.type("start_date", { numberOfWords: 10 });
+  await utils.type("timeframeConstraints", { numberOfWords: 150 });
   await clickSaveContinue();
 };
 
@@ -99,9 +99,9 @@ const fillResponseCriteria = async (numberOfCriteria: number): Promise<ICriteria
       await utils.clickLink("Add another criteria");
     }
     // eslint-disable-next-line no-await-in-loop
-    const criterion = await utils.typeInReactInput(`criteria_${i}`, { numberOfWords: 50 });
+    const criterion = await utils.type(`criteria_${i}`, { numberOfWords: 50 });
     // eslint-disable-next-line no-await-in-loop
-    const weighting = await utils.typeInReactInput(`weighting_${i}`, { value: "50" });
+    const weighting = await utils.type(`weighting_${i}`, { value: "50" });
     criteria.push({
       criterion,
       weighting,
@@ -117,10 +117,10 @@ const fillClosingDate = async () => {
   await utils.matchText("li", "You must add a contact number");
   const now = new Date();
   const future = new Date(now.setDate(now.getDate() + 14));
-  await utils.typeInReactInput("day", { value: `${format(future, "DD")}` });
-  await utils.typeInReactInput("month", { value: `${format(future, "MM")}` });
-  await utils.typeInReactInput("year", { value: `${format(future, "YYYY")}` });
-  await utils.typeInReactInput("contactNumber", { value: "0123456789" });
+  await utils.type("day", { value: `${format(future, "DD")}` });
+  await utils.type("month", { value: `${format(future, "MM")}` });
+  await utils.type("year", { value: `${format(future, "YYYY")}` });
+  await utils.type("contactNumber", { value: "0123456789" });
   await clickSaveContinue();
 };
 

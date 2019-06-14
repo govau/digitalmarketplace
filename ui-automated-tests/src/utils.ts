@@ -52,10 +52,9 @@ export const type = async (id: string, options: {
   value?: string,
   numberOfWords?: number,
   numberOfCharacters?: number,
-  reactInput?: boolean,
 }): Promise<string> => {
   console.log(`Typing in "//*[@id="${id}"]"`);
-  let { value, numberOfWords, reactInput } = options;
+  let { value, numberOfWords } = options;
   const { numberOfCharacters } = options;
   if (value !== "" && !value) {
     if (numberOfCharacters) {
@@ -63,37 +62,15 @@ export const type = async (id: string, options: {
     }
     value = words(numberOfWords, numberOfCharacters);
   }
-  reactInput = reactInput && reactInput === true;
   const input = await this.getElementHandle(`//*[@id="${id}"]`);
-  if (reactInput) {
+  if (process.env.SHORTEN_TYPED_INPUT === "true") {
     if (value.length > 50) {
       value = value.substring(0, 50);
       console.log(`Shortened typed value to "${value}"`);
     }
-    await input.type(value, { delay: 0 });
-  } else {
-    if (process.env.SHORTEN_TYPED_INPUT === "true") {
-      if (value.length > 50) {
-        value = value.substring(0, 50);
-        console.log(`Shortened typed value to "${value}"`);
-      }
-    }
-    await input.type(value, { delay: 0 });
   }
+  await input.type(value, { delay: 0 });
 
-  return value;
-};
-export const typeInReactInput = async (id: string, options: {
-  value?: string,
-  numberOfWords?: number,
-  numberOfCharacters?: number,
-}): Promise<string> => {
-  // eslint-disable-next-line no-param-reassign
-  Object.assign(options, {
-    reactInput: true,
-  });
-  // options.reactInput = true
-  const value = await this.type(id, options);
   return value;
 };
 export const upload = async (id: string, file: string, title?: string) => {

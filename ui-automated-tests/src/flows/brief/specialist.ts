@@ -37,8 +37,8 @@ const fillAbout = async (role: string, locations: string[]) => {
   await utils.matchText("li", "Enter the title for your opportunity.");
   await utils.matchText("li", "what will the specialist do");
   await utils.matchText("li", "You must select at least one location.");
-  await utils.typeInReactInput("title", { value: role });
-  await utils.typeInReactInput("summary", { numberOfWords: 1000 });
+  await utils.type("title", { value: role });
+  await utils.type("summary", { numberOfWords: 1000 });
 
   locations.forEach(async (location) => {
     await utils.selectCheck(location);
@@ -68,18 +68,18 @@ const fillSelectionCriteria = async (): Promise<ISelectionCriteria> => {
   await utils.matchText("li", "You cannot have blank essential weightings.");
   await utils.matchText("li", "Desirable weightings must add up to 100%.");
 
-  const essCriteria = await utils.typeInReactInput("essential_criteria_0", { numberOfWords: 50 });
-  const essWeighting = await utils.typeInReactInput("essential_weighting_0", { value: "10" });
+  const essCriteria = await utils.type("essential_criteria_0", { numberOfWords: 50 });
+  const essWeighting = await utils.type("essential_weighting_0", { value: "10" });
   await clickSaveContinue();
   await utils.matchText("li", "Essential weightings must add up to 100%.");
-  await utils.typeInReactInput("essential_weighting_0", { value: "0" });
+  await utils.type("essential_weighting_0", { value: "0" });
   const essentialCriteria = {
     criteria: essCriteria,
     weighting: essWeighting,
   };
 
-  const nthCriteria = await utils.typeInReactInput("nice_to_have_criteria_0", { numberOfWords: 50 });
-  const nthWeighting = await utils.typeInReactInput("nice_to_have_weighting_0", { value: "100" });
+  const nthCriteria = await utils.type("nice_to_have_criteria_0", { numberOfWords: 50 });
+  const nthWeighting = await utils.type("nice_to_have_weighting_0", { value: "100" });
   const niceToHaveCriteria = {
     criteria: nthCriteria,
     weighting: nthWeighting,
@@ -98,7 +98,7 @@ const fillSellerResponses = async (): Promise<{numberOfSuppliers: string}> => {
 
   const input = await utils.getElementHandle(`//input[@id="numberOfSuppliers"]`);
   await input.press("Backspace");
-  const numberOfSuppliers = await utils.typeInReactInput("numberOfSuppliers", { value: "6" });
+  const numberOfSuppliers = await utils.type("numberOfSuppliers", { value: "6" });
 
   await utils.selectCheck("References");
   await utils.selectCheck("Interviews");
@@ -106,8 +106,8 @@ const fillSellerResponses = async (): Promise<{numberOfSuppliers: string}> => {
   await utils.selectCheck("Presentations");
 
   await utils.selectRadio("hourlyRate");
-  await utils.typeInReactInput("maxRate", { value: "123" });
-  await utils.typeInReactInput("budgetRange", { numberOfCharacters: 100 });
+  await utils.type("maxRate", { value: "123" });
+  await utils.type("budgetRange", { numberOfCharacters: 100 });
 
   await utils.selectRadio("mustHave");
   await clickSaveContinue();
@@ -126,11 +126,11 @@ const fillTimeframes = async () => {
   await utils.matchText("li", "Enter a contract length for the opportunity");
   const now = new Date();
   const future = new Date(now.setDate(now.getDate() + 14));
-  await utils.typeInReactInput("day", { value: `${format(future, "DD")}` });
-  await utils.typeInReactInput("month", { value: `${format(future, "MM")}` });
-  await utils.typeInReactInput("year", { value: `${format(future, "YYYY")}` });
-  await utils.typeInReactInput("contractLength", { numberOfCharacters: 100 });
-  await utils.typeInReactInput("contractExtensions", { numberOfCharacters: 100 });
+  await utils.type("day", { value: `${format(future, "DD")}` });
+  await utils.type("month", { value: `${format(future, "MM")}` });
+  await utils.type("year", { value: `${format(future, "YYYY")}` });
+  await utils.type("contractLength", { numberOfCharacters: 100 });
+  await utils.type("contractExtensions", { numberOfCharacters: 100 });
   await clickSaveContinue();
 };
 
@@ -138,7 +138,7 @@ const fillAdditionalInformation = async () => {
   await clickSaveContinue();
   await utils.matchText("li", "Contact number is required");
   await utils.upload("file_0", "document.pdf", "Additional documents (optional)");
-  await utils.typeInReactInput("contactNumber", { value: "01234455667733" });
+  await utils.type("contactNumber", { value: "01234455667733" });
   await clickSaveContinue();
 };
 
