@@ -21,10 +21,11 @@
     "typescript": "^3.5.1"
   },
   "scripts": {
-    "test": "mocha tests/bootstrap.ts -r ts-node/register --no-timeouts --recursive src/**/*.ts",
+    "compile": "tsc",
     "lint": "tslint --project ./",
-    "lint:fix": "tslint --project ./ --fix"
+    "lint:fix": "tslint --project ./ --fix",
+    "test": "mocha 'src/**/*.ts' -r ts-node/register --no-timeouts --recursive "
   },
   "author": "",
-  "license": "ISC"
+  "license": "MIT"
 }

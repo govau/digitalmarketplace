@@ -7,8 +7,8 @@ const opts: LaunchOptions = {
   slowMo: process.env.SLOW_MO ? parseInt(process.env.SLOW_MO, 10) : undefined,
 };
 
-console.log(process.env.FRONTEND_ADDRESS);
-console.log(process.env.HEADLESS);
+console.log(`FRONTEND_ADDRESS: ${process.env.FRONTEND_ADDRESS}`);
+console.log(`HEADLESS: ${process.env.HEADLESS}`);
 
 beforeEach(async function() {
   Object.assign(opts, {
