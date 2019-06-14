@@ -22,7 +22,7 @@ references:
   required_for_deploy: &required_for_deploy
     requires:
       # - check_styles
-      - run_slack_work_tests 
+      - run_slack_worker_tests 
 
 jobs:
   build_automation_tests:
@@ -103,7 +103,7 @@ jobs:
           paths:
             - ~
 
-  run_slack_work_tests:
+  run_slack_worker_tests:
     <<: *deploy_docker
     steps:
       - attach_workspace:
@@ -206,7 +206,7 @@ workflows:
       #     filters:
       #       tags:
       #         only: /[0-9]+(\.[0-9]+)*/
-      - run_slack_work_tests:
+      - run_slack_worker_tests:
           requires:
             - build_slack_worker
           filters:
@@ -236,7 +236,7 @@ workflows:
       - deploy_to_production_clone:
           requires:
             - deploy_to_production
-            - run_slack_work_tests 
+            - run_slack_worker_tests 
           filters:
             tags:
               only: /[0-9]+(\.[0-9]+)*/
