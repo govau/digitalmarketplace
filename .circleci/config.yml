@@ -33,6 +33,11 @@ jobs:
           at: .
       - checkout
       - run: 
+          name: Install
+          command: |
+            cd ui-automated-tests
+            npm install
+      - run: 
           name: Compile
           command: |
             cd ui-automated-tests
