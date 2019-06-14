@@ -24,7 +24,7 @@ const createBrief = async () => {
   await utils.clickLink("/2/outcome-choice", true);
   await utils.clickLink("/2/buyer-atm/create", true);
   await utils.clickLink("Create and publish request");
-  await utils.clickButton("Start now");asdf
+  await utils.clickButton("Start now");
 };
 
 const fillWhoCanRespond = async () => {
