@@ -1,7 +1,5 @@
 version: 2
 references:
-  # npm_cache_key: &npm_cache_key
-  #   key: npm-cache-{{ checksum "package.json" }}
   cf_install: &cf_install
     run:
       name: Install Cloud Foundry CLI
@@ -25,7 +23,7 @@ references:
       - run_slack_worker_tests 
 
 jobs:
-  build_automation_tests:
+  build_automated_tests:
     docker:
       - image: circleci/node:10.15.3-stretch-browsers
     steps:
@@ -48,7 +46,7 @@ jobs:
             cd ui-automated-tests
             npm run lint
 
-  run_automation_tests:
+  run_automated_tests:
     docker:
       - image: circleci/node:10.15.3-stretch-browsers
     steps:
@@ -80,18 +78,6 @@ jobs:
           at: .
       - checkout
 
-      # - restore_cache:
-      #     <<: *npm_cache_key
-      # - run: 
-      #     name: Dotnet Restore
-      #     command: |
-      #       cd subscribers/slack
-      #       dotnet restore
-      # - save_cache:
-      #     <<: *npm_cache_key
-      #     paths:
-      #       - node_modules
-
       - run: 
           name: Dotnet Build
           command: |
@@ -114,16 +100,6 @@ jobs:
             cd subscribers/slack/worker.tests
             dotnet test
     
-  # check_styles:
-  #   <<: *deploy_docker
-  #   steps:
-  #     - attach_workspace:
-  #         at: .
-  #     - run: 
-  #         name: Check Styles
-  #         command: |
-  #           npm run eslint
-
   deploy_to_rc:
     <<: *circleci_deploy
     steps:
@@ -176,7 +152,7 @@ jobs:
 
 workflows:
   version: 2
-  automation_test:
+  run_ui_automated_tests:
     triggers:
       - schedule:
           cron: "0 9 * * 4"
@@ -184,29 +160,24 @@ workflows:
             branches:
               only: master
     jobs:
-      - run_automation_tests:
+      - run_automated_tests:
           filters:
             tags:
               ignore: /.*/
             branches:
               only: master
-  build_and_deploy:
+  ui_automated_tests:
     jobs:
-      - build_automation_tests
-      #     filters:
-      #       tags:
-      #         only: /[0-9]+(\.[0-9]+)*/
-      - build_slack_worker
-      #     filters:
-      #       tags:
-      #         only: /[0-9]+(\.[0-9]+)*/
-      - build:
+      - build_automated_tests:
           filters:
             tags:
               only: /[0-9]+(\.[0-9]+)*/
-          requires:
-            - build_automation_tests
-            - build_slack_worker
+  slack_worker:
+    jobs:
+      - build_slack_worker:
+          filters:
+            tags:
+              only: /[0-9]+(\.[0-9]+)*/
       - run_slack_worker_tests:
           requires:
             - build_slack_worker
