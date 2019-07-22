@@ -1,14 +1,14 @@
-version: 2
-references:
-  cf_install: &cf_install
-    run:
-      name: Install Cloud Foundry CLI
-      command: |
-        curl -v -L -o cf-cli_amd64.deb 'https://cli.run.pivotal.io/stable?release=debian64&source=github'
-        sudo dpkg -i cf-cli_amd64.deb
-        cf install-plugin https://github.com/contraband/autopilot/releases/download/0.0.8/autopilot-linux -f
-        cf install-plugin https://github.com/govau/cf-run-and-wait/releases/download/0.1/run-and-wait.linux64 -f
-        cf -v
+version: 2.1
+# references:
+#   cf_install: &cf_install
+#     run:
+#       name: Install Cloud Foundry CLI
+#       command: |
+#         curl -v -L -o cf-cli_amd64.deb 'https://cli.run.pivotal.io/stable?release=debian64&source=github'
+#         sudo dpkg -i cf-cli_amd64.deb
+#         cf install-plugin https://github.com/contraband/autopilot/releases/download/0.0.8/autopilot-linux -f
+#         cf install-plugin https://github.com/govau/cf-run-and-wait/releases/download/0.1/run-and-wait.linux64 -f
+#         cf -v
   deploy_docker: &deploy_docker
     docker:
       - image: microsoft/dotnet:2.2-sdk
@@ -17,10 +17,71 @@ references:
   circleci_deploy: &circleci_deploy
     docker:
       - image: circleci/node:8-stretch
-  required_for_deploy: &required_for_deploy
-    requires:
-      # - check_styles
-      - run_slack_worker_tests 
+  # required_for_deploy: &required_for_deploy
+  #   requires:
+  #     # - check_styles
+  #     - run_slack_worker_tests 
+
+commands:
+  dot_net_build:
+    description: "Build dot net project"
+    parameters:
+      path:
+        type: string
+    steps:
+      - run: 
+          name: Dotnet build
+          command: |
+            cd << parameters.path >>
+            dotnet build
+            cd ~
+  
+  dot_net_test:
+    description: "Test dot net project"
+    parameters:
+      path:
+        type: string
+    steps:
+      - run: 
+          name: Dotnet test
+          command: |
+            cd << parameters.path >>
+            dotnet test
+            cd ~
+
+  cf_deploy:
+    description: "cf deploy"
+    parameters:
+      cf_url:
+        type: string
+        default: https://api.system.y.cld.gov.au
+      cf_user:
+        type: string
+        default: $CF_USER_STAGING
+      cf_password:
+        type: string
+        default: $CF_PASSWORD_STAGING
+      cf_app_name:
+        type: string
+      cf_manifest:
+        type: string
+    steps:
+      - attach_workspace:
+          at: .
+      - run:
+          name: Install Cloud Foundry CLI
+          command: |
+            curl -v -L -o cf-cli_amd64.deb 'https://cli.run.pivotal.io/stable?release=debian64&source=github'
+            sudo dpkg -i cf-cli_amd64.deb
+            cf install-plugin https://github.com/contraband/autopilot/releases/download/0.0.8/autopilot-linux -f
+            cf install-plugin https://github.com/govau/cf-run-and-wait/releases/download/0.1/run-and-wait.linux64 -f
+            cf -v
+      - run:
+          name: Deploy
+          command: |
+            cf login -a << parameters.cf_url >> -o dta -s marketplace -u << parameters.cf_user >> -p << parameters.cf_password >>
+            cf zero-downtime-push << parameters.cf_app_name >> -f .manifests/<< parameters.cf_manifest >> --show-app-log
+    
 
 jobs:
   build_automated_tests:
@@ -71,83 +132,98 @@ jobs:
             export SLOW_MO=10
             npm test
 
-  build_slack_worker:
+  run_builds:
     <<: *deploy_docker
     steps:
       - attach_workspace:
           at: .
       - checkout
 
-      - run: 
-          name: Dotnet Build
-          command: |
-            cd subscribers/slack/worker
-            dotnet build
-      
+      - dot_net_build: 
+          path: "subscribers/slack/worker"
+
       - persist_to_workspace:
           root: .
           paths:
             - ~
 
-  run_slack_worker_tests:
+  run_tests:
     <<: *deploy_docker
     steps:
       - attach_workspace:
           at: .
-      - run: 
-          name: Run Tests
-          command: |
-            cd subscribers/slack/worker.tests
-            dotnet test
+
+      - dot_net_test:
+          path: "subscribers/slack/worker.tests"
+
+      - persist_to_workspace:
+          root: .
+          paths:
+            - ~
     
   deploy_to_rc:
     <<: *circleci_deploy
     steps:
-      - attach_workspace:
-          at: .
-      - *cf_install
-      - run:
-          name: Deploy to RC
-          command: |
-            cf login -a https://api.system.y.cld.gov.au -o dta -s marketplace -u $CF_USER_STAGING -p $CF_PASSWORD_STAGING
-            cf zero-downtime-push dm-rc-slack-worker -f .manifests/slack-worker.rc.yml
+      - cf_deploy:
+          cf_app_name: dm-rc-slack-worker
+          cf_manifest: slack-worker.rc.yml
+      # - attach_workspace:
+      #     at: .
+      # - *cf_install
+      # - run:
+      #     name: Deploy to RC
+      #     command: |
+      #       cf login -a https://api.system.y.cld.gov.au -o dta -s marketplace -u $CF_USER_STAGING -p $CF_PASSWORD_STAGING
+      #       cf zero-downtime-push dm-rc-slack-worker -f .manifests/slack-worker.rc.yml
 
   deploy_to_production_clone:
     <<: *circleci_deploy
     steps:
-      - attach_workspace:
-          at: .
-      - *cf_install
-      - run:
-          name: Deploy to Production Clone
-          command: |
-            cf login -a https://api.system.y.cld.gov.au -o dta -s marketplace -u $CF_USER_STAGING -p $CF_PASSWORD_STAGING
-            cf zero-downtime-push dm-pc-slack-worker -f .manifests/slack-worker.pc.yml --show-app-log
+      - cf_deploy:
+          cf_app_name: dm-pc-slack-worker
+          cf_manifest: slack-worker.pc.yml
+      # - attach_workspace:
+      #     at: .
+      # - *cf_install
+      # - run:
+      #     name: Deploy to Production Clone
+      #     command: |
+      #       cf login -a https://api.system.y.cld.gov.au -o dta -s marketplace -u $CF_USER_STAGING -p $CF_PASSWORD_STAGING
+      #       cf zero-downtime-push dm-pc-slack-worker -f .manifests/slack-worker.pc.yml --show-app-log
 
   deploy_to_staging:
     <<: *circleci_deploy
     steps:
-      - attach_workspace:
-          at: .
-      - *cf_install
-      - run:
-          name: Deploy to Staging
-          command: |
-            cf login -a https://api.system.y.cld.gov.au -o dta -s marketplace -u $CF_USER_STAGING -p $CF_PASSWORD_STAGING
-            cf zero-downtime-push dm-dev-slack-worker -f .manifests/slack-worker.dev.yml --show-app-log
+      - cf_deploy:
+          cf_app_name: dm-dev-slack-worker
+          cf_manifest: slack-worker.dev.yml
+      # - attach_workspace:
+      #     at: .
+      # - *cf_install
+      # - run:
+      #     name: Deploy to Staging
+      #     command: |
+      #       cf login -a https://api.system.y.cld.gov.au -o dta -s marketplace -u $CF_USER_STAGING -p $CF_PASSWORD_STAGING
+      #       cf zero-downtime-push dm-dev-slack-worker -f .manifests/slack-worker.dev.yml --show-app-log
 
   deploy_to_production:
     <<: *circleci_deploy
     steps:
-      - attach_workspace:
-          at: .
-      - *cf_install
-      - run:
-          name: Deploy to Production
-          command: |
-            cf login -a https://api.system.b.cld.gov.au -o dta -s marketplace -u $CF_USER_PROD -p $CF_PASSWORD_PROD
-            cf zero-downtime-push  dm-slack-worker -f .manifests/slack-worker.prod.yml --show-app-log
-            # ./scripts/ci-notify.sh
+      - cf_deploy:
+          cf_url: https://api.system.b.cld.gov.au
+          cf_user: $CF_USER_PROD
+          cf_password: $CF_PASSWORD_PROD
+          cf_app_name: dm-slack-worker
+          cf_manifest: slack-worker.prod.yml
+      # - attach_workspace:
+      #     at: .
+      # - *cf_install
+      # - run:
+      #     name: Deploy to Production
+      #     command: |
+      #       cf login -a https://api.system.b.cld.gov.au -o dta -s marketplace -u $CF_USER_PROD -p $CF_PASSWORD_PROD
+      #       cf zero-downtime-push  dm-slack-worker -f .manifests/slack-worker.prod.yml --show-app-log
+      #       # ./scripts/ci-notify.sh
 
 
 workflows:
@@ -172,34 +248,37 @@ workflows:
           filters:
             tags:
               only: /[0-9]+(\.[0-9]+)*/
-  slack_worker:
+  build_test_deploy:
     jobs:
-      - build_slack_worker:
+      - run_builds:
           filters:
             tags:
               only: /[0-9]+(\.[0-9]+)*/
-      - run_slack_worker_tests:
+      - run_tests:
           requires:
-            - build_slack_worker
+            - run_builds
           filters:
             tags:
               only: /[0-9]+(\.[0-9]+)*/
       - deploy_to_rc:
-          <<: *required_for_deploy
+          requires:
+            - run_tests
           filters:
             tags:
               ignore: /.*/
             branches:
               only: rc
       - deploy_to_staging:
-          <<: *required_for_deploy
+          requires:
+            - run_tests
           filters:
             tags:
               ignore: /.*/
             branches:
               only: master
       - deploy_to_production:
-          <<: *required_for_deploy
+          requires:
+            - run_tests
           filters:
             tags:
               only: /[0-9]+(\.[0-9]+)*/
@@ -208,7 +287,6 @@ workflows:
       - deploy_to_production_clone:
           requires:
             - deploy_to_production
-            - run_slack_worker_tests 
           filters:
             tags:
               only: /[0-9]+(\.[0-9]+)*/
