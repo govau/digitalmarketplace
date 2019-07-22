@@ -1,6 +1,6 @@
 {
     "compilerOptions": {
-        "outDir": "./out",
+        "outDir": "./build",
         "allowJs": true,
         "target": "es6",
         "moduleResolution": "node"
