@@ -1,5 +1,5 @@
 version: 2.1
-# references:
+references:
 #   cf_install: &cf_install
 #     run:
 #       name: Install Cloud Foundry CLI
