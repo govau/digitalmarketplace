@@ -137,13 +137,13 @@ jobs:
     steps:
       - attach_workspace:
           at: .
-      - checkout
+      # - checkout
       # - dot_net_build: 
       #     path: "subscribers/slack/worker"
-      - persist_to_workspace:
-          root: .
-          paths:
-            - ~
+      # - persist_to_workspace:
+      #     root: .
+      #     paths:
+      #       - ~
 
   run_tests:
     <<: *deploy_docker
@@ -152,10 +152,10 @@ jobs:
           at: .
       # - dot_net_test:
       #     path: "subscribers/slack/worker.tests"
-      - persist_to_workspace:
-          root: .
-          paths:
-            - ~
+      # - persist_to_workspace:
+      #     root: .
+      #     paths:
+      #       - ~
     
   deploy_to_rc:
     <<: *circleci_deploy
