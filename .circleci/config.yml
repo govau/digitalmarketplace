@@ -137,7 +137,7 @@ jobs:
     steps:
       - attach_workspace:
           at: .
-      # - checkout
+      - checkout
       # - dot_net_build: 
       #     path: "subscribers/slack/worker"
       # - persist_to_workspace:
