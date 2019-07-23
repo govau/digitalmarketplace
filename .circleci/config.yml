@@ -140,10 +140,10 @@ jobs:
       - checkout
       - dot_net_build: 
           path: "subscribers/slack/worker"
-      # - persist_to_workspace:
-      #     root: .
-      #     paths:
-      #       - ~
+      - persist_to_workspace:
+          root: .
+          paths:
+            - ~
 
   run_tests:
     <<: *deploy_docker
