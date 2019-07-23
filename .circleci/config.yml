@@ -47,7 +47,7 @@ commands:
           command: |
             cd << parameters.path >>
             dotnet test
-            # cd ~
+            cd ~
 
   cf_deploy:
     description: "cf deploy"
@@ -152,10 +152,10 @@ jobs:
           at: .
       - dot_net_test:
           path: "subscribers/slack/worker.tests"
-      # - persist_to_workspace:
-      #     root: .
-      #     paths:
-      #       - ~
+      - persist_to_workspace:
+          root: .
+          paths:
+            - "**/*"
     
   deploy_to_rc:
     <<: *circleci_deploy
