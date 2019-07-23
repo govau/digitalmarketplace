@@ -138,8 +138,8 @@ jobs:
       - attach_workspace:
           at: .
       - checkout
-      # - dot_net_build: 
-      #     path: "subscribers/slack/worker"
+      - dot_net_build: 
+          path: "subscribers/slack/worker"
       # - persist_to_workspace:
       #     root: .
       #     paths:
@@ -150,8 +150,8 @@ jobs:
     steps:
       - attach_workspace:
           at: .
-      # - dot_net_test:
-      #     path: "subscribers/slack/worker.tests"
+      - dot_net_test:
+          path: "subscribers/slack/worker.tests"
       # - persist_to_workspace:
       #     root: .
       #     paths:
