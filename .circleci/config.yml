@@ -111,7 +111,7 @@ jobs:
           paths:
             - "**/*"
 
-  run_tests:
+  run_dot_net_tests:
     <<: *deploy_docker
     steps:
       - attach_workspace:
@@ -202,19 +202,19 @@ workflows:
           filters:
             tags:
               only: /[0-9]+(\.[0-9]+)*/
-      - run_builds:
+      - run_dot_net_builds:
           filters:
             tags:
               only: /[0-9]+(\.[0-9]+)*/
-      - run_tests:
+      - run_dot_net_tests:
           requires:
-            - run_builds
+            - run_dot_net_builds
           filters:
             tags:
               only: /[0-9]+(\.[0-9]+)*/
       - deploy_to_rc:
           requires:
-            - run_tests
+            - run_dot_net_tests
           filters:
             tags:
               ignore: /.*/
@@ -222,7 +222,7 @@ workflows:
               only: rc
       - deploy_to_staging:
           requires:
-            - run_tests
+            - run_dot_net_tests
           filters:
             tags:
               ignore: /.*/
@@ -230,7 +230,7 @@ workflows:
               only: master
       - deploy_to_production:
           requires:
-            - run_tests
+            - run_dot_net_tests
           filters:
             tags:
               only: /[0-9]+(\.[0-9]+)*/
