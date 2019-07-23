@@ -47,7 +47,7 @@ commands:
           command: |
             cd << parameters.path >>
             dotnet test
-            cd ~
+            # cd ~
 
   cf_deploy:
     description: "cf deploy"
@@ -143,7 +143,7 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
-            - "~"
+            - ~
 
   run_tests:
     <<: *deploy_docker
