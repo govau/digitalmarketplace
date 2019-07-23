@@ -21,7 +21,6 @@ commands:
           command: |
             cd << parameters.path >>
             dotnet build
-            cd ~
   
   dot_net_test:
     description: "Test dot net project"
