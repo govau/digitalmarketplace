@@ -38,6 +38,11 @@ const fillWhoCanRespond = async () => {
 };
 
 const fillAbout = async (title: string, locations: string[]) => {
+  await clickSaveContinue();
+  await utils.matchText("li", "Enter the title for your brief");
+  await utils.matchText("li", "Enter the name of your organisation");
+  await utils.matchText("li", "Enter a summary of your brief");
+  await utils.matchText("li", "You must select at least one location");
   await utils.type("title", { value: title });
   await utils.type("organisation", { numberOfCharacters: 100 });
   await utils.type("summary", { numberOfWords: 150 });
