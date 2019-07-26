@@ -1,27 +1,34 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using System.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+//using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Dta.Marketplace.Subscribers.Logger.Worker
 {
-    public partial class loggerContext : DbContext
+    public partial class LoggerContext : DbContext, ILoggerContext
     {
-        public loggerContext()
+        private DbSet<LogEntry> logEntry;
+
+        public LoggerContext()
         {
         }
 
-        public loggerContext(DbContextOptions<loggerContext> options)
+        public LoggerContext(DbContextOptions<LoggerContext> options)
             : base(options)
         {
         }
 
-        public virtual DbSet<LogEntry> LogEntry { get; set; }
+        public virtual DbSet<LogEntry> LogEntry { get => logEntry; set => logEntry = value; }
+
+        //public virtual DbSet<LogEntry> LogEntry { get; set; } the above is full property 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
-//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+                //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
                 optionsBuilder.UseNpgsql("Host=localhost;Port=15432;Database=logger;Username=postgres;Password=password");
             }
         }

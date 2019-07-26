@@ -11,17 +11,20 @@ using Amazon.SQS;
 using Amazon.SQS.Model;
 using Newtonsoft.Json;
 
-//look at publish_task in api folder 
-namespace Dta.Marketplace.Subscribers.Logger.Worker {
+namespace Dta.Marketplace.Subscribers.Logger.Worker{
     public class AppService : IHostedService, IDisposable {
         private readonly ILogger _logger;
         private readonly IOptions<AppConfig> _config;
+        private readonly ILoggerContext _loggerContext;
+        private readonly IMessageProcessor _messageProcessor;
         private AmazonSQSClient _sqsClient;
         private Timer _timer;
 
-        public AppService(ILogger<AppService> logger, IOptions<AppConfig> config) {
+        public AppService(ILogger<AppService> logger, IOptions<AppConfig> config, ILoggerContext loggerContext, IMessageProcessor messageProcessor) {
             _logger = logger;
             _config = config;
+            _messageProcessor = messageProcessor;
+            _loggerContext = loggerContext;
         }
 
         public Task StartAsync(CancellationToken cancellationToken) {
@@ -46,7 +49,7 @@ namespace Dta.Marketplace.Subscribers.Logger.Worker {
             } else {
                 _sqsClient = new AmazonSQSClient(sqsConfig);
             }
-        
+
             _timer = new Timer(DoWork, null, TimeSpan.Zero, TimeSpan.FromSeconds(_config.Value.WorkIntervalInSeconds));
             return Task.CompletedTask;
         }
@@ -67,22 +70,16 @@ namespace Dta.Marketplace.Subscribers.Logger.Worker {
             };
             _logger.LogDebug("Heartbeat: {Now}", DateTime.Now);
             var receiveMessageResponse = await _sqsClient.ReceiveMessageAsync(receiveMessageRequest);
-            
-                 using (var context = new loggerContext())
-            {
-                var a = JsonConvert.SerializeObject(new {
-                    name= "asdf"
-                });
                 foreach (var message in receiveMessageResponse.Messages) {
-                    _logger.LogDebug("Message Id: {MessageId}", message.MessageId);
-                    _logger.LogInformation(message.Body);
-                    context.LogEntry.Add(new LogEntry { Data = message.Body });
-                    context.SaveChanges(); 
-                   await DeleteMessage(message);
-            }
-        }   
-    }
-        
+                    // _logger.LogDebug("Message Id: {MessageId}", message.MessageId);
+                    // _logger.LogInformation(message.Body);
+                    // _loggerContext.LogEntry.Add(new LogEntry { Data = message.Body });
+                    // _loggerContext.SaveChanges();
+                    _messageProcessor.Process(message);
+                    await DeleteMessage(message);
+                }
+        }
+
         private async Task DeleteMessage(Message message) {
             var deleteMessageRequest = new DeleteMessageRequest {
                 QueueUrl = _config.Value.AwsSqsQueueUrl,
