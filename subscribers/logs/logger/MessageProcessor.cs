@@ -20,8 +20,8 @@ namespace Dta.Marketplace.Subscribers.Logger.Worker
                 _loggerContext.LogEntry.Add(new LogEntry { Data = message.Body });
                 _loggerContext.SaveChanges();
             }
-            catch(Exception ex){
-                _logger.LogError(message.Body, ex);
+            catch(Exception ex) {
+                _logger.LogError("Unable to process", ex);
             }
         }
     }
