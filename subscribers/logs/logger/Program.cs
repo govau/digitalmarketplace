@@ -74,4 +74,3 @@ namespace Dta.Marketplace.Subscribers.Logger.Worker {
         }
     }
 }
-
