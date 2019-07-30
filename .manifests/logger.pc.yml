@@ -1,0 +1,10 @@
+applications:
+- name: dm-pc-logger
+  buildpack: dotnet_core_buildpack
+  path: ../subscribers/logs/logger
+  health-check-type: process
+  instances: 1
+  memory: 50M
+  disk_quota: 100M
+  services:
+  - ups-dm-pc-logger

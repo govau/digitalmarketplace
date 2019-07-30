@@ -21,7 +21,9 @@ namespace Dta.Marketplace.Subscribers.Logger.Worker
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            if (!optionsBuilder.IsConfigured)
+            if (!optionsBuilder.IsConfigured){
+                
+            }
     
         }
 
