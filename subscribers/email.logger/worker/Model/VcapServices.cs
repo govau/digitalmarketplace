@@ -51,14 +51,14 @@ namespace Dta.Marketplace.Subscribers.Email.Logger.Worker.Model {
         [JsonProperty("AWS_SQS_ACCESS_KEY_ID")]
         public string AwsSqsAccessKeyId { get; set; }
 
-        [JsonProperty("AWS_SQS_QUEUE_URL")]
-        public string AwsSqsQueueUrl { get; set; }
+        [JsonProperty("AWS_SQS_SESEP_QUEUE_URL")]
+        public string AwsSqsSESEPQueueUrl { get; set; }
 
-        [JsonProperty("AWS_SQS_REGION")]
+        [JsonProperty("AWS_SQS_SESEP_REGION")]
+        public string AwsSqsSESEPRegion { get; set; }
+
+        [JsonProperty("AWS_SQS_SESEP_REGION")]
         public string AwsSqsRegion { get; set; }
-
-        [JsonProperty("AWS_SQS_BODY_REGION")]
-        public string AwsSqsBodyRegion { get; set; }
 
         [JsonProperty("AWS_SQS_SECRET_ACCESS_KEY")]
         public string AwsSqsSecretAccessKey { get; set; }

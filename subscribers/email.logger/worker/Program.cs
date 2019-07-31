@@ -38,16 +38,16 @@ namespace Dta.Marketplace.Subscribers.Email.Logger.Worker {
                     services.Configure<AppConfig>(hostContext.Configuration);
                     services.Configure<AppConfig>(ac => {
                         ac.AwsSqsAccessKeyId = Environment.GetEnvironmentVariable("AWS_SQS_ACCESS_KEY_ID");
-                        ac.AwsSqsQueueUrl = Environment.GetEnvironmentVariable("AWS_SQS_QUEUE_URL");
+                        ac.AwsSqsSESEPQueueUrl = Environment.GetEnvironmentVariable("AWS_SQS_SESEP_QUEUE_URL");
                         ac.AwsSqsServiceUrl = Environment.GetEnvironmentVariable("AWS_SQS_SERVICE_URL");
-                        ac.AwsSqsBodyQueueUrl = Environment.GetEnvironmentVariable("AWS_SQS_BODY_LOGGER_QUEUE_URL");
+                        ac.AwsSqsQueueUrl = Environment.GetEnvironmentVariable("AWS_SQS_LOGGER_QUEUE_URL");
+                        var awsSqsSESEPRegion = Environment.GetEnvironmentVariable("AWS_SQS_SESEP_REGION");
+                        if (string.IsNullOrWhiteSpace(awsSqsSESEPRegion) == false) {
+                            ac.AwsSqsSESEPRegion = awsSqsSESEPRegion;
+                        }
                         var awsSqsRegion = Environment.GetEnvironmentVariable("AWS_SQS_REGION");
                         if (string.IsNullOrWhiteSpace(awsSqsRegion) == false) {
                             ac.AwsSqsRegion = awsSqsRegion;
-                        }
-                        var awsSqsBodyRegion = Environment.GetEnvironmentVariable("AWS_SQS_BODY_REGION");
-                        if (string.IsNullOrWhiteSpace(awsSqsRegion) == false) {
-                            ac.AwsSqsBodyRegion = awsSqsBodyRegion;
                         }
                         ac.AwsSqsSecretAccessKey = Environment.GetEnvironmentVariable("AWS_SQS_SECRET_ACCESS_KEY");
                         var workIntervalInSeconds = Environment.GetEnvironmentVariable("WORK_INTERVAL_IN_SECONDS");
@@ -66,9 +66,9 @@ namespace Dta.Marketplace.Subscribers.Email.Logger.Worker {
                             var credentials = vcapServices.UserProvided.First().Credentials;
 
                             ac.AwsSqsAccessKeyId = credentials.AwsSqsAccessKeyId;
-                            ac.AwsSqsQueueUrl = credentials.AwsSqsQueueUrl;
-                            if (string.IsNullOrWhiteSpace(credentials.AwsSqsRegion) == false) {
-                                ac.AwsSqsRegion = credentials.AwsSqsRegion;
+                            ac.AwsSqsSESEPQueueUrl = credentials.AwsSqsSESEPQueueUrl;
+                            if (string.IsNullOrWhiteSpace(credentials.AwsSqsSESEPRegion) == false) {
+                                ac.AwsSqsSESEPRegion = credentials.AwsSqsSESEPRegion;
                             }
                             ac.AwsSqsSecretAccessKey = credentials.AwsSqsSecretAccessKey;
                             if (credentials.WorkIntervalInSeconds != 0) {

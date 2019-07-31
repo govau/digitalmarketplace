@@ -2,10 +2,10 @@ using System;
 
 namespace Dta.Marketplace.Subscribers.Email.Logger.Worker {
     public class AppConfig {
-        public string AwsSqsRegion { get; set; }
-        public string AwsSqsBodyRegion { get; set;}
+        public string AwsSqsSESEPRegion { get; set; }
+        public string AwsSqsRegion { get; set;}
+        public string AwsSqsSESEPQueueUrl { get; set; }
         public string AwsSqsQueueUrl { get; set; }
-        public string AwsSqsBodyQueueUrl { get; set; }
         public string AwsSqsServiceUrl { get; set; }
         public string AwsSqsAccessKeyId { get; set; }
         public string AwsSqsSecretAccessKey { get; set; }

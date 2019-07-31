@@ -39,7 +39,7 @@ namespace Dta.Marketplace.Subscribers.Email.Logger.Worker {
             });
 
             var sqsConfig = new AmazonSQSConfig {
-                RegionEndpoint = RegionEndpoint.GetBySystemName (_config.Value.AwsSqsRegion)
+                RegionEndpoint = RegionEndpoint.GetBySystemName (_config.Value.AwsSqsSESEPRegion)
             };
             if (string.IsNullOrWhiteSpace (_config.Value.AwsSqsServiceUrl) == false) {
                 sqsConfig.ServiceURL = _config.Value.AwsSqsServiceUrl;
@@ -69,7 +69,7 @@ namespace Dta.Marketplace.Subscribers.Email.Logger.Worker {
         private async void DoWork (object state) {
             var receiveMessageRequest = new ReceiveMessageRequest () {
                 AttributeNames = new List<string> () { "All" },
-                QueueUrl = _config.Value.AwsSqsQueueUrl,
+                QueueUrl = _config.Value.AwsSqsSESEPQueueUrl,
                 WaitTimeSeconds = _config.Value.AwsSqsLongPollTimeInSeconds,
                 MaxNumberOfMessages = 10
             };
@@ -104,7 +104,7 @@ namespace Dta.Marketplace.Subscribers.Email.Logger.Worker {
 
         private async Task DeleteMessage (Amazon.SQS.Model.Message message) {
             var deleteMessageRequest = new DeleteMessageRequest {
-                QueueUrl = _config.Value.AwsSqsQueueUrl,
+                QueueUrl = _config.Value.AwsSqsSESEPQueueUrl,
                 ReceiptHandle = message.ReceiptHandle
             };
             await _sqsClient.DeleteMessageAsync (deleteMessageRequest);
