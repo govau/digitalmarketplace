@@ -1,0 +1,10 @@
+applications:
+- name: dm-pc-email-logger
+  buildpack: dotnet_core_buildpack
+  path: ../subscribers/email.logger/worker
+  health-check-type: process
+  instances: 1
+  memory: 50M
+  disk_quota: 100M
+  services:
+  - ups-dm-pc-email-logger
