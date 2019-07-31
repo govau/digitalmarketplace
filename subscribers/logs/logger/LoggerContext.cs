@@ -11,8 +11,8 @@ namespace Dta.Marketplace.Subscribers.Logger.Worker
 {
     public partial class LoggerContext : DbContext, ILoggerContext
     {
-        
         private readonly IOptions<AppConfig> _config;
+
         public LoggerContext(IOptions<AppConfig> config)
         {
             _config = config;
