@@ -187,7 +187,6 @@ jobs:
       - cf_deploy:
           cf_app_name: dm-alpha-logger
           cf_manifest: logger.alpha.yml
-    #might need to add slack for alpha
 
   deploy_to_production:
     <<: *circleci_deploy
@@ -204,7 +203,6 @@ jobs:
           cf_password: $CF_PASSWORD_PROD
           cf_app_name: dm-logger
           cf_manifest: logger.prod.yml
-
 
 workflows:
   version: 2
