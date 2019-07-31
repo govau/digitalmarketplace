@@ -56,9 +56,12 @@ namespace Dta.Marketplace.Subscribers.Logger.Worker {
                             ac.AwsSqsRegion = awsSqsRegion;
                         }
                         ac.AwsSqsSecretAccessKey = Environment.GetEnvironmentVariable("AWS_SQS_SECRET_ACCESS_KEY");
-                        ac.BuyerSlackUrl = Environment.GetEnvironmentVariable("BUYER_SLACK_URL");
-                        ac.SupplierSlackUrl = Environment.GetEnvironmentVariable("SUPPLIER_SLACK_URL");// dont need this
-                        ac.UserSlackUrl = Environment.GetEnvironmentVariable("USER_SLACK_URL");// dont need this 
+                        ac.DbHost = Environment.GetEnvironmentVariable("DB_HOST");
+                        ac.DbPort = Environment.GetEnvironmentVariable("DB_PORT");
+                        ac.DbName = Environment.GetEnvironmentVariable("DB_NAME");
+                        ac.DbUsername = Environment.GetEnvironmentVariable("DB_USERNAME");
+                        ac.DbPassword = Environment.GetEnvironmentVariable("DB_PASSWORD");
+
                         var workIntervalInSeconds = Environment.GetEnvironmentVariable("WORK_INTERVAL_IN_SECONDS");
                         if (string.IsNullOrWhiteSpace(workIntervalInSeconds) == false) {
                             ac.WorkIntervalInSeconds = int.Parse(workIntervalInSeconds);
@@ -73,16 +76,12 @@ namespace Dta.Marketplace.Subscribers.Logger.Worker {
                         if (vcapServicesString != null) {
                             var vcapServices = VcapServices.FromJson(vcapServicesString);
                             var credentials = vcapServices.UserProvided.First().Credentials;
-
                             ac.AwsSqsAccessKeyId = credentials.AwsSqsAccessKeyId;
                             ac.AwsSqsQueueUrl = credentials.AwsSqsQueueUrl;
                             if (string.IsNullOrWhiteSpace(credentials.AwsSqsRegion) == false) {
                                 ac.AwsSqsRegion = credentials.AwsSqsRegion;
                             }
                             ac.AwsSqsSecretAccessKey = credentials.AwsSqsSecretAccessKey;
-                            ac.BuyerSlackUrl = credentials.BuyerSlackUrl;
-                            ac.SupplierSlackUrl = credentials.SupplierSlackUrl;
-                            ac.UserSlackUrl = credentials.UserSlackUrl;
                             if (credentials.WorkIntervalInSeconds != 0) {
                                 ac.WorkIntervalInSeconds = credentials.WorkIntervalInSeconds;
                             }
@@ -91,6 +90,13 @@ namespace Dta.Marketplace.Subscribers.Logger.Worker {
                             }
                             ac.SentryDsn = credentials.SentryDsn;
                             Sentry.SentrySdk.Init(ac.SentryDsn);
+
+                            var postgresCredentials = vcapServices.Postgres.First().Credentials;
+                            ac.DbHost = postgresCredentials.Host;
+                            ac.DbPort = postgresCredentials.Port;
+                            ac.DbName = postgresCredentials.DbName;
+                            ac.DbUsername = postgresCredentials.Username;
+                            ac.DbPassword = postgresCredentials.Password;
                         }
                      });
                     });

@@ -8,10 +8,13 @@ namespace Dta.Marketplace.Subscribers.Logger.Worker {
         public string AwsSqsAccessKeyId { get; set; }
         public string AwsSqsSecretAccessKey { get; set; }
         public int AwsSqsLongPollTimeInSeconds { get; set; } = 20;
-        public string SupplierSlackUrl { get; set; }
-        public string BuyerSlackUrl { get; set; }
-        public string UserSlackUrl { get; set; }
         public int WorkIntervalInSeconds { get; set; } = 60;
         public string SentryDsn { get; set; }
+
+        public string DbName { get; set; }
+        public string DbHost { get; set; }
+        public string DbPort { get; set; }
+        public string DbUsername { get; set; }
+        public string DbPassword { get; set; }
     }
 }

@@ -1,4 +1,7 @@
 ﻿using System;
+
+using Microsoft.Extensions.Options;
+using System.Data.Common;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using System.Configuration;
@@ -8,13 +11,17 @@ namespace Dta.Marketplace.Subscribers.Logger.Worker
 {
     public partial class LoggerContext : DbContext, ILoggerContext
     {
-        public LoggerContext()
+        
+        private readonly IOptions<AppConfig> _config;
+        public LoggerContext(IOptions<AppConfig> config)
         {
+            _config = config;
         }
 
-        public LoggerContext(DbContextOptions<LoggerContext> options)
+        public LoggerContext(DbContextOptions<LoggerContext> options, IOptions<AppConfig> config)
             : base(options)
         {
+            _config = config;
         }
 
         public virtual DbSet<LogEntry> LogEntry { get; set; }
@@ -22,7 +29,7 @@ namespace Dta.Marketplace.Subscribers.Logger.Worker
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured){
-                
+                optionsBuilder.UseNpgsql($"Host={_config.Value.DbHost};Port={_config.Value.DbPort};Database={_config.Value.DbName};Username={_config.Value.DbUsername};Password={_config.Value.DbPassword}");
             }
     
         }

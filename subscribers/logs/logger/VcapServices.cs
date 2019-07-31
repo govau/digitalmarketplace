@@ -19,6 +19,31 @@ namespace Dta.Marketplace.Subscribers.Logger.Worker{
     public partial class VcapServices {
         [JsonProperty("user-provided")]
         public List<UserProvided> UserProvided { get; set; }
+
+        [JsonProperty("postgres")]
+        public List<Postgres> Postgres { get; set; }
+    }
+
+    public partial class Postgres {
+
+        [JsonProperty("credentials")]
+        public PostgresCredentials Credentials { get; set; }
+    }
+   public partial class PostgresCredentials {
+        [JsonProperty("dbname")]
+        public string DbName { get; set; }
+
+        [JsonProperty("host")]
+        public string Host { get; set; }
+
+        [JsonProperty("password")]
+        public string Password { get; set; }
+
+        [JsonProperty("port")]
+        public string Port { get; set; }
+
+        [JsonProperty("username")]
+        public string Username { get; set; }
     }
 
     public partial class UserProvided {
