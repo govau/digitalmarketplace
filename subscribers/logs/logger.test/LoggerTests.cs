@@ -10,9 +10,9 @@ using Amazon.SQS.Model;
 
 using Microsoft.EntityFrameworkCore;
 
-namespace Dta.Marketplace.Subscribers.Logger.Worker.logger.Tests{
+namespace Dta.Marketplace.Subscribers.Logger.Worker.Logger.Tests{
 
-    public class loggerTests
+    public class LoggerTests
     {
 
          [Fact]

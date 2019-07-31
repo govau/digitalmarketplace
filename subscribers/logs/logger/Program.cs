@@ -44,7 +44,7 @@ namespace Dta.Marketplace.Subscribers.Logger.Worker {
                 .ConfigureServices((hostContext, services) => {
                     services.AddOptions();
                     services.AddSingleton<IHostedService, AppService>();
-                    services.AddSingleton(typeof(ILoggerAdapter<>),typeof(loggerAdapter<>));
+                    services.AddSingleton(typeof(ILoggerAdapter<>),typeof(LoggerAdapter<>));
                     services.AddTransient<IMessageProcessor, MessageProcessor>();
                     services.AddTransient<ILoggerContext, LoggerContext>();
                     services.Configure<AppConfig>(ac => {
