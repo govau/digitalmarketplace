@@ -71,10 +71,6 @@ namespace Dta.Marketplace.Subscribers.Logger.Worker{
             _logger.LogDebug("Heartbeat: {Now}", DateTime.Now);
             var receiveMessageResponse = await _sqsClient.ReceiveMessageAsync(receiveMessageRequest);
                 foreach (var message in receiveMessageResponse.Messages) {
-                    // _logger.LogDebug("Message Id: {MessageId}", message.MessageId);
-                    // _logger.LogInformation(message.Body);
-                    // _loggerContext.LogEntry.Add(new LogEntry { Data = message.Body });
-                    // _loggerContext.SaveChanges();
                     _messageProcessor.Process(message);
                     await DeleteMessage(message);
                 }

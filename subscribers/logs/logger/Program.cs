@@ -18,6 +18,7 @@ using System.Collections.Generic;
 using Npgsql;
 
 namespace Dta.Marketplace.Subscribers.Logger.Worker {
+
     class Program {
         static async Task Main(string[] args) {
             Log.Logger = new LoggerConfiguration()
@@ -67,8 +68,32 @@ namespace Dta.Marketplace.Subscribers.Logger.Worker {
                             ac.AwsSqsLongPollTimeInSeconds = int.Parse(awsSqsLongPollTimeInSeconds);
                         }
                         ac.SentryDsn = Environment.GetEnvironmentVariable("SENTRY_DSN");
+
+                        var vcapServicesString = Environment.GetEnvironmentVariable("VCAP_SERVICES");
+                        if (vcapServicesString != null) {
+                            var vcapServices = VcapServices.FromJson(vcapServicesString);
+                            var credentials = vcapServices.UserProvided.First().Credentials;
+
+                            ac.AwsSqsAccessKeyId = credentials.AwsSqsAccessKeyId;
+                            ac.AwsSqsQueueUrl = credentials.AwsSqsQueueUrl;
+                            if (string.IsNullOrWhiteSpace(credentials.AwsSqsRegion) == false) {
+                                ac.AwsSqsRegion = credentials.AwsSqsRegion;
+                            }
+                            ac.AwsSqsSecretAccessKey = credentials.AwsSqsSecretAccessKey;
+                            ac.BuyerSlackUrl = credentials.BuyerSlackUrl;
+                            ac.SupplierSlackUrl = credentials.SupplierSlackUrl;
+                            ac.UserSlackUrl = credentials.UserSlackUrl;
+                            if (credentials.WorkIntervalInSeconds != 0) {
+                                ac.WorkIntervalInSeconds = credentials.WorkIntervalInSeconds;
+                            }
+                            if (credentials.AwsSqsLongPollTimeInSeconds != 0) {
+                                ac.AwsSqsLongPollTimeInSeconds = credentials.AwsSqsLongPollTimeInSeconds;
+                            }
+                            ac.SentryDsn = credentials.SentryDsn;
+                            Sentry.SentrySdk.Init(ac.SentryDsn);
+                        }
+                     });
                     });
-                });
             await hostBuilder.RunConsoleAsync();
             Log.CloseAndFlush();
         }

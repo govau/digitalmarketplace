@@ -57,10 +57,7 @@ namespace Dta.Marketplace.Subscribers.Logger.Worker.logger.Tests{
         messageProcessor.Process(null);
 
         //Assert LogError  
-        //logger.Verify(l => l.LogError(nullJson, null), Times.Once);//"Null Error", null), Times.Once);
         logger.Verify( l => l.LogError(It.IsAny<string>(), It.IsAny<Exception>()), Times.Once);
-        //It.IsAny<EventId>(),It.IsAny<Exception>(),It.IsAny<Func<object, Exception, string>>()));
-        //It.Is<FormattedLogValues>(v => v.ToString().Contains("CreateInvoiceFailed")),
 
     }
     }
