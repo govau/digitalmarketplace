@@ -198,6 +198,10 @@ jobs:
           cf_password: $CF_PASSWORD_PROD
           cf_app_name: dm-slack-worker
           cf_manifest: slack-worker.prod.yml
+      - cf_deploy:
+          cf_url: https://api.system.b.cld.gov.au
+          cf_user: $CF_USER_PROD
+          cf_password: $CF_PASSWORD_PROD
           cf_app_name: dm-logger
           cf_manifest: logger.prod.yml
 
