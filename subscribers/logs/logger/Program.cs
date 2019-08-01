@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using Serilog;
 using Serilog.Sinks.PostgreSQL;
@@ -56,11 +57,7 @@ namespace Dta.Marketplace.Subscribers.Logger.Worker {
                             ac.AwsSqsRegion = awsSqsRegion;
                         }
                         ac.AwsSqsSecretAccessKey = Environment.GetEnvironmentVariable("AWS_SQS_SECRET_ACCESS_KEY");
-                        ac.DbHost = Environment.GetEnvironmentVariable("DB_HOST");
-                        ac.DbPort = Environment.GetEnvironmentVariable("DB_PORT");
-                        ac.DbName = Environment.GetEnvironmentVariable("DB_NAME");
-                        ac.DbUsername = Environment.GetEnvironmentVariable("DB_USERNAME");
-                        ac.DbPassword = Environment.GetEnvironmentVariable("DB_PASSWORD");
+                        ac.ConnectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING");
 
                         var workIntervalInSeconds = Environment.GetEnvironmentVariable("WORK_INTERVAL_IN_SECONDS");
                         if (string.IsNullOrWhiteSpace(workIntervalInSeconds) == false) {
@@ -92,13 +89,18 @@ namespace Dta.Marketplace.Subscribers.Logger.Worker {
                             Sentry.SentrySdk.Init(ac.SentryDsn);
 
                             var postgresCredentials = vcapServices.Postgres.First().Credentials;
-                            ac.DbHost = postgresCredentials.Host;
-                            ac.DbPort = postgresCredentials.Port;
-                            ac.DbName = postgresCredentials.DbName;
-                            ac.DbUsername = postgresCredentials.Username;
-                            ac.DbPassword = postgresCredentials.Password;
+                            ac.ConnectionString = $"Host={postgresCredentials.Host};Port={postgresCredentials.Port};Database={postgresCredentials.DbName};Username={postgresCredentials.Username};Password={postgresCredentials.Password}";
                         }
                      });
+                    var serviceProvider = services.BuildServiceProvider();
+                    var appConfigOptions = serviceProvider.GetService<IOptions<AppConfig>>();
+                    var appConfig = appConfigOptions.Value;
+
+                    services.AddEntityFrameworkNpgsql()
+                            .AddDbContext<LoggerContext>(options => {
+                                options.UseNpgsql(appConfig.ConnectionString);
+                            })
+                            .BuildServiceProvider();
                     });
             await hostBuilder.RunConsoleAsync();
             Log.CloseAndFlush();
