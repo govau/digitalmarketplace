@@ -47,7 +47,7 @@ namespace Dta.Marketplace.Subscribers.Logger.Worker {
                     services.AddSingleton<IHostedService, AppService>();
                     services.AddSingleton(typeof(ILoggerAdapter<>),typeof(LoggerAdapter<>));
                     services.AddTransient<IMessageProcessor, MessageProcessor>();
-                    services.AddTransient<ILoggerContext, LoggerContext>();
+                    // services.AddTransient<LoggerContext>();
                     services.Configure<AppConfig>(ac => {
                         ac.AwsSqsAccessKeyId = Environment.GetEnvironmentVariable("AWS_SQS_ACCESS_KEY_ID");
                         ac.AwsSqsQueueUrl = Environment.GetEnvironmentVariable("AWS_SQS_QUEUE_URL");

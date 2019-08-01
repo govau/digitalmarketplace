@@ -4,7 +4,7 @@ applications:
   path: ../subscribers/logs/logger
   health-check-type: process
   instances: 1
-  memory: 50M
+  memory: 128M
   disk_quota: 100M
   services:
   - ups-dm-alpha-logger

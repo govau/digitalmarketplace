@@ -15,12 +15,12 @@ namespace Dta.Marketplace.Subscribers.Logger.Worker{
     public class AppService : IHostedService, IDisposable {
         private readonly ILogger _logger;
         private readonly IOptions<AppConfig> _config;
-        private readonly ILoggerContext _loggerContext;
+        private readonly LoggerContext _loggerContext;
         private readonly IMessageProcessor _messageProcessor;
         private AmazonSQSClient _sqsClient;
         private Timer _timer;
 
-        public AppService(ILogger<AppService> logger, IOptions<AppConfig> config, ILoggerContext loggerContext, IMessageProcessor messageProcessor) {
+        public AppService(ILogger<AppService> logger, IOptions<AppConfig> config, LoggerContext loggerContext, IMessageProcessor messageProcessor) {
             _logger = logger;
             _config = config;
             _messageProcessor = messageProcessor;
