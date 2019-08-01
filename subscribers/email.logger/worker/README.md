@@ -1,6 +1,6 @@
 # Email Logger Notifier
 
-This small application is used for polling an AWS SQS queue to log emails and the resulting SNS notifications sent by the Digital Marketplace.
+This application is used to poll two AWS SQS queues. These queues contain information regarding emails sent from the Digital Marketplace. Two concurrent singletons run, one grabs the notification from the SES publishing event, the other grabs the body of the email sent from the API. The application saves these notifications to the database, and combines them when matching message_IDs are found.
 
 ## Environment Variables
 
