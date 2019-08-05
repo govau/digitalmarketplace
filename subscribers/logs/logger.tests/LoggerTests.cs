@@ -17,15 +17,19 @@ namespace Dta.Marketplace.Subscribers.Logger.Worker.Logger.Tests {
 
         [Fact]
         public void Can_log_information_message() {
+
             // Arrange
             var logger = new Mock<ILoggerAdapter<AppService>>();
             var dbSet = new Mock<DbSet<LogEntry>>();
             var connection = new SqliteConnection("DataSource=:memory:");
             connection.Open();
+            try {
+            //In-memory database only exists while the connection is open
             var options = new DbContextOptionsBuilder<LoggerContext>()
                         .UseSqlite(connection)
                         .Options;
 
+            //create schema in the database 
             using (var context = new LoggerContext(options)) {
                 context.Database.EnsureCreated();
             }
@@ -46,23 +50,28 @@ namespace Dta.Marketplace.Subscribers.Logger.Worker.Logger.Tests {
             using (var context = new LoggerContext(options)) {
                 logger.Verify(l => l.LogInformation(json), Times.Once);
             }
+        } 
+        finally{
+            connection.Close();
         }
+    }
 
 
         [Fact]
-        //this naming convention is allowed for unit testing Needs to be changed 
         public void Can_log_exception() {
             // Arrange
             var logger = new Mock<ILoggerAdapter<AppService>>();
             var dbSet = new Mock<DbSet<LogEntry>>();
             var connection = new SqliteConnection("DataSource=:memory:");
             connection.Open();
+            try{
             var options = new DbContextOptionsBuilder<LoggerContext>()
                         .UseSqlite(connection)
                         .Options;
+
             using (var context = new LoggerContext(options)) {
                 context.Database.EnsureCreated();
-            }
+            }   
             var json = JsonConvert.SerializeObject(new {
                 foo = ""
             });
@@ -76,6 +85,10 @@ namespace Dta.Marketplace.Subscribers.Logger.Worker.Logger.Tests {
             using (var context = new LoggerContext(options)) {
                 logger.Verify(l => l.LogError(It.IsAny<string>(), It.IsAny<Exception>()), Times.Once);
             }
+        }
+        finally{
+            connection.Close();
+        }
         }
     }
 }
