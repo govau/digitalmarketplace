@@ -11,7 +11,6 @@ using Dta.Marketplace.Subscribers.Slack.Worker.Processors;
 using Dta.Marketplace.Subscribers.Slack.Worker.Services;
 
 namespace Dta.Marketplace.Subscribers.Slack.Worker.Tests {
-    
     public class ApplicationMessageProcessorTest {
         [Fact]
         public async void CanProcessApplicationMessage() {
