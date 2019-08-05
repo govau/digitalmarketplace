@@ -1,6 +1,6 @@
-# Slack Notifier
+# SNS logger
 
-This small application is used for polling an AWS SQS queue to send slack notifications.
+This small application is used for polling an AWS SQS queue to log events. 
 
 ## Environment Variables
 
