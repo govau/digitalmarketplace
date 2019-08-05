@@ -69,7 +69,6 @@ namespace Dta.Marketplace.Subscribers.Slack.Worker {
             var receiveMessageResponse = await _sqsClient.ReceiveMessageAsync(receiveMessageRequest);
             foreach (var message in receiveMessageResponse.Messages) {
                 _logger.LogDebug("Message Id: {MessageId}", message.MessageId);
-                _logger.LogInformation(message.Body);
                 var awsSnsMessage = AwsSnsMessage.FromJson(message.Body);
                 var messageProcessor = _messageProcessor(awsSnsMessage.MessageAttributes.ObjectType.Value);
                 if (messageProcessor == null) {
