@@ -10,7 +10,7 @@ using Amazon.SQS;
 using Amazon.SQS.Model;
 using Newtonsoft.Json;
 
-namespace Dta.Marketplace.Subscribers.Logger.Worker{
+namespace Dta.Marketplace.Subscribers.Logger.Worker {
     public class AppService : IHostedService, IDisposable {
         private readonly ILogger _logger;
         private readonly IOptions<AppConfig> _config;
@@ -69,10 +69,10 @@ namespace Dta.Marketplace.Subscribers.Logger.Worker{
             };
             _logger.LogDebug("Heartbeat: {Now}", DateTime.Now);
             var receiveMessageResponse = await _sqsClient.ReceiveMessageAsync(receiveMessageRequest);
-                foreach (var message in receiveMessageResponse.Messages) {
-                    _messageProcessor.Process(message);
-                    await DeleteMessage(message);
-                }
+            foreach (var message in receiveMessageResponse.Messages) {
+                _messageProcessor.Process(message);
+                await DeleteMessage(message);
+            }
         }
 
         private async Task DeleteMessage(Message message) {
