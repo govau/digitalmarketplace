@@ -52,16 +52,19 @@ namespace Dta.Marketplace.Subscribers.Logger.Worker {
             _timer = new Timer(DoWork, null, TimeSpan.Zero, TimeSpan.FromSeconds(_config.Value.WorkIntervalInSeconds));
             return Task.CompletedTask;
         }
+        
         public Task StopAsync(CancellationToken cancellationToken) {
             _logger.LogInformation("Stopping daemon.");
             _timer?.Change(Timeout.Infinite, 0);
             return Task.CompletedTask;
         }
+
         public void Dispose() {
             _logger.LogInformation("Disposing....");
             _timer?.Dispose();
             _sqsClient?.Dispose();
         }
+
         private async void DoWork(object state) {
             var receiveMessageRequest = new ReceiveMessageRequest() {
                 QueueUrl = _config.Value.AwsSqsQueueUrl,
