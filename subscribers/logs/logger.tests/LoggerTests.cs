@@ -24,37 +24,36 @@ namespace Dta.Marketplace.Subscribers.Logger.Worker.Logger.Tests {
             var connection = new SqliteConnection("DataSource=:memory:");
             connection.Open();
             try {
-            //In-memory database only exists while the connection is open
-            var options = new DbContextOptionsBuilder<LoggerContext>()
-                        .UseSqlite(connection)
-                        .Options;
+                //In-memory database only exists while the connection is open
+                var options = new DbContextOptionsBuilder<LoggerContext>()
+                            .UseSqlite(connection)
+                            .Options;
 
-            //create schema in the database 
-            using (var context = new LoggerContext(options)) {
-                context.Database.EnsureCreated();
-            }
+                //create schema in the database 
+                using (var context = new LoggerContext(options)) {
+                    context.Database.EnsureCreated();
+                }
 
-            var json = JsonConvert.SerializeObject(new {
-                foo = "bar"
-            });
-
-            // Act
-            using (var context = new LoggerContext(options)) {
-                var messageProcessor = new MessageProcessor(logger.Object, context);
-                messageProcessor.Process(new Message {
-                    Body = json
+                var json = JsonConvert.SerializeObject(new {
+                    foo = "bar"
                 });
-            }
 
-            // Assert
-            using (var context = new LoggerContext(options)) {
-                logger.Verify(l => l.LogInformation(json), Times.Once);
+                // Act
+                using (var context = new LoggerContext(options)) {
+                    var messageProcessor = new MessageProcessor(logger.Object, context);
+                    messageProcessor.Process(new Message {
+                        Body = json
+                    });
+                }
+
+                // Assert
+                using (var context = new LoggerContext(options)) {
+                    logger.Verify(l => l.LogInformation(json), Times.Once);
+                }
+            } finally {
+                connection.Close();
             }
-        } 
-        finally{
-            connection.Close();
         }
-    }
 
 
         [Fact]
@@ -64,31 +63,30 @@ namespace Dta.Marketplace.Subscribers.Logger.Worker.Logger.Tests {
             var dbSet = new Mock<DbSet<LogEntry>>();
             var connection = new SqliteConnection("DataSource=:memory:");
             connection.Open();
-            try{
-            var options = new DbContextOptionsBuilder<LoggerContext>()
-                        .UseSqlite(connection)
-                        .Options;
+            try {
+                var options = new DbContextOptionsBuilder<LoggerContext>()
+                            .UseSqlite(connection)
+                            .Options;
 
-            using (var context = new LoggerContext(options)) {
-                context.Database.EnsureCreated();
-            }   
-            var json = JsonConvert.SerializeObject(new {
-                foo = ""
-            });
-            
-            //Act
-            using (var context = new LoggerContext(options)) {
-                var messageProcessor = new MessageProcessor(logger.Object, context);
-                messageProcessor.Process(null);
+                using (var context = new LoggerContext(options)) {
+                    context.Database.EnsureCreated();
+                }
+                var json = JsonConvert.SerializeObject(new {
+                    foo = ""
+                });
+
+                //Act
+                using (var context = new LoggerContext(options)) {
+                    var messageProcessor = new MessageProcessor(logger.Object, context);
+                    messageProcessor.Process(null);
+                }
+                //Assert
+                using (var context = new LoggerContext(options)) {
+                    logger.Verify(l => l.LogError(It.IsAny<string>(), It.IsAny<Exception>()), Times.Once);
+                }
+            } finally {
+                connection.Close();
             }
-            //Assert
-            using (var context = new LoggerContext(options)) {
-                logger.Verify(l => l.LogError(It.IsAny<string>(), It.IsAny<Exception>()), Times.Once);
-            }
-        }
-        finally{
-            connection.Close();
-        }
         }
     }
 }
