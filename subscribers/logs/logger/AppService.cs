@@ -58,6 +58,7 @@ namespace Dta.Marketplace.Subscribers.Logger.Worker{
             _timer?.Change(Timeout.Infinite, 0);
             return Task.CompletedTask;
         }
+
         public void Dispose() {
             _logger.LogInformation("Disposing....");
             _timer?.Dispose();
