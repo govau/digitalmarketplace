@@ -16,7 +16,7 @@ namespace Dta.Marketplace.Subscribers.Logger.Worker.Logger.Tests {
     public class LoggerTests {
 
         [Fact]
-        public void Can_log_information_message() {
+        public void Can_Log_Information_Message() {
 
             // Arrange
             var logger = new Mock<ILoggerAdapter<AppService>>();
@@ -57,7 +57,7 @@ namespace Dta.Marketplace.Subscribers.Logger.Worker.Logger.Tests {
 
 
         [Fact]
-        public void Can_log_exception() {
+        public void Can_Log_Exception() {
             // Arrange
             var logger = new Mock<ILoggerAdapter<AppService>>();
             var dbSet = new Mock<DbSet<LogEntry>>();
