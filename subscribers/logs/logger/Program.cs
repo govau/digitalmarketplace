@@ -13,7 +13,7 @@ using Newtonsoft.Json;
 using Serilog;
 using Serilog.Sinks.PostgreSQL;
 using Serilog.Configuration;
-using Serilog.Core; 
+using Serilog.Core;
 using Serilog.Events;
 using System.Collections.Generic;
 using Npgsql;
@@ -37,7 +37,7 @@ namespace Dta.Marketplace.Subscribers.Logger.Worker {
                         app.AddCommandLine(args);
                     }
                 })
-                .ConfigureLogging((hostContext, logging) => { 
+                .ConfigureLogging((hostContext, logging) => {
                     logging.AddConfiguration(hostContext.Configuration.GetSection("Logging"));
                     logging.AddConsole();
                 })
@@ -45,7 +45,7 @@ namespace Dta.Marketplace.Subscribers.Logger.Worker {
                 .ConfigureServices((hostContext, services) => {
                     services.AddOptions();
                     services.AddSingleton<IHostedService, AppService>();
-                    services.AddSingleton(typeof(ILoggerAdapter<>),typeof(LoggerAdapter<>));
+                    services.AddSingleton(typeof(ILoggerAdapter<>), typeof(LoggerAdapter<>));
                     services.AddTransient<IMessageProcessor, MessageProcessor>();
                     services.Configure<AppConfig>(ac => {
                         ac.AwsSqsAccessKeyId = Environment.GetEnvironmentVariable("AWS_SQS_ACCESS_KEY_ID");
@@ -90,7 +90,7 @@ namespace Dta.Marketplace.Subscribers.Logger.Worker {
                             var postgresCredentials = vcapServices.Postgres.First().Credentials;
                             ac.ConnectionString = $"Host={postgresCredentials.Host};Port={postgresCredentials.Port};Database={postgresCredentials.DbName};Username={postgresCredentials.Username};Password={postgresCredentials.Password}";
                         }
-                     });
+                    });
                     var serviceProvider = services.BuildServiceProvider();
                     var appConfigOptions = serviceProvider.GetService<IOptions<AppConfig>>();
                     var appConfig = appConfigOptions.Value;
@@ -100,7 +100,7 @@ namespace Dta.Marketplace.Subscribers.Logger.Worker {
                                 options.UseNpgsql(appConfig.ConnectionString);
                             })
                             .BuildServiceProvider();
-                    });
+                });
             await hostBuilder.RunConsoleAsync();
             Log.CloseAndFlush();
         }
