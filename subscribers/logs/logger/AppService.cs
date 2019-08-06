@@ -52,6 +52,7 @@ namespace Dta.Marketplace.Subscribers.Logger.Worker{
             _timer = new Timer(DoWork, null, TimeSpan.Zero, TimeSpan.FromSeconds(_config.Value.WorkIntervalInSeconds));
             return Task.CompletedTask;
         }
+        
         public Task StopAsync(CancellationToken cancellationToken) {
             _logger.LogInformation("Stopping daemon.");
             _timer?.Change(Timeout.Infinite, 0);
