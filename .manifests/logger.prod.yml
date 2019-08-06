@@ -1,0 +1,11 @@
+applications:
+- name: dm-logger
+  buildpack: dotnet_core_buildpack
+  path: ../subscribers/logs/logger
+  health-check-type: process
+  instances: 1
+  memory: 128M
+  disk_quota: 100M
+  services:
+  - ups-dm-logger
+  - db-service-dm-logger

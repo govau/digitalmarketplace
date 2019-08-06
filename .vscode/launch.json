@@ -5,7 +5,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": ".NET Core Launch (console)",
+            "name": "Launch slack worker",
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
@@ -20,6 +20,25 @@
                 "AWS_SQS_SERVICE_URL": "http://localhost:4576",
                 "WORK_INTERVAL_IN_SECONDS": "5",
                 "AWS_SQS_LONG_POLL_TIME_IN_SECONDS": "1"
+            }
+        },
+        {
+            "name": "Launch logger worker",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/subscribers/logs/logger/bin/Debug/netcoreapp2.2/logger.worker.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/subscribers/logs/logger",
+            "console": "internalConsole",
+            "stopAtEntry": false,
+            "internalConsoleOptions": "openOnSessionStart",
+            "env": {
+                "AWS_SQS_QUEUE_URL": "http://localhost:4576/queue/dta-marketplace-local-logger",
+                "AWS_SQS_SERVICE_URL": "http://localhost:4576",
+                "WORK_INTERVAL_IN_SECONDS": "5",
+                "AWS_SQS_LONG_POLL_TIME_IN_SECONDS": "1",
+                "AWS_SQS_REGION": "ap-southeast-2"
             }
         },
         {
