@@ -1,8 +1,9 @@
-using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Moq;
 using Newtonsoft.Json;
+using System;
+using System.Threading.Tasks;
 using Xunit;
 using Dta.Marketplace.Subscribers.Slack.Worker;
 using Dta.Marketplace.Subscribers.Slack.Worker.Model;
