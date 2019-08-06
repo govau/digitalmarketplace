@@ -44,8 +44,8 @@ const fillAbout = async (title: string, locations: string[]) => {
   await utils.matchText("li", "Enter a summary of your brief");
   await utils.matchText("li", "You must select at least one location");
   await utils.type("title", { value: title });
-  await utils.type("organisation", { numberOfCharacters: 100 });
-  await utils.type("summary", { numberOfWords: 150 });
+  await utils.type("organisation", { numberOfCharacters: 150 });
+  await utils.type("summary", { numberOfWords: 200 });
 
   locations.forEach(async (location) => {
     await utils.selectCheck(location);
@@ -79,7 +79,7 @@ const fillObjectives = async () => {
   await utils.type("outcome", { numberOfWords: 500 });
   await utils.type("endUsers", { numberOfWords: 500 });
   await utils.type("workAlreadyDone", { numberOfWords: 500 });
-  await utils.type("industryBriefing", { numberOfWords: 500 });
+  await utils.type("industryBriefing", { numberOfWords: 150 });
   await utils.upload("file_0", "document.pdf");
   await clickSaveContinue();
 };
