@@ -1,4 +1,3 @@
-/* */
 using Amazon;
 using System;
 using System.Threading;
