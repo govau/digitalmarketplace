@@ -10,7 +10,7 @@ namespace Dta.Marketplace.Subscribers.Logger.Worker
         private readonly ILoggerAdapter<AppService> _logger; 
         private readonly LoggerContext _loggerContext;
 
-        public MessageProcessor(ILoggerAdapter<AppService> logger, LoggerContext loggerContext){ 
+        public MessageProcessor(ILoggerAdapter<AppService> logger, LoggerContext loggerContext) { 
             _logger = logger;
             _loggerContext = loggerContext;
         }
