@@ -64,6 +64,7 @@ namespace Dta.Marketplace.Subscribers.Logger.Worker{
             _timer?.Dispose();
             _sqsClient?.Dispose();
         }
+
         private async void DoWork(object state) {
             var receiveMessageRequest = new ReceiveMessageRequest() {
                 QueueUrl = _config.Value.AwsSqsQueueUrl,
