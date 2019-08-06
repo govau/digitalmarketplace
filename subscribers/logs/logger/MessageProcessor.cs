@@ -14,6 +14,7 @@ namespace Dta.Marketplace.Subscribers.Logger.Worker
             _logger = logger;
             _loggerContext = loggerContext;
         }
+
         public void Process(Message message) {
             try {
                 _logger.LogInformation(message.Body);
