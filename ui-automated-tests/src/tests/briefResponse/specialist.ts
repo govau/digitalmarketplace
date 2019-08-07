@@ -25,6 +25,7 @@ describe("create and respond to specialist opportunity", () => {
       title,
     });
   });
+
   it("should be able to respond to specialist opportunity", async () => {
     await sellerLogin();
     for (let i = 0; i < parseInt(brief.numberOfSuppliers, 10); i += 1) {

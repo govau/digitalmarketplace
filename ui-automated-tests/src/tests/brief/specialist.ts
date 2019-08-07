@@ -17,6 +17,7 @@ describe("should be able to create specialist opportunity", () => {
     11: "Data science",
     13: "Emerging technologies",
   };
+
   Object.keys(categories).forEach((id) => {
     it(`should be able to create ${categories[id]} specalist opportunity`, async () => {
       const now = Date.now();

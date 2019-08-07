@@ -18,6 +18,7 @@ describe("create and respond to RFXs brief", () => {
       title,
     });
   });
+
   it("should be able to respond RFXs brief", async () => {
     await sellerLogin();
     await navigate();
