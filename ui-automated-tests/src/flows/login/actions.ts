@@ -46,8 +46,8 @@ export const sellerLogin = async (email?: string, password?: string) => {
 };
 
 export const signOut = async (userType: string) => {
-  if (userType === 'buyer') {
-    await utils.clickLink('Menu');
+  if (userType === "buyer") {
+    await utils.clickLink("Menu");
   }
 
   await utils.clickLink("Sign out");
