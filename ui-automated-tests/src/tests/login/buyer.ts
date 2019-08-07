@@ -23,7 +23,7 @@ describe("should sign in", function() {
   });
   it("seller should be able to login", async function() {
     await sellerLogin(process.env.SELLER_EMAIL, process.env.SELLER_PASSWORD);
-    await util.matchText("h1", "Opportunities");
+    await util.matchText("h1", "Dashboard");
     await signOut();
   });
 });
