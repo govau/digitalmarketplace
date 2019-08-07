@@ -19,11 +19,11 @@ describe("should sign in", function() {
   it("buyer should be able to login", async function() {
     await buyerLogin(process.env.BUYER_EMAIL, process.env.BUYER_PASSWORD);
     await util.matchText("h1", "Dashboard");
-    await signOut();
+    await signOut('buyer');
   });
   it("seller should be able to login", async function() {
     await sellerLogin(process.env.SELLER_EMAIL, process.env.SELLER_PASSWORD);
     await util.matchText("h1", "Dashboard");
-    await signOut();
+    await signOut('seller');
   });
 });
