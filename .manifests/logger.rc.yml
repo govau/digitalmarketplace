@@ -8,3 +8,4 @@ applications:
   disk_quota: 100M
   services:
   - ups-dm-rc-logger
+  - db-service-dm-rc-logger
