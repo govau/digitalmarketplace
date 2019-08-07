@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
-    <ProjectReference Include="../logger/worker.csproj" />
+    <ProjectReference Include="../worker/worker.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -17,7 +17,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
-    <AssemblyName>Logger.Worker.logger.Tests</AssemblyName>
+    <AssemblyName>Logger.Worker.Tests</AssemblyName>
   </PropertyGroup>
 
 </Project>

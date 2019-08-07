@@ -92,7 +92,7 @@ jobs:
       - dot_net_build: 
           path: "subscribers/slack/worker"
       - dot_net_build: 
-          path: "subscribers/logs/logger"
+          path: "subscribers/logs/worker"
       - persist_to_workspace:
           root: .
           paths:
@@ -120,7 +120,7 @@ jobs:
       - dot_net_test:
           path: "subscribers/slack/worker.tests"
       - dot_net_test:
-          path: "subscribers/logs/logger.tests"
+          path: "subscribers/logs/worker.tests"
       - persist_to_workspace:
           root: .
           paths:
