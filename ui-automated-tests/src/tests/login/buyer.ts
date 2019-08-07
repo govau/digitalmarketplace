@@ -7,6 +7,7 @@ describe("should fail sign in", function() {
     { args: ["a@b.cm", ""], expected: ["a", "You must provide your password"] },
     { args: ["a@b.cm", "a"], expected: ["p", "Make sure you've entered the right email address and password."] },
   ];
+
   testCases.forEach(async (test) => {
     it(`sign in fails ${test.args.length} args`, async function() {
       await buyerLogin(test.args[0], test.args[1]);
@@ -21,6 +22,7 @@ describe("should sign in", function() {
     await util.matchText("h1", "Dashboard");
     await signOut('buyer');
   });
+
   it("seller should be able to login", async function() {
     await sellerLogin(process.env.SELLER_EMAIL, process.env.SELLER_PASSWORD);
     await util.matchText("h1", "Dashboard");
