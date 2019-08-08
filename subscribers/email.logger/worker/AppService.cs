@@ -17,9 +17,7 @@ namespace Dta.Marketplace.Subscribers.Email.Logger.Worker {
         private readonly ILogger _logger;
         private readonly IOptions<AppConfig> _config;
         private AmazonSQSClient _sqsClient;
-
         private readonly Func<string, IEmailLogProcessor> _emailLogProcessor;
-
         private Timer _timer;
 
         public AppService (ILogger<AppService> logger, IOptions<AppConfig> config, Func<string, IEmailLogProcessor> emailLogProcessor) {
