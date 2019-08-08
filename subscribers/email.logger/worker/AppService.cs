@@ -1,15 +1,12 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 using Amazon;
 using Amazon.SQS;
 using Amazon.SQS.Model;
 using Dta.Marketplace.Subscribers.Email.Logger.Worker.Model;
 using Dta.Marketplace.Subscribers.Email.Logger.Worker.Processors;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -34,13 +31,14 @@ namespace Dta.Marketplace.Subscribers.Email.Logger.Worker {
         public Task StartAsync (CancellationToken cancellationToken) {
             _logger.LogInformation ("Starting daemon: Email Logging. {Timer}", new {
                 _config.Value.AwsSqsLongPollTimeInSeconds,
-                    _config.Value.WorkIntervalInSeconds,
-                    sentryEnabled = string.IsNullOrWhiteSpace (_config.Value.SentryDsn) ? false : true
+                _config.Value.WorkIntervalInSeconds,
+                sentryEnabled = string.IsNullOrWhiteSpace (_config.Value.SentryDsn) ? false : true
             });
 
             var sqsConfig = new AmazonSQSConfig {
-                RegionEndpoint = RegionEndpoint.GetBySystemName (_config.Value.AwsSqsSESEPRegion)
+                RegionEndpoint = RegionEndpoint.GetBySystemName (_config.Value.AwsSqsRegion)
             };
+            sqsConfig.RegionEndpoint =RegionEndpoint.USWest2;
             if (string.IsNullOrWhiteSpace (_config.Value.AwsSqsServiceUrl) == false) {
                 sqsConfig.ServiceURL = _config.Value.AwsSqsServiceUrl;
             }
@@ -69,7 +67,7 @@ namespace Dta.Marketplace.Subscribers.Email.Logger.Worker {
         private async void DoWork (object state) {
             var receiveMessageRequest = new ReceiveMessageRequest () {
                 AttributeNames = new List<string> () { "All" },
-                QueueUrl = _config.Value.AwsSqsSESEPQueueUrl,
+                QueueUrl = _config.Value.AwsSqsQueueUrl,
                 WaitTimeSeconds = _config.Value.AwsSqsLongPollTimeInSeconds,
                 MaxNumberOfMessages = 10
             };
@@ -104,7 +102,7 @@ namespace Dta.Marketplace.Subscribers.Email.Logger.Worker {
 
         private async Task DeleteMessage (Amazon.SQS.Model.Message message) {
             var deleteMessageRequest = new DeleteMessageRequest {
-                QueueUrl = _config.Value.AwsSqsSESEPQueueUrl,
+                QueueUrl = _config.Value.AwsSqsQueueUrl,
                 ReceiptHandle = message.ReceiptHandle
             };
             await _sqsClient.DeleteMessageAsync (deleteMessageRequest);

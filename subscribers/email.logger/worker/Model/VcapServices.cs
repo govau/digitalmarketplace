@@ -19,7 +19,11 @@ namespace Dta.Marketplace.Subscribers.Email.Logger.Worker.Model {
     public partial class VcapServices {
         [JsonProperty("user-provided")]
         public List<UserProvided> UserProvided { get; set; }
+        
+        [JsonProperty("postgres")]
+        public List<Postgres> Postgres { get; set; }
     }
+  
 
     public partial class UserProvided {
         [JsonProperty("label")]
@@ -47,21 +51,31 @@ namespace Dta.Marketplace.Subscribers.Email.Logger.Worker.Model {
         public List<object> VolumeMounts { get; set; }
     }
 
+    public partial class Postgres {
+       [JsonProperty("credentials")]
+       public PostgresCredentials Credentials { get; set; }
+    }
     public partial class Credentials {
         [JsonProperty("AWS_SQS_ACCESS_KEY_ID")]
         public string AwsSqsAccessKeyId { get; set; }
 
-        [JsonProperty("AWS_SQS_SESEP_QUEUE_URL")]
-        public string AwsSqsSESEPQueueUrl { get; set; }
-
-        [JsonProperty("AWS_SQS_SESEP_REGION")]
-        public string AwsSqsSESEPRegion { get; set; }
-        
         [JsonProperty("AWS_SQS_QUEUE_URL")]
         public string AwsSqsQueueUrl { get; set; }
 
         [JsonProperty("AWS_SQS_REGION")]
         public string AwsSqsRegion { get; set; }
+        
+        [JsonProperty("AWS_SQS_BODY_QUEUE_URL")]
+        public string AwsSqsBodyQueueUrl { get; set; }
+        
+        [JsonProperty("AWS_SQS_SERVICE_URL")]
+        public string AwsSqsServiceUrl { get; set; }
+        
+        [JsonProperty("AWS_SQS_BODY_SERVICE_URL")]
+        public string AwsSqsBodyServiceUrl { get; set; }
+
+        [JsonProperty("AWS_SQS_BODY_REGION")]
+        public string AwsSqsBodyRegion { get; set; }
 
         [JsonProperty("AWS_SQS_SECRET_ACCESS_KEY")]
         public string AwsSqsSecretAccessKey { get; set; }
@@ -75,7 +89,19 @@ namespace Dta.Marketplace.Subscribers.Email.Logger.Worker.Model {
         [JsonProperty("SENTRY_DSN")]
         public string SentryDsn { get; set; }
     }
-
+    
+    public partial class PostgresCredentials {
+       [JsonProperty("dbname")]
+       public string DbName { get; set; }
+       [JsonProperty("host")]
+       public string Host { get; set; }
+       [JsonProperty("password")]
+       public string Password { get; set; }
+       [JsonProperty("port")]
+       public string Port { get; set; }
+       [JsonProperty("username")]
+       public string Username { get; set; }
+   }
     public partial class VcapServices {
         public static VcapServices FromJson(string json) => JsonConvert.DeserializeObject<VcapServices>(json, Converter.Settings);
     }

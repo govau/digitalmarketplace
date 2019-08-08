@@ -38,18 +38,19 @@ namespace Dta.Marketplace.Subscribers.Email.Logger.Worker {
                     services.Configure<AppConfig>(hostContext.Configuration);
                     services.Configure<AppConfig>(ac => {
                         ac.AwsSqsAccessKeyId = Environment.GetEnvironmentVariable("AWS_SQS_ACCESS_KEY_ID");
-                        ac.AwsSqsSESEPQueueUrl = Environment.GetEnvironmentVariable("AWS_SQS_SESEP_QUEUE_URL");
+                        ac.AwsSqsSecretAccessKey = Environment.GetEnvironmentVariable("AWS_SQS_SECRET_ACCESS_KEY");
+                        ac.AwsSqsQueueUrl = Environment.GetEnvironmentVariable("AWS_SQS_QUEUE_URL");
+                        ac.AwsSqsBodyServiceUrl = Environment.GetEnvironmentVariable("AWS_SQS_BODY_SERVICE_URL");
                         ac.AwsSqsServiceUrl = Environment.GetEnvironmentVariable("AWS_SQS_SERVICE_URL");
-                        ac.AwsSqsQueueUrl = Environment.GetEnvironmentVariable("AWS_SQS_LOGGER_QUEUE_URL");
-                        var awsSqsSESEPRegion = Environment.GetEnvironmentVariable("AWS_SQS_SESEP_REGION");
-                        if (string.IsNullOrWhiteSpace(awsSqsSESEPRegion) == false) {
-                            ac.AwsSqsSESEPRegion = awsSqsSESEPRegion;
-                        }
+                        ac.AwsSqsBodyQueueUrl = Environment.GetEnvironmentVariable("AWS_SQS_BODY_QUEUE_URL");
                         var awsSqsRegion = Environment.GetEnvironmentVariable("AWS_SQS_REGION");
                         if (string.IsNullOrWhiteSpace(awsSqsRegion) == false) {
                             ac.AwsSqsRegion = awsSqsRegion;
                         }
-                        ac.AwsSqsSecretAccessKey = Environment.GetEnvironmentVariable("AWS_SQS_SECRET_ACCESS_KEY");
+                        var awsSqsBodyRegion = Environment.GetEnvironmentVariable("AWS_SQS_BODY_REGION");
+                        if (string.IsNullOrWhiteSpace(awsSqsRegion) == false) {
+                            ac.AwsSqsBodyRegion = awsSqsBodyRegion;
+                        }
                         var workIntervalInSeconds = Environment.GetEnvironmentVariable("WORK_INTERVAL_IN_SECONDS");
                         if (string.IsNullOrWhiteSpace(workIntervalInSeconds) == false) {
                             ac.WorkIntervalInSeconds = int.Parse(workIntervalInSeconds);
@@ -59,16 +60,20 @@ namespace Dta.Marketplace.Subscribers.Email.Logger.Worker {
                             ac.AwsSqsLongPollTimeInSeconds = int.Parse(awsSqsLongPollTimeInSeconds);
                         }
                         ac.SentryDsn = Environment.GetEnvironmentVariable("SENTRY_DSN");
-
+                        
                         var vcapServicesString = Environment.GetEnvironmentVariable("VCAP_SERVICES");
                         if (vcapServicesString != null) {
                             var vcapServices = VcapServices.FromJson(vcapServicesString);
                             var credentials = vcapServices.UserProvided.First().Credentials;
 
                             ac.AwsSqsAccessKeyId = credentials.AwsSqsAccessKeyId;
-                            ac.AwsSqsSESEPQueueUrl = credentials.AwsSqsSESEPQueueUrl;
-                            if (string.IsNullOrWhiteSpace(credentials.AwsSqsSESEPRegion) == false) {
-                                ac.AwsSqsSESEPRegion = credentials.AwsSqsSESEPRegion;
+                            ac.AwsSqsQueueUrl = credentials.AwsSqsQueueUrl;
+                            ac.AwsSqsBodyQueueUrl = credentials.AwsSqsBodyQueueUrl;
+                            if (string.IsNullOrWhiteSpace(credentials.AwsSqsRegion) == false) {
+                                ac.AwsSqsRegion = credentials.AwsSqsRegion;
+                            }
+                            if (string.IsNullOrWhiteSpace(credentials.AwsSqsBodyRegion) == false) {
+                                ac.AwsSqsBodyRegion = credentials.AwsSqsBodyRegion;
                             }
                             ac.AwsSqsSecretAccessKey = credentials.AwsSqsSecretAccessKey;
                             if (credentials.WorkIntervalInSeconds != 0) {
@@ -79,9 +84,10 @@ namespace Dta.Marketplace.Subscribers.Email.Logger.Worker {
                             }
                             ac.SentryDsn = credentials.SentryDsn;
                             Sentry.SentrySdk.Init(ac.SentryDsn);
-                        }
+                            var postgresCredentials = vcapServices.Postgres.First().Credentials;
+                            ac.ConnectionString = $"Host={postgresCredentials.Host};Port={postgresCredentials.Port};Database={postgresCredentials.DbName};Username={postgresCredentials.Username};Password={postgresCredentials.Password}";
+                            };
                     });
-
                    
                     services.AddSingleton<IHostedService, AppService>();
                     services.AddSingleton<IHostedService, AppBodyService>();
