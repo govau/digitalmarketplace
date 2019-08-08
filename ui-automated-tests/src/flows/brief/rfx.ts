@@ -56,8 +56,8 @@ const fillAbout = async (role: string, locations: string[]) => {
   await utils.matchText("li", "You must add the working arrangements");
   await utils.matchText("li", "You must select a location of where the work can be done");
   await utils.type("title", { value: role });
-  await utils.type("organisation", { numberOfCharacters: 100 });
-  await utils.type("summary", { numberOfWords: 150 });
+  await utils.type("organisation", { numberOfCharacters: 150 });
+  await utils.type("summary", { numberOfWords: 200 });
 
   locations.forEach(async (location) => {
     await utils.selectCheck(location);

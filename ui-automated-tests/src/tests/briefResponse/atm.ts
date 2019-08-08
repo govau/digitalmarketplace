@@ -8,6 +8,7 @@ describe("should be able to create and respond to ask the market brief", () => {
   const now = Date.now();
   const title = `Ask the market ${now.valueOf()}`;
   let brief: IAtmResult = null;
+
   it("should be able to create ask the market brief", async () => {
     await buyerLogin();
     await startBrief();
@@ -16,6 +17,7 @@ describe("should be able to create and respond to ask the market brief", () => {
       title,
     });
   });
+
   it("should be able to respond to ask the market brief", async () => {
     await sellerLogin();
     await navigate();

@@ -7,6 +7,7 @@ import { applyForTraining, navigate, selectBrief, viewTrainingApplication } from
 describe("should be able to create and respond to training brief", () => {
   const now = Date.now();
   const title = `Digital Training ${now.valueOf()}`;
+
   it(`should create digital training brief`, async () => {
     await buyerLogin();
     await startBrief();
@@ -16,6 +17,7 @@ describe("should be able to create and respond to training brief", () => {
       title,
     });
   });
+
   it(`should be able to respond to training brief`, async () => {
     await sellerLogin();
     await navigate();
