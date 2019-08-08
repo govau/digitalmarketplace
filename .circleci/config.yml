@@ -91,6 +91,8 @@ jobs:
       - checkout
       - dot_net_build: 
           path: "subscribers/slack/worker"
+      - dot_net_build: 
+          path: "subscribers/logs/worker"
       - persist_to_workspace:
           root: .
           paths:
@@ -117,6 +119,8 @@ jobs:
           at: .
       - dot_net_test:
           path: "subscribers/slack/worker.tests"
+      - dot_net_test:
+          path: "subscribers/logs/worker.tests"
       - persist_to_workspace:
           root: .
           paths:
@@ -153,6 +157,9 @@ jobs:
       - cf_deploy:
           cf_app_name: dm-rc-slack-worker
           cf_manifest: slack-worker.rc.yml
+      - cf_deploy:
+          cf_app_name: dm-rc-logger
+          cf_manifest: logger.rc.yml    
 
   deploy_to_production_clone:
     <<: *circleci_deploy
@@ -160,6 +167,9 @@ jobs:
       - cf_deploy:
           cf_app_name: dm-pc-slack-worker
           cf_manifest: slack-worker.pc.yml
+      - cf_deploy:
+          cf_app_name: dm-pc-logger
+          cf_manifest: logger.pc.yml
 
   deploy_to_staging:
     <<: *circleci_deploy
@@ -167,6 +177,16 @@ jobs:
       - cf_deploy:
           cf_app_name: dm-dev-slack-worker
           cf_manifest: slack-worker.dev.yml
+      - cf_deploy:
+          cf_app_name: dm-dev-logger
+          cf_manifest: logger.dev.yml
+
+  deploy_to_alpha:
+    <<: *circleci_deploy
+    steps:
+      - cf_deploy:
+          cf_app_name: dm-alpha-logger
+          cf_manifest: logger.alpha.yml
 
   deploy_to_production:
     <<: *circleci_deploy
@@ -177,7 +197,12 @@ jobs:
           cf_password: $CF_PASSWORD_PROD
           cf_app_name: dm-slack-worker
           cf_manifest: slack-worker.prod.yml
-
+      - cf_deploy:
+          cf_url: https://api.system.b.cld.gov.au
+          cf_user: $CF_USER_PROD
+          cf_password: $CF_PASSWORD_PROD
+          cf_app_name: dm-logger
+          cf_manifest: logger.prod.yml
 
 workflows:
   version: 2
@@ -211,6 +236,14 @@ workflows:
           filters:
             tags:
               only: /[0-9]+(\.[0-9]+)*/
+      - deploy_to_alpha:
+          requires:
+            - run_dot_net_tests
+          filters:
+            tags:
+              ignore: /.*/
+            branches:
+              only: alpha
       - deploy_to_rc:
           requires:
             - run_dot_net_tests
