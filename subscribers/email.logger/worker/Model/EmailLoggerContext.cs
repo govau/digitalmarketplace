@@ -4,13 +4,13 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace Dta.Marketplace.Subscribers.Email.Logger.Worker
 {
-    public partial class digitalmarketplaceemailloggerContext : DbContext
+    public partial class EmailLoggerContext : DbContext
     {
-        public digitalmarketplaceemailloggerContext()
+        public EmailLoggerContext()
         {
         }
 
-        public digitalmarketplaceemailloggerContext(DbContextOptions<digitalmarketplaceemailloggerContext> options)
+        public EmailLoggerContext(DbContextOptions<EmailLoggerContext> options)
             : base(options)
         {
         }

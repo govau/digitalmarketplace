@@ -9,7 +9,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace worker.Migrations
 {
-    [DbContext(typeof(digitalmarketplaceemailloggerContext))]
+    [DbContext(typeof(EmailLoggerContext))]
     [Migration("20190801005558_InitialCreate")]
     partial class InitialCreate
     {

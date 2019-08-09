@@ -21,7 +21,7 @@ namespace Dta.Marketplace.Subscribers.Email.Logger.Worker.Services {
 
             DateTime timeStampDT = DateTime.Parse (dataDictToBeStored["EmailTimestamp"]).ToUniversalTime ();
             var emailBodyLogToBeStored = new EmailLogging ();
-            using (var db = new digitalmarketplaceemailloggerContext ()) {
+            using (var db = new EmailLoggerContext ()) {
                 var matchingDbLogList = db.EmailLogging
                     .Where (l => l.Message_Id == dataDictToBeStored["EmailMessageId"])
                     .ToList ();

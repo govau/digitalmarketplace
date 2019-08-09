@@ -8,7 +8,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace worker.Migrations
 {
-    [DbContext(typeof(digitalmarketplaceemailloggerContext))]
+    [DbContext(typeof(EmailLoggerContext))]
     partial class digitalmarketplaceemailloggerContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
