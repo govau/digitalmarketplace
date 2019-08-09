@@ -18,13 +18,13 @@ namespace Dta.Marketplace.Subscribers.Email.Logger.Worker.Tests {
         [Fact]
         public void CanProcessEmailDeliveryNotificationMessage() {
             //Given
-            
-            Dictionary <string, string> dataDictToBeStored = new Dictionary<string, string>() {
-                { "NotificationBodyMessageId", "0000000000000000-00000000-0000-0000-0000-000000000000-000000" }, 
-                { "NotificationBodyTopicARN", "NotificationTestBodyTopicARN" }, 
-                { "NotificationBodyType", "Delivery" }, 
-                { "NotificationBodyTimestamp", "1561095094474" }, 
-                { "NotificationBodyMailSource", "Example Agency <No-reply@example.com>" }, 
+
+            Dictionary<string, string> dataDictToBeStored = new Dictionary<string, string>() {
+                { "NotificationBodyMessageId", "0000000000000000-00000000-0000-0000-0000-000000000000-000000" },
+                { "NotificationBodyTopicARN", "NotificationTestBodyTopicARN" },
+                { "NotificationBodyType", "Delivery" },
+                { "NotificationBodyTimestamp", "1561095094474" },
+                { "NotificationBodyMailSource", "Example Agency <No-reply@example.com>" },
                 { "NotificationBodyCommonHeadersSubject", "ExampleSubject" },
                 { "NotificationBodyDeliveryTimestamp", "Permanent" },
                 { "NotificationBodyDeliveryProcessingTimeMs", "1234" },
@@ -50,13 +50,13 @@ namespace Dta.Marketplace.Subscribers.Email.Logger.Worker.Tests {
                     Timestamp = "1561095094474",
                     MessageId = "0000000000000000-00000000-0000-0000-0000-000000000000-000000",
                     TopicArn = "NotificationTestBodyTopicARN",
-                    Message =  JsonConvert.SerializeObject(new {
+                    Message = JsonConvert.SerializeObject(new {
                         NotificationType = "Delivery",
                         Mail = new {
-                            Timestamp= "1561095094474",
+                            Timestamp = "1561095094474",
                             Source = "Example Agency <No-reply@example.com>",
                             MessageId = "0000000000000000-00000000-0000-0000-0000-000000000000-000000",
-                            Destination = new List <string> () {
+                            Destination = new List<string>() {
                                 "Email_Body_Log"
                             },
                             CommonHeaders = new {

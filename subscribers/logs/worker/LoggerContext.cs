@@ -1,11 +1,6 @@
 ﻿using System;
-
-using Microsoft.Extensions.Options;
-using System.Data.Common;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
-using System.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Dta.Marketplace.Subscribers.Logger.Worker {
     public partial class LoggerContext : DbContext {

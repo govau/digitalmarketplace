@@ -12,11 +12,11 @@ namespace Dta.Marketplace.Subscribers.Email.Logger.Worker.Processors {
     public abstract class AbstractEmailLogProcessor : IEmailLogProcessor {
         protected readonly ILogger _logger;
         protected readonly IOptions<AppConfig> _config;
-        
-       public AbstractEmailLogProcessor(ILogger<AppService> logger, IOptions<AppConfig> config) {
-           _logger = logger;
-           _config = config;
-      }
+
+        public AbstractEmailLogProcessor(ILogger<AppService> logger, IOptions<AppConfig> config) {
+            _logger = logger;
+            _config = config;
+        }
 
         public bool ProcessMessage(AwsSqsMessage awsSqsMessage) {
             return Process(awsSqsMessage);
