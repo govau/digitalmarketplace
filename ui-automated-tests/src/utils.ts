@@ -15,6 +15,7 @@ export const getElementHandles = async (xpath: string): Promise<ElementHandle[]>
   }
   return results;
 };
+
 export const getElementHandle = async (xpath: string): Promise<ElementHandle> => {
   const elements = await this.getElementHandles(xpath);
   if (elements.length > 1) {
@@ -24,6 +25,7 @@ export const getElementHandle = async (xpath: string): Promise<ElementHandle> =>
   }
   return elements[0];
 };
+
 export const selectCheck = async (value: string, attribute?: string) => {
   if (!attribute) {
     attribute = "value";
@@ -32,6 +34,7 @@ export const selectCheck = async (value: string, attribute?: string) => {
   const radio = await this.getElementHandle(`//input[@${attribute}="${value}"]`);
   await radio.press("Space");
 };
+
 export const selectRadio = async (value: string, attribute?: string) => {
   if (!attribute) {
     attribute = "value";
@@ -40,6 +43,7 @@ export const selectRadio = async (value: string, attribute?: string) => {
   const radio = await this.getElementHandle(`//input[@${attribute}="${value}"]`);
   await radio.press("Space");
 };
+
 const words = (numberOfWords: number, numberOfCharacters: number): string => {
   let text = randomWords({ exactly: numberOfWords }).join(" ");
 
@@ -48,6 +52,7 @@ const words = (numberOfWords: number, numberOfCharacters: number): string => {
   }
   return text;
 };
+
 export const type = async (id: string, options: {
   value?: string,
   numberOfWords?: number,
@@ -73,6 +78,7 @@ export const type = async (id: string, options: {
 
   return value;
 };
+
 export const upload = async (id: string, file: string, title?: string) => {
   let xpath = `//input[@id="${id}" and @type="file"]`;
   if (title) {
@@ -82,16 +88,19 @@ export const upload = async (id: string, file: string, title?: string) => {
   const input = await this.getElementHandle(xpath);
   await input.uploadFile(file);
 };
+
 export const clickButton = async (value: string) => {
   console.log(`Clicking button "//button[.="${value}"]"`);
   const button = await this.getElementHandle(`//button[.="${value}"]`);
   await button.click();
 };
+
 export const clickInputButton = async (value: string) => {
   console.log(`Clicking input button "//input[@value="${value}"]"`);
   const button = await this.getElementHandle(`//input[@value="${value}"]`);
   await button.click();
 };
+
 export const clickLink = async (linkText: string, isUrl?: boolean) => {
   console.log(`Clicking link "${linkText}"`);
   let links;
@@ -108,11 +117,13 @@ export const clickLink = async (linkText: string, isUrl?: boolean) => {
   await links[0].click();
   console.log(`Clicked link "${linkText}"`);
 };
+
 export const matchText = async (tag: string, text: string) => {
   console.log(`matching text: '//${tag}[contains(text(), "${text}")]'`);
   const elementHandles = await this.getElementHandles(`//${tag}[contains(text(), "${text}")]`);
   expect(elementHandles.length).to.equal(1, `No text found using '//${tag}[contains(text(), "${text}")]'`);
 };
+
 export const sleep = async (ms: number): Promise<NodeJS.Timeout> => {
   console.log(`Sleeping for ${ms} milliseconds`);
   return new Promise((resolve) => setTimeout(resolve, ms));

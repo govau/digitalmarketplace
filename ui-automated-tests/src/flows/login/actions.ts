@@ -45,7 +45,11 @@ export const sellerLogin = async (email?: string, password?: string) => {
   await login(email, password);
 };
 
-export const signOut = async () => {
+export const signOut = async (userType: string) => {
+  if (userType === "buyer") {
+    await utils.clickLink("Menu");
+  }
+
   await utils.clickLink("Sign out");
   await utils.matchText("h1", "Sign in to the Marketplace");
 };
