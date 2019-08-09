@@ -62,9 +62,7 @@ namespace Dta.Marketplace.Subscribers.Email.Logger.Worker.Tests {
                 MessageId = "0000000000000000-00000000-0000-0000-0000-000000000000-000000"
             };
 
-
             var emailBodyLogProcessor = new EmailBodyLogProcessor(logger.Object, config.Object, saveEmailBodyService.Object);
-
 
             saveEmailBodyService.Setup(sebs => sebs.SaveEmailBodyMessage(dataDictToBeStored)).Returns(true);
             var result = emailBodyLogProcessor.Process(awsSqsMessage);
