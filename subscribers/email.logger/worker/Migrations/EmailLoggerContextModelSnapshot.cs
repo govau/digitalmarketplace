@@ -3,17 +3,15 @@ using System;
 using Dta.Marketplace.Subscribers.Email.Logger.Worker;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace worker.Migrations
 {
     [DbContext(typeof(EmailLoggerContext))]
-    [Migration("20190801005558_InitialCreate")]
-    partial class InitialCreate
+    partial class EmailLoggerContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -29,7 +27,7 @@ namespace worker.Migrations
 
                     b.Property<string>("Data")
                         .HasColumnName("data")
-                        .HasColumnType("json");
+                        .HasColumnType("jsonb");
 
                     b.Property<DateTime>("DateTimeSent")
                         .HasColumnName("date_time_sent");
@@ -38,12 +36,10 @@ namespace worker.Migrations
                         .HasColumnName("message_id");
 
                     b.Property<string>("Notification_Type")
-                        .HasColumnName("notification_type")
-                        .HasColumnType("character varying");
+                        .HasColumnName("notification_type");
 
                     b.Property<string>("Subject")
-                        .HasColumnName("subject")
-                        .HasColumnType("character varying");
+                        .HasColumnName("subject");
 
                     b.HasKey("Id");
 

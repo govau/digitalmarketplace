@@ -14,11 +14,11 @@ namespace worker.Migrations
                 {
                     id = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    notification_type = table.Column<string>(type: "character varying", nullable: true),
+                    notification_type = table.Column<string>(nullable: true),
                     message_id = table.Column<string>(nullable: true),
                     date_time_sent = table.Column<DateTime>(nullable: false),
-                    data = table.Column<string>(type: "json", nullable: true),
-                    subject = table.Column<string>(type: "character varying", nullable: true)
+                    data = table.Column<string>(type: "jsonb", nullable: true),
+                    subject = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {

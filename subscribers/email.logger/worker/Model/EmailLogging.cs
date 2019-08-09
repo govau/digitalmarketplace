@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Dta.Marketplace.Subscribers.Email.Logger.Worker
 {
+    [Table("email_logging")]
     public partial class EmailLogging
     {
         [Column("id")]
