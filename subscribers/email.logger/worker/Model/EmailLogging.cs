@@ -12,10 +12,10 @@ namespace Dta.Marketplace.Subscribers.Email.Logger.Worker
         public int Id { get; set; }
         
         [Column("notification_type")]
-        public string Notification_Type { get; set; }
+        public string NotificationType { get; set; }
         
         [Column("message_id")]
-        public string Message_Id { get; set; }
+        public string MessageId { get; set; }
         
         [Column("date_time_sent")]
         public DateTime DateTimeSent { get; set; }

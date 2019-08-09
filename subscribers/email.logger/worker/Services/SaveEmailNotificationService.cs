@@ -30,14 +30,14 @@ namespace Dta.Marketplace.Subscribers.Email.Logger.Worker.Services {
             using (var db = new EmailLoggerContext ()) {
 
                 var matchingDbLogList = db.EmailLogging
-                    .Where (l => l.Message_Id == dataDictToBeStored["NotificationBodyMessageId"])
+                    .Where (l => l.MessageId == dataDictToBeStored["NotificationBodyMessageId"])
                     .ToList ();
 
                 if (matchingDbLogList.Count == 0) {
                     var jsonDataToBeStored = JsonConvert.SerializeObject (dataDictToBeStored);
-                    emailNotificationLogToBeStored.Message_Id = dataDictToBeStored["NotificationBodyMessageId"];
+                    emailNotificationLogToBeStored.MessageId = dataDictToBeStored["NotificationBodyMessageId"];
                     emailNotificationLogToBeStored.Data = jsonDataToBeStored;
-                    emailNotificationLogToBeStored.Notification_Type = dataDictToBeStored["NotificationBodyType"];
+                    emailNotificationLogToBeStored.NotificationType = dataDictToBeStored["NotificationBodyType"];
                     emailNotificationLogToBeStored.DateTimeSent = timeStampDT;
                     emailNotificationLogToBeStored.Subject = dataDictToBeStored["NotificationBodyCommonHeadersSubject"];
                     db.EmailLogging.Add (emailNotificationLogToBeStored);
@@ -53,7 +53,7 @@ namespace Dta.Marketplace.Subscribers.Email.Logger.Worker.Services {
                         }
                         var jsonDataToBeStored = JsonConvert.SerializeObject (unifiedDictToBeStored);
                         existingLogInDb.Data = jsonDataToBeStored;
-                        existingLogInDb.Notification_Type = dataDictToBeStored["NotificationBodyType"];
+                        existingLogInDb.NotificationType = dataDictToBeStored["NotificationBodyType"];
                         db.SaveChanges ();
                     }
                 }

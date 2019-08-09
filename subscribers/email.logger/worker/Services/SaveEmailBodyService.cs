@@ -23,11 +23,11 @@ namespace Dta.Marketplace.Subscribers.Email.Logger.Worker.Services {
             var emailBodyLogToBeStored = new EmailLogging ();
             using (var db = new EmailLoggerContext ()) {
                 var matchingDbLogList = db.EmailLogging
-                    .Where (l => l.Message_Id == dataDictToBeStored["EmailMessageId"])
+                    .Where (l => l.MessageId == dataDictToBeStored["EmailMessageId"])
                     .ToList ();
                 if (matchingDbLogList.Count == 0) {
                     var jsonDataToBeStored = JsonConvert.SerializeObject (dataDictToBeStored);
-                    emailBodyLogToBeStored.Message_Id = dataDictToBeStored["EmailMessageId"];
+                    emailBodyLogToBeStored.MessageId = dataDictToBeStored["EmailMessageId"];
                     emailBodyLogToBeStored.Data = jsonDataToBeStored;
                     emailBodyLogToBeStored.DateTimeSent = timeStampDT;
                     emailBodyLogToBeStored.Subject = dataDictToBeStored["EmailSubject"];

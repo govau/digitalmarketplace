@@ -5,8 +5,6 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 using Serilog;
 using Dta.Marketplace.Subscribers.Email.Logger.Worker.Processors;
 using Dta.Marketplace.Subscribers.Email.Logger.Worker.Services;
@@ -60,7 +58,7 @@ namespace Dta.Marketplace.Subscribers.Email.Logger.Worker {
                             ac.AwsSqsLongPollTimeInSeconds = int.Parse(awsSqsLongPollTimeInSeconds);
                         }
                         ac.SentryDsn = Environment.GetEnvironmentVariable("SENTRY_DSN");
-                        
+                        ac.ConnectionString = Environment.GetEnvironmentVariable("");
                         var vcapServicesString = Environment.GetEnvironmentVariable("VCAP_SERVICES");
                         if (vcapServicesString != null) {
                             var vcapServices = VcapServices.FromJson(vcapServicesString);
@@ -98,7 +96,6 @@ namespace Dta.Marketplace.Subscribers.Email.Logger.Worker {
                     services.AddTransient<IEmailBodyService, SaveEmailBodyService>();
                     services.AddTransient<IEmailService, SaveEmailNotificationService>();
                     services.AddTransient<IEmailLogProcessor, EmailBodyLogProcessor>();
-                    
                     services.AddTransient<Func<string, IEmailLogProcessor>>(sp => key => {
                         switch (key) {
                             case "Delivery":
