@@ -21,7 +21,7 @@ namespace Dta.Marketplace.Subscribers.Email.Logger.Worker
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=digitalmarketplaceemaillogger;Username=postgres;Password=password");
+                optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=emaillogger;Username=postgres;Password=password");
             }
         }
     }
