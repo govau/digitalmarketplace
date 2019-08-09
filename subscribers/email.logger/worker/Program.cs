@@ -6,6 +6,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
+using Npgsql;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Dta.Marketplace.Subscribers.Email.Logger.Worker.Processors;
 using Dta.Marketplace.Subscribers.Email.Logger.Worker.Services;
 using Dta.Marketplace.Subscribers.Email.Logger.Worker.Model;
@@ -58,7 +61,7 @@ namespace Dta.Marketplace.Subscribers.Email.Logger.Worker {
                             ac.AwsSqsLongPollTimeInSeconds = int.Parse(awsSqsLongPollTimeInSeconds);
                         }
                         ac.SentryDsn = Environment.GetEnvironmentVariable("SENTRY_DSN");
-                        ac.ConnectionString = Environment.GetEnvironmentVariable("");
+                        ac.ConnectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING");
                         var vcapServicesString = Environment.GetEnvironmentVariable("VCAP_SERVICES");
                         if (vcapServicesString != null) {
                             var vcapServices = VcapServices.FromJson(vcapServicesString);
@@ -108,6 +111,14 @@ namespace Dta.Marketplace.Subscribers.Email.Logger.Worker {
                                 return null;
                         }
                     });
+                    var serviceProvider = services.BuildServiceProvider();
+                    var appConfigOptions = serviceProvider.GetService<IOptions<AppConfig>>();
+                    var appConfig = appConfigOptions.Value;
+                    services.AddEntityFrameworkNpgsql()
+                            .AddDbContext<EmailLoggerContext>(options => {
+                                options.UseNpgsql(appConfig.ConnectionString);
+                            })
+                            .BuildServiceProvider();
                 });
 
             await builder.RunConsoleAsync();
