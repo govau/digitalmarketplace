@@ -19,7 +19,6 @@ using System.Collections.Generic;
 using Npgsql;
 
 namespace Dta.Marketplace.Subscribers.Logger.Worker {
-
     class Program {
         static async Task Main(string[] args) {
             Log.Logger = new LoggerConfiguration()

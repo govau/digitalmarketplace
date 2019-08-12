@@ -12,12 +12,9 @@ using Amazon.SQS.Model;
 using Microsoft.EntityFrameworkCore;
 
 namespace Dta.Marketplace.Subscribers.Logger.Worker.Logger.Tests {
-
     public class LoggerTests {
-
         [Fact]
         public void Can_Log_Information_Message() {
-
             // Arrange
             var logger = new Mock<ILoggerAdapter<AppService>>();
             var dbSet = new Mock<DbSet<LogEntry>>();
