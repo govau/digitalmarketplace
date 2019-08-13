@@ -47,9 +47,9 @@ const fillAbout = async (title: string, locations: string[]) => {
   await utils.type("organisation", { numberOfCharacters: 150 });
   await utils.type("summary", { numberOfWords: 200 });
 
-  locations.forEach(async (location) => {
+  for (const location of locations) {
     await utils.selectCheck(location);
-  });
+  }
 
   await clickSaveContinue();
 };

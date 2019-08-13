@@ -20,25 +20,10 @@ const selectDropBox = async () => {
   const sellerName = process.env.SELLER_NAME;
   await utils.sleep(100);
   await utils.type("seller-search", { value: sellerName });
-  let searchResult = await utils.getElementHandles(`//input[@id="seller-search"]/../../ul/li[1]/a`);
-  let sr = searchResult[0];
+  const searchResult = await utils.getElementHandles(`//input[@id="seller-search"]/../../ul/li[1]/a`);
+  const sr = searchResult[0];
   sr.click();
 
-  await utils.type("seller-search", { value: "%%%" });
-  searchResult = await utils.getElementHandles('//input[@id="seller-search"]/../../ul/li');
-  const resultCount = searchResult.length;
-  for (let i = 1; i <= resultCount; i += 1) {
-    if (i > 1) {
-      // eslint-disable-next-line no-await-in-loop
-      await utils.sleep(100);
-      // eslint-disable-next-line no-await-in-loop
-      await utils.type("seller-search", { value: "%%%" });
-    }
-    // eslint-disable-next-line no-await-in-loop
-    searchResult = await utils.getElementHandles(`//input[@id="seller-search"]/../../ul/li[${i}]/a`);
-    sr = searchResult[0];
-    sr.click();
-  }
   await clickSaveContinue();
 };
 
@@ -59,9 +44,9 @@ const fillAbout = async (role: string, locations: string[]) => {
   await utils.type("organisation", { numberOfCharacters: 150 });
   await utils.type("summary", { numberOfWords: 200 });
 
-  locations.forEach(async (location) => {
+  for (const location of locations) {
     await utils.selectCheck(location);
-  });
+  }
 
   await utils.type("working_arrangements", { numberOfCharacters: 150 });
   await utils.type("clearance", { numberOfCharacters: 100 });

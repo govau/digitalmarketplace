@@ -40,9 +40,9 @@ const fillAbout = async (role: string, locations: string[]) => {
   await utils.type("title", { value: role });
   await utils.type("summary", { numberOfWords: 1000 });
 
-  locations.forEach(async (location) => {
+  for (const location of locations) {
     await utils.selectCheck(location);
-  });
+  }
 
   await clickSaveContinue();
 };
@@ -92,7 +92,7 @@ const fillSelectionCriteria = async (): Promise<ISelectionCriteria> => {
   };
 };
 
-const fillSellerResponses = async (): Promise<{numberOfSuppliers: string}> => {
+const fillSellerResponses = async (): Promise<{ numberOfSuppliers: string }> => {
   await clickSaveContinue();
   await utils.matchText("li", "You must define the security clearance requirements");
 

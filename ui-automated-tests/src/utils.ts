@@ -31,8 +31,8 @@ export const selectCheck = async (value: string, attribute?: string) => {
     attribute = "value";
   }
   console.log(`Selecting check box "//input[@${attribute}="${value}"]"`);
-  const radio = await this.getElementHandle(`//input[@${attribute}="${value}"]`);
-  await radio.press("Space");
+  const checkbox = await this.getElementHandle(`//input[@${attribute}="${value}"]`);
+  checkbox.click();
 };
 
 export const selectRadio = async (value: string, attribute?: string) => {

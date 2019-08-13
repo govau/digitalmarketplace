@@ -8,12 +8,12 @@ describe("should fail sign in", function() {
     { args: ["a@b.cm", "a"], expected: ["p", "Make sure you've entered the right email address and password."] },
   ];
 
-  testCases.forEach(async (test) => {
+  for (const test of testCases) {
     it(`sign in fails ${test.args.length} args`, async function() {
       await buyerLogin(test.args[0], test.args[1]);
       await util.matchText(test.expected[0], test.expected[1]);
     });
-  });
+  }
 });
 
 describe("should sign in", function() {
