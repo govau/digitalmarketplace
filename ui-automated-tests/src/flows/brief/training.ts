@@ -7,7 +7,7 @@ const clickSaveContinue = async () => {
 };
 
 const createBrief = async () => {
-  await utils.clickLink("Training (new)");
+  await utils.clickLink("Training");
   await utils.clickLink("Create and publish request");
   await utils.clickButton("Start now");
 };
@@ -119,7 +119,7 @@ const fillPublishBrief = async () => {
 };
 
 const create = async (params: { title: string, locations: string[] }) => {
-  console.log("Starting to create outcome RXF brief");
+  console.log("Starting to create training brief");
   await createBrief();
   await fillWhoCanRespond();
   await fillAbout(params.title, params.locations);
