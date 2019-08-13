@@ -64,6 +64,7 @@ const fillResponseFormats = async () => {
   await utils.selectCheck("References");
   await utils.selectCheck("Résumés");
   await utils.selectCheck("Response template");
+  await utils.selectCheck("Interview");
   await utils.selectCheck("Presentation");
   await clickSaveContinue();
 };
@@ -90,14 +91,12 @@ const fillTimeframesAndBudget = async () => {
 
 const fillEvaluationCriteria = async () => {
   await clickSaveContinue();
-  await utils.matchText("li", "You must not have any empty criteria.");
-  await utils.matchText("li", "Weightings must be greater than 0.");
-  await utils.matchText("li", "You must not have any empty criteria.");
+  await utils.matchText("li", "You cannot have blank essential criteria.");
   await utils.clickLink("Add another criteria");
-  await utils.type("criteria_0", { numberOfWords: 50 });
-  await utils.type("weighting_0", { value: "50" });
-  await utils.type("criteria_1", { numberOfWords: 50 });
-  await utils.type("weighting_1", { value: "50" });
+  await utils.type("essential_criteria_0", { numberOfWords: 50 });
+  await utils.type("essential_weighting_0", { value: "50" });
+  await utils.type("essential_criteria_1", { numberOfWords: 50 });
+  await utils.type("essential_weighting_1", { value: "50" });
   await clickSaveContinue();
 };
 
