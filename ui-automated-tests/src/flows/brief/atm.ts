@@ -2,7 +2,7 @@ import { format } from "date-fns";
 import * as utils from "../../utils";
 
 export interface ICriteriaItem {
-  criteria: string;
+  criterion: string;
   weighting: string;
 }
 
@@ -97,7 +97,7 @@ const fillResponseCriteria = async (numberOfCriteria: number): Promise<ICriteria
   await clickSaveContinue();
   await utils.matchText("li", "You must not have any empty criteria.");
   await utils.selectCheck("yes");
-  const criteria = [];
+  const criteria: ICriteriaItem[] = [];
   for (let i = 0; i < numberOfCriteria; i += 1) {
     if (i > 0) {
       // eslint-disable-next-line no-await-in-loop
