@@ -24,7 +24,7 @@
     "build": "tsc",
     "lint": "tslint --project ./",
     "lint:fix": "tslint --project ./ --fix",
-    "test": "mocha 'src/**/*.ts' -r ts-node/register --no-timeouts --recursive "
+    "test": "mocha 'src/**/*.ts' -r ts-node/register --no-timeouts --recursive --retries 2"
   },
   "author": "",
   "license": "MIT"
