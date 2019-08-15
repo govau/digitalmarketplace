@@ -87,8 +87,13 @@ const fillTimeframesAndBudget = async () => {
 };
 
 const fillEvaluationCriteria = async () => {
+  await utils.selectCheck("includeWeightingsNiceToHave", "id");
   await clickSaveContinue();
   await utils.matchText("li", "You cannot have blank essential criteria.");
+  await utils.matchText("li", "Essential weightings must be greater than 0.");
+  await utils.matchText("li", "You cannot have blank essential criteria.");
+  await utils.matchText("li", "Desirable weightings must add up to 100%.");
+  await utils.selectCheck("includeWeightingsNiceToHave", "id");
   await utils.clickLink("Add another criteria");
   await utils.type("essential_criteria_0", { numberOfWords: 50 });
   await utils.type("essential_weighting_0", { value: "50" });
