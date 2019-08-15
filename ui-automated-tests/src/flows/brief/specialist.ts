@@ -139,6 +139,8 @@ const fillAdditionalInformation = async () => {
   await utils.matchText("li", "Contact number is required");
   await utils.upload("file_0", "document.pdf", "Additional documents (optional)");
   await utils.type("contactNumber", { value: "01234455667733" });
+  await utils.selectCheck("comprehensiveTerms", "id");
+  await utils.type("internalReference", { numberOfCharacters: 100 });
   await clickSaveContinue();
 };
 

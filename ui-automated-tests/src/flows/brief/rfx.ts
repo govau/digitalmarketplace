@@ -110,6 +110,8 @@ const fillClosingDate = async () => {
   await utils.type("month", { value: `${format(future, "MM")}` });
   await utils.type("year", { value: `${format(future, "YYYY")}` });
   await utils.type("contact", { value: "0123456789" });
+  await utils.selectCheck("comprehensiveTerms", "id");
+  await utils.type("internalReference", { numberOfCharacters: 100 });
   await clickSaveContinue();
 };
 
