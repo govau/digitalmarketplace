@@ -34,7 +34,6 @@ const fillWhoCanRespond = async () => {
 const fillAbout = async (role: string, locations: string[]) => {
   await clickSaveContinue();
   await utils.matchText("li", "You must add a title");
-  await utils.matchText("li", "You must add the name of your department, agency or organisation");
   await utils.matchText("li", "You must add a summary of work to be done");
   await utils.matchText("li", "You must add the working arrangements");
   await utils.matchText("li", "You must select a location of where the work can be done");
