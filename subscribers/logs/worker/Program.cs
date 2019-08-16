@@ -4,24 +4,15 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
 using Serilog;
-using Serilog.Sinks.PostgreSQL;
-using Serilog.Configuration;
-using Serilog.Core;
-using Serilog.Events;
-using System.Collections.Generic;
-using Npgsql;
 
 namespace Dta.Marketplace.Subscribers.Logger.Worker {
-
-    class Program {
-        static async Task Main(string[] args) {
+    public class Program {
+        public static async Task Main(string[] args) {
             Log.Logger = new LoggerConfiguration()
                         .MinimumLevel.Debug()
                         .WriteTo.Console()
@@ -45,18 +36,23 @@ namespace Dta.Marketplace.Subscribers.Logger.Worker {
                 .ConfigureServices((hostContext, services) => {
                     services.AddOptions();
                     services.AddSingleton<IHostedService, AppService>();
-                    services.AddSingleton(typeof(ILoggerAdapter<>), typeof(LoggerAdapter<>));
                     services.AddTransient<IMessageProcessor, MessageProcessor>();
                     services.Configure<AppConfig>(ac => {
                         ac.AwsSqsAccessKeyId = Environment.GetEnvironmentVariable("AWS_SQS_ACCESS_KEY_ID");
                         ac.AwsSqsQueueUrl = Environment.GetEnvironmentVariable("AWS_SQS_QUEUE_URL");
-                        ac.AwsSqsServiceUrl = Environment.GetEnvironmentVariable("AWS_SQS_SERVICE_URL");
+                        var serviceUrl = Environment.GetEnvironmentVariable("AWS_SQS_SERVICE_URL");
+                        if (string.IsNullOrWhiteSpace(serviceUrl) == false) {
+                            ac.AwsSqsServiceUrl = serviceUrl;
+                        }
                         var awsSqsRegion = Environment.GetEnvironmentVariable("AWS_SQS_REGION");
                         if (string.IsNullOrWhiteSpace(awsSqsRegion) == false) {
                             ac.AwsSqsRegion = awsSqsRegion;
                         }
                         ac.AwsSqsSecretAccessKey = Environment.GetEnvironmentVariable("AWS_SQS_SECRET_ACCESS_KEY");
-                        ac.ConnectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING");
+                        var connectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING");
+                        if (string.IsNullOrWhiteSpace(connectionString) == false) {
+                            ac.ConnectionString = connectionString;
+                        }
 
                         var workIntervalInSeconds = Environment.GetEnvironmentVariable("WORK_INTERVAL_IN_SECONDS");
                         if (string.IsNullOrWhiteSpace(workIntervalInSeconds) == false) {
