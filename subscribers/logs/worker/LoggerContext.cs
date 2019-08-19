@@ -1,5 +1,4 @@
 ﻿using System;
-
 using Microsoft.Extensions.Options;
 using System.Data.Common;
 using Microsoft.EntityFrameworkCore;
@@ -11,7 +10,6 @@ namespace Dta.Marketplace.Subscribers.Logger.Worker {
     public partial class LoggerContext : DbContext {
         public LoggerContext() {
         }
-
         public LoggerContext(DbContextOptions<LoggerContext> options)
             : base(options) {
         }
