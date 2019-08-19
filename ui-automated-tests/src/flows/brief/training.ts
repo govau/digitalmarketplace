@@ -13,9 +13,6 @@ const createBrief = async () => {
 };
 
 const selectDropBox = async () => {
-  const sellerCategory = process.env.SELLER_CATEGORY;
-  await Global.page.select(`#seller-search-category-select`, sellerCategory);
-
   const sellerName = process.env.SELLER_NAME;
   await utils.sleep(100);
   await utils.type("seller-search", { value: sellerName });
@@ -27,7 +24,7 @@ const selectDropBox = async () => {
 
 const fillWhoCanRespond = async () => {
   await clickSaveContinue();
-  await utils.matchText("li", "You must select at least one panel category");
+  await utils.matchText("li", "You must select at least one seller");
   await selectDropBox();
 };
 
@@ -38,7 +35,6 @@ const fillAbout = async (role: string, locations: string[]) => {
   await utils.matchText("li", "You must add the working arrangements");
   await utils.matchText("li", "You must select a location of where the work can be done");
   await utils.type("title", { value: role });
-  await utils.type("organisation", { numberOfCharacters: 150 });
   await utils.type("summary", { numberOfWords: 200 });
 
   for (const location of locations) {
