@@ -14,7 +14,7 @@ using System.Globalization;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
-namespace Dta.Marketplace.Subscribers.Logger.Worker{
+namespace Dta.Marketplace.Subscribers.Logger.Worker {
 
     public partial class VcapServices {
         [JsonProperty("user-provided")]
@@ -29,7 +29,7 @@ namespace Dta.Marketplace.Subscribers.Logger.Worker{
         [JsonProperty("credentials")]
         public PostgresCredentials Credentials { get; set; }
     }
-   public partial class PostgresCredentials {
+    public partial class PostgresCredentials {
         [JsonProperty("dbname")]
         public string DbName { get; set; }
 

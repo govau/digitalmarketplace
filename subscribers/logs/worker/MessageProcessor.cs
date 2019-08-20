@@ -3,14 +3,12 @@ using System.Collections.Generic;
 using Microsoft.Extensions.Logging;
 using Amazon.SQS.Model;
 
-namespace Dta.Marketplace.Subscribers.Logger.Worker
-{
-    public class MessageProcessor: Exception, IMessageProcessor
-    {
-        private readonly ILoggerAdapter<AppService> _logger; 
+namespace Dta.Marketplace.Subscribers.Logger.Worker {
+    public class MessageProcessor : Exception, IMessageProcessor {
+        private readonly ILoggerAdapter<AppService> _logger;
         private readonly LoggerContext _loggerContext;
 
-        public MessageProcessor(ILoggerAdapter<AppService> logger, LoggerContext loggerContext) { 
+        public MessageProcessor(ILoggerAdapter<AppService> logger, LoggerContext loggerContext) {
             _logger = logger;
             _loggerContext = loggerContext;
         }
@@ -20,8 +18,7 @@ namespace Dta.Marketplace.Subscribers.Logger.Worker
                 _logger.LogInformation(message.Body);
                 _loggerContext.LogEntry.Add(new LogEntry { Data = message.Body });
                 _loggerContext.SaveChanges();
-            }
-            catch(Exception ex) {
+            } catch (Exception ex) {
                 _logger.LogError("Unable to process", ex);
             }
         }
