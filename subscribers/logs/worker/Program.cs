@@ -14,7 +14,7 @@ namespace Dta.Marketplace.Subscribers.Logger.Worker {
     public class Program {
         public static async Task Main(string[] args) {
             Log.Logger = new LoggerConfiguration()
-                        .MinimumLevel.Debug()
+                        .MinimumLevel.Information()
                         .WriteTo.Console()
                         .WriteTo.Sentry(o => {
                             o.MinimumEventLevel = Serilog.Events.LogEventLevel.Information;
