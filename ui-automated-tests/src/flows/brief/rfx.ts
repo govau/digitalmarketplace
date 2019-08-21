@@ -126,10 +126,10 @@ const create = async (params: {title: string, locations: string[]}) => {
   await createBrief();
   await fillWhoCanRespond();
   await fillAbout(params.title, params.locations);
+  await fillEvaluationCriteria();
   await fillResponseFormats();
   await fillRequirements();
   await fillTimeframesAndBudget();
-  await fillEvaluationCriteria();
   await fillClosingDate();
   await fillPublishBrief();
 };

@@ -140,10 +140,10 @@ const create = async (params: IAtmParams): Promise<IAtmResult> => {
   await createBrief();
   await fillWhoCanRespond();
   await fillAbout(params.title, params.locations);
+  const criteria = await fillResponseCriteria(params.numberOfCriteria ? params.numberOfCriteria : 2);
   await fillResponseFormats();
   await fillObjectives();
   await fillTimeframes();
-  const criteria = await fillResponseCriteria(params.numberOfCriteria ? params.numberOfCriteria : 2);
   await fillClosingDate();
   await publishBrief();
   return {
