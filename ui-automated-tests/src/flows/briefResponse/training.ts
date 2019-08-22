@@ -1,7 +1,7 @@
 import * as util from "../../utils";
 
 const clickSubmitApplication = async () => {
-  await util.clickInputButton("Submit response");
+  await util.clickInputButton("Submit application");
 };
 
 const respond = async () => {
@@ -9,25 +9,23 @@ const respond = async () => {
 
   await clickSubmitApplication();
 
-  await util.matchText("a", "Enter a date for when you can start the project");
-  await util.matchText("a", "Choose a file for your written proposal");
-  await util.matchText("a", "Choose a file for your project costs");
-  await util.matchText("a", "A contact number is required");
+  await util.matchText("a", "You must upload your written proposal");
+  await util.matchText("a", "You must upload your completed response template");
+  await util.matchText("a", "You must add a valid phone number");
 
-  await util.type("availability", { numberOfCharacters: 100 });
   await util.upload("file_0", "document.pdf");
   await clickSubmitApplication();
-  await util.matchText("a", "Choose a file for your project costs");
-  await util.matchText("a", "A contact number is required");
+  await util.matchText("a", "You must upload your completed response template");
+  await util.matchText("a", "You must add a valid phone number");
 
   await util.upload("file_1", "document.pdf");
   await clickSubmitApplication();
 
-  await util.matchText("a", "A contact number is required");
+  await util.matchText("a", "You must add a valid phone number");
   await util.type("respondToPhone", { value: "0123456789" });
   await clickSubmitApplication();
 
-  await util.matchText("h4", "Thanks, your response has been successfully submitted.");
+  await util.matchText("h4", "Your response has been successfully submitted.");
 };
 
 export default respond;
