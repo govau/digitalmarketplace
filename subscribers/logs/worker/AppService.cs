@@ -39,9 +39,11 @@ namespace Dta.Marketplace.Subscribers.Logger.Worker {
             var sqsConfig = new AmazonSQSConfig {
                 RegionEndpoint = RegionEndpoint.GetBySystemName(_config.Value.AwsSqsRegion)
             };
+
             if (string.IsNullOrWhiteSpace(_config.Value.AwsSqsServiceUrl) == false) {
                 sqsConfig.ServiceURL = _config.Value.AwsSqsServiceUrl;
             }
+
             if (string.IsNullOrWhiteSpace(_config.Value.AwsSqsSecretAccessKey) == false &&
                 string.IsNullOrWhiteSpace(_config.Value.AwsSqsAccessKeyId) == false) {
                 _sqsClient = new AmazonSQSClient(_config.Value.AwsSqsAccessKeyId, _config.Value.AwsSqsSecretAccessKey, sqsConfig);
@@ -73,6 +75,7 @@ namespace Dta.Marketplace.Subscribers.Logger.Worker {
             _logger.LogDebug("Heartbeat: {Now}", DateTime.Now);
             var receiveMessageResponse = await _sqsClient.ReceiveMessageAsync(receiveMessageRequest);
             foreach (var message in receiveMessageResponse.Messages) {
+                _logger.LogInformation(message.Body);
                 _messageProcessor.Process(message);
                 await DeleteMessage(message);
             }
