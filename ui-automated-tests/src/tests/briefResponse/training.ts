@@ -23,7 +23,6 @@ describe("create and respond to training brief", () => {
     await sellerLogin();
     await navigate();
     await selectBrief(title);
-    await sleep(1000);
     await applyForTraining();
     await respond();
     await checkAppliedForTraining(title);
