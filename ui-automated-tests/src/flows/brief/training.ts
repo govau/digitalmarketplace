@@ -50,13 +50,15 @@ const fillResponseFormats = async () => {
   await clickSaveContinue();
   await utils.matchText("li", "You must choose what you would like sellers to provide through the Marketplace");
   await utils.selectCheck("Written proposal");
+  await utils.selectCheck("Response template");
   await clickSaveContinue();
   await utils.matchText("li", "You must select at least one proposal type.");
+  await utils.matchText("li", `You can only select either "Written proposal" or "Completed response template".`, "'");
+  await utils.selectCheck("Response template");
   await utils.selectCheck("Breakdown of costs");
   await utils.selectCheck("Case study");
   await utils.selectCheck("References");
   await utils.selectCheck("Résumés");
-  await utils.selectCheck("Response template");
   await utils.selectCheck("Interview");
   await utils.selectCheck("Presentation");
   await clickSaveContinue();
@@ -66,7 +68,6 @@ const fillRequirements = async () => {
   await clickSaveContinue();
   await utils.matchText("li", "You must upload a requirements document");
   await utils.upload("file_0", "document.pdf", "Requirements document");
-  await utils.upload("file_0", "document.pdf", "Response template");
   await utils.upload("file_0", "document.pdf", "Additional documents (optional)");
   await utils.type("industryBriefing", { numberOfWords: 150 });
   await clickSaveContinue();

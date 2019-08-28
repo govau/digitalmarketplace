@@ -118,10 +118,13 @@ export const clickLink = async (linkText: string, isUrl?: boolean) => {
   console.log(`Clicked link "${linkText}"`);
 };
 
-export const matchText = async (tag: string, text: string) => {
-  console.log(`matching text: '//${tag}[contains(text(), "${text}")]'`);
-  const elementHandles = await this.getElementHandles(`//${tag}[contains(text(), "${text}")]`);
-  expect(elementHandles.length).to.equal(1, `No text found using '//${tag}[contains(text(), "${text}")]'`);
+export const matchText = async (tag: string, text: string, quote?: string) => {
+  if (!quote) {
+    quote = '"';
+  }
+  console.log(`matching text: '//${tag}[contains(text(), ${quote}${text}${quote})]'`);
+  const elementHandles = await this.getElementHandles(`//${tag}[contains(text(), ${quote}${text}${quote})]`);
+  expect(elementHandles.length).to.equal(1, `No text found using '//${tag}[contains(text(), ${quote}${text}${quote})]'`);
 };
 
 export const sleep = async (ms: number): Promise<NodeJS.Timeout> => {
