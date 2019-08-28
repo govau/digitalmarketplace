@@ -124,7 +124,9 @@ export const matchText = async (tag: string, text: string, quote?: string) => {
   }
   console.log(`matching text: '//${tag}[contains(text(), ${quote}${text}${quote})]'`);
   const elementHandles = await this.getElementHandles(`//${tag}[contains(text(), ${quote}${text}${quote})]`);
-  expect(elementHandles.length).to.equal(1, `No text found using '//${tag}[contains(text(), ${quote}${text}${quote})]'`);
+  expect(elementHandles.length)
+    .to
+    .equal(1, `No text found using '//${tag}[contains(text(), ${quote}${text}${quote})]'`);
 };
 
 export const sleep = async (ms: number): Promise<NodeJS.Timeout> => {
