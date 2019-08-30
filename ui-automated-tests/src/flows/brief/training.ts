@@ -41,7 +41,7 @@ const fillAbout = async (role: string, locations: string[]) => {
     await utils.selectCheck(location);
   }
 
-  await utils.type("working_arrangements", { numberOfCharacters: 150 });
+  await utils.type("working_arrangements", { numberOfWords: 150 });
   await utils.type("clearance", { numberOfCharacters: 100 });
   await clickSaveContinue();
 };
