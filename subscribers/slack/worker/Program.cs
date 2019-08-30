@@ -50,6 +50,7 @@ namespace Dta.Marketplace.Subscribers.Slack.Worker {
                             ac.AwsSqsRegion = awsSqsRegion;
                         }
                         ac.AwsSqsSecretAccessKey = Environment.GetEnvironmentVariable("AWS_SQS_SECRET_ACCESS_KEY");
+                        ac.AgencySlackUrl = Environment.GetEnvironmentVariable("AGENCY_SLACK_URL");
                         ac.BuyerSlackUrl = Environment.GetEnvironmentVariable("BUYER_SLACK_URL");
                         ac.SupplierSlackUrl = Environment.GetEnvironmentVariable("SUPPLIER_SLACK_URL");
                         ac.UserSlackUrl = Environment.GetEnvironmentVariable("USER_SLACK_URL");
