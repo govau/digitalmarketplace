@@ -60,6 +60,9 @@ namespace Dta.Marketplace.Subscribers.Slack.Worker.Model {
         [JsonProperty("AWS_SQS_SECRET_ACCESS_KEY")]
         public string AwsSqsSecretAccessKey { get; set; }
 
+        [JsonProperty("AGENCY_SLACK_URL")]
+        public string AgencySlackUrl { get; set; }
+
         [JsonProperty("BUYER_SLACK_URL")]
         public string BuyerSlackUrl { get; set; }
 

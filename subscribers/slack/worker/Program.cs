@@ -74,6 +74,7 @@ namespace Dta.Marketplace.Subscribers.Slack.Worker {
                                 ac.AwsSqsRegion = credentials.AwsSqsRegion;
                             }
                             ac.AwsSqsSecretAccessKey = credentials.AwsSqsSecretAccessKey;
+                            ac.AgencySlackUrl = credentials.AgencySlackUrl;
                             ac.BuyerSlackUrl = credentials.BuyerSlackUrl;
                             ac.SupplierSlackUrl = credentials.SupplierSlackUrl;
                             ac.UserSlackUrl = credentials.UserSlackUrl;
