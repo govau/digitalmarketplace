@@ -19,7 +19,7 @@ describe("create and respond to training brief", () => {
     });
   });
 
-  it("should be able to respond training brief", async () => {
+  it("should be able to respond to a training brief", async () => {
     await sellerLogin();
     await navigate();
     await selectBrief(title);
