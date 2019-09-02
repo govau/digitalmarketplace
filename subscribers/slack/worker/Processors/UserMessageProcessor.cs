@@ -21,7 +21,8 @@ namespace Dta.Marketplace.Subscribers.Slack.Worker.Processors {
                     var definition = new {
                         user = new {
                             email_address = "",
-                            role = ""
+                            role = "",
+                            name = ""
                         }
                     };
                     var message = JsonConvert.DeserializeAnonymousType(awsSnsMessage.Message, definition);
@@ -29,6 +30,7 @@ namespace Dta.Marketplace.Subscribers.Slack.Worker.Processors {
                         var domain = message.user.email_address.Split("@").Last();
                         var slackMessage =
 $@"*A new buyer has signed up*
+Name: {message.user.name}
 Domain: {domain}";
 
                         return await _slackService.SendSlackMessage(_config.Value.UserSlackUrl, slackMessage);
