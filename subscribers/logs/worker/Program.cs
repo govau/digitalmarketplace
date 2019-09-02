@@ -44,9 +44,6 @@ namespace Dta.Marketplace.Subscribers.Logger.Worker {
                         if (string.IsNullOrWhiteSpace(serviceUrl) == false) {
                             ac.AwsSqsServiceUrl = serviceUrl;
                         }
-                        if (string.IsNullOrWhiteSpace(ac.AwsSqsAccessKeyId) == false) {
-                            ac.AwsSqsServiceUrl = null;
-                        }
                         var awsSqsRegion = Environment.GetEnvironmentVariable("AWS_SQS_REGION");
                         if (string.IsNullOrWhiteSpace(awsSqsRegion) == false) {
                             ac.AwsSqsRegion = awsSqsRegion;
@@ -88,6 +85,10 @@ namespace Dta.Marketplace.Subscribers.Logger.Worker {
 
                             var postgresCredentials = vcapServices.Postgres.First().Credentials;
                             ac.ConnectionString = $"Host={postgresCredentials.Host};Port={postgresCredentials.Port};Database={postgresCredentials.DbName};Username={postgresCredentials.Username};Password={postgresCredentials.Password}";
+                        }
+
+                        if (string.IsNullOrWhiteSpace(ac.AwsSqsAccessKeyId) == false) {
+                            ac.AwsSqsServiceUrl = null;
                         }
                     });
                     var serviceProvider = services.BuildServiceProvider();
