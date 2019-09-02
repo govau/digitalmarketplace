@@ -44,6 +44,9 @@ namespace Dta.Marketplace.Subscribers.Logger.Worker {
                         if (string.IsNullOrWhiteSpace(serviceUrl) == false) {
                             ac.AwsSqsServiceUrl = serviceUrl;
                         }
+                        if (string.IsNullOrWhiteSpace(ac.AwsSqsAccessKeyId) == false) {
+                            ac.AwsSqsServiceUrl = null;
+                        }
                         var awsSqsRegion = Environment.GetEnvironmentVariable("AWS_SQS_REGION");
                         if (string.IsNullOrWhiteSpace(awsSqsRegion) == false) {
                             ac.AwsSqsRegion = awsSqsRegion;
