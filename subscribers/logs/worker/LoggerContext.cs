@@ -1,6 +1,4 @@
-using System;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace Dta.Marketplace.Subscribers.Logger.Worker {
     public partial class LoggerContext : DbContext {
