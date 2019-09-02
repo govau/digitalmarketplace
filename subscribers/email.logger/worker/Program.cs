@@ -87,12 +87,12 @@ namespace Dta.Marketplace.Subscribers.Email.Logger.Worker {
                             Sentry.SentrySdk.Init(ac.SentryDsn);
                             var postgresCredentials = vcapServices.Postgres.First().Credentials;
                             ac.ConnectionString = $"Host={postgresCredentials.Host};Port={postgresCredentials.Port};Database={postgresCredentials.DbName};Username={postgresCredentials.Username};Password={postgresCredentials.Password}";
-                            };
+                        };
                     });
-                   
+
                     services.AddSingleton<IHostedService, AppService>();
                     services.AddSingleton<IHostedService, AppBodyService>();
-                    
+
                     services.AddTransient<EmailDeliveryNotificationProcessor>();
                     services.AddTransient<EmailComplaintNotificationProcessor>();
                     services.AddTransient<EmailBounceNotificationProcessor>();

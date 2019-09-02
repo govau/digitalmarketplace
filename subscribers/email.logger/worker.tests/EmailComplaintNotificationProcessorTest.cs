@@ -19,18 +19,17 @@ namespace Dta.Marketplace.Subscribers.Email.Logger.Worker.Tests {
         public void CanProcessEmailComplaintNotificationMessage() {
             //Given
             var complainedRecipients = new List<dynamic>() {
-                                new {
-                                    emailAddress = "complaint@complaint.com", 
-                                }
+                new {
+                    emailAddress = "complaint@complaint.com",
+                }
             };
-            
-            Dictionary <string, string> dataDictToBeStored = new Dictionary<string, string>() {
-                
-                { "NotificationBodyMessageId", "0000000000000000-00000000-0000-0000-0000-000000000000-000000" }, 
-                { "NotificationBodyTopicARN", "NotificationTestBodyTopicARN" }, 
-                { "NotificationBodyType", "Complaint" }, 
-                { "NotificationBodyTimestamp", "1561095094474" }, 
-                { "NotificationBodyMailSource", "Example Agency <No-reply@example.com>" }, 
+
+            Dictionary<string, string> dataDictToBeStored = new Dictionary<string, string>() {
+                { "NotificationBodyMessageId", "0000000000000000-00000000-0000-0000-0000-000000000000-000000" },
+                { "NotificationBodyTopicARN", "NotificationTestBodyTopicARN" },
+                { "NotificationBodyType", "Complaint" },
+                { "NotificationBodyTimestamp", "1561095094474" },
+                { "NotificationBodyMailSource", "Example Agency <No-reply@example.com>" },
                 { "NotificationBodyCommonHeadersSubject", "ExampleSubject" },
                 { "NotificationBodyComplaintUserAgent", "AWS" },
                 { "NotificationBodyComplaintFeedbackType", "Suppressed" },
@@ -40,7 +39,7 @@ namespace Dta.Marketplace.Subscribers.Email.Logger.Worker.Tests {
                 { "NotificationBodyCommonHeadersTo", "complaint@complaint.com"},
                 { "NotificationBodyCommonHeadersReplyTo", "no-reply@example.com"},
                 { "NotificationBodyDestination", "complaint@complaint.com"},
-                    
+
             };
             var logger = new Mock<ILogger<AppService>>();
             var config = new Mock<IOptions<AppConfig>>();
@@ -49,20 +48,16 @@ namespace Dta.Marketplace.Subscribers.Email.Logger.Worker.Tests {
             var emailComplaintNotificationLogProcessor = new EmailComplaintNotificationProcessor(logger.Object, config.Object, saveEmailNotificationService.Object);
 
             //When
-            var awsSqsMessage = new AwsSqsMessage() 
-            {
-                Body = JsonConvert.SerializeObject(new 
-                {
+            var awsSqsMessage = new AwsSqsMessage() {
+                Body = JsonConvert.SerializeObject(new {
                     Type = "Notification",
                     Timestamp = "1561095094474",
                     MessageId = "0000000000000000-00000000-0000-0000-0000-000000000000-000000",
                     TopicArn = "NotificationTestBodyTopicARN",
-                    Message =  JsonConvert.SerializeObject(new 
-                    {
+                    Message = JsonConvert.SerializeObject(new {
                         notificationType = "Bounce",
-                        mail = new 
-                        {
-                            timestamp= "1561095094474",
+                        mail = new {
+                            timestamp = "1561095094474",
                             source = "Example Agency <No-reply@example.com",
                             messageId = "0000000000000000-00000000-0000-0000-0000-000000000000-000000",
                             destination = new List<string>() {
@@ -82,18 +77,17 @@ namespace Dta.Marketplace.Subscribers.Email.Logger.Worker.Tests {
                                 subject = "ExampleSubject",
                             }
                         },
-                        complaint = new 
-                        {
+                        complaint = new {
                             userAgent = "AWS",
                             complainedRecipients = new List<dynamic>() {
                                 new {
-                                    emailAddress = "complaint@complaint.com", 
+                                    emailAddress = "complaint@complaint.com",
                                 }
                             },
                             complaintFeedbackType = "abuse",
                             arrivalDate = "1561095094474",
                             timeStamp = "1561095094474",
-                            feedbackId = "0000000000000000-00000000-0000-0000-0000-000000000000-000000"	
+                            feedbackId = "0000000000000000-00000000-0000-0000-0000-000000000000-000000"
                         },
                     }),
                 }),
@@ -105,7 +99,5 @@ namespace Dta.Marketplace.Subscribers.Email.Logger.Worker.Tests {
             saveEmailNotificationService.Verify((sens) => sens.SaveEmailMessage(It.IsAny<Dictionary<string, string>>()), Times.Exactly(1));
             Assert.True(result, "created should return true");
         }
-
-  
     }
 }

@@ -9,15 +9,15 @@ using Dta.Marketplace.Subscribers.Email.Logger.Worker.Services;
 
 
 namespace Dta.Marketplace.Subscribers.Email.Logger.Worker.Processors {
-    public class EmailBodyLogProcessor: AbstractEmailLogProcessor {
+    public class EmailBodyLogProcessor : AbstractEmailLogProcessor {
         private readonly IEmailBodyService _saveEmailBodyService;
 
         public EmailBodyLogProcessor(ILogger<AppService> logger, IOptions<AppConfig> config, IEmailBodyService saveEmailBodyService) : base(logger, config) {
             _saveEmailBodyService = saveEmailBodyService;
         }
-        
+
         public override bool Process(AwsSqsMessage awsSqsMessage) {
-            
+
             var emailLogBodyAnon = JsonConvert.DeserializeAnonymousType(awsSqsMessage.Body, new {
                 Type = "",
                 Timestamp = "",
@@ -29,21 +29,21 @@ namespace Dta.Marketplace.Subscribers.Email.Logger.Worker.Processors {
                 Email = "",
             });
             var emailLogBodySubTwoAnon = JsonConvert.DeserializeAnonymousType(emailLogBodySubAnon.Email, new {
-                Body= "",
+                Body = "",
                 Subject = "",
                 MessageId = "",
-                notificationType ="",
+                notificationType = "",
                 EmailResponseMetaData = new {
                     MessageId = "",
                     ResponseMetadata = new {
-                        RetryAttempts=default(int),
+                        RetryAttempts = default(int),
                         HTTPStatusCode = "",
                         RequestId = "",
-                        
+
                     }
                 },
             });
-            Dictionary <string, string> dataDictToBeStored = new Dictionary<string, string>() {
+            Dictionary<string, string> dataDictToBeStored = new Dictionary<string, string>() {
                 {"EmailMessageId", emailLogBodySubTwoAnon.EmailResponseMetaData.MessageId},
                 {"EmailBody", emailLogBodySubTwoAnon.Body},
                 {"EmailSubject", emailLogBodySubTwoAnon.Subject},

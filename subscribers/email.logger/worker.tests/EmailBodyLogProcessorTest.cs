@@ -22,7 +22,7 @@ namespace Dta.Marketplace.Subscribers.Email.Logger.Worker.Tests {
             var config = new Mock<IOptions<AppConfig>>();
             var saveEmailBodyService = new Mock<IEmailBodyService>();
 
-            Dictionary <string, string> dataDictToBeStored = new Dictionary<string, string>() {
+            Dictionary<string, string> dataDictToBeStored = new Dictionary<string, string>() {
                 {"EmailMessageId", "0000000000000000-00000000-0000-0000-0000-000000000000-000000"},
                 {"EmailBody", "EmailTestBody"},
                 {"EmailSubject", "EmailTestBodySubject"},
@@ -34,7 +34,7 @@ namespace Dta.Marketplace.Subscribers.Email.Logger.Worker.Tests {
             };
 
             saveEmailBodyService.Setup(sebs => sebs.SaveEmailBodyMessage(dataDictToBeStored)).Returns(true);
-            
+
             //When
             var awsSqsMessage = new AwsSqsMessage() {
                 Body = JsonConvert.SerializeObject(new {
@@ -42,12 +42,12 @@ namespace Dta.Marketplace.Subscribers.Email.Logger.Worker.Tests {
                     Timestamp = "1561095094474",
                     MessageId = "0000000000000000-00000000-0000-0000-0000-000000000000-000000",
                     TopicArn = "EmailTestBodyTopicARN",
-                    Message =  JsonConvert.SerializeObject(new {
-                         Email = JsonConvert.SerializeObject(new {
-                             Body= "EmailTestBody",
+                    Message = JsonConvert.SerializeObject(new {
+                        Email = JsonConvert.SerializeObject(new {
+                            Body = "EmailTestBody",
                             Subject = "EmailTestBodySubject",
                             MessageId = "0000000000000000-00000000-0000-0000-0000-000000000000-000000",
-                            notificationType ="Email_Body_Log",
+                            notificationType = "Email_Body_Log",
                             EmailResponseMetaData = new {
                                 MessageId = "0000000000000000-00000000-0000-0000-0000-000000000000-000000",
                                 ResponseMetadata = new {
@@ -61,14 +61,12 @@ namespace Dta.Marketplace.Subscribers.Email.Logger.Worker.Tests {
                 }),
                 MessageId = "0000000000000000-00000000-0000-0000-0000-000000000000-000000"
             };
-            
-            
+
             var emailBodyLogProcessor = new EmailBodyLogProcessor(logger.Object, config.Object, saveEmailBodyService.Object);
-            
-            
+
             saveEmailBodyService.Setup(sebs => sebs.SaveEmailBodyMessage(dataDictToBeStored)).Returns(true);
             var result = emailBodyLogProcessor.Process(awsSqsMessage);
-                
+
             // //Then
             saveEmailBodyService.Verify((sebs) => sebs.SaveEmailBodyMessage(dataDictToBeStored), Times.Exactly(1));
             Assert.True(result, "created should return true");
