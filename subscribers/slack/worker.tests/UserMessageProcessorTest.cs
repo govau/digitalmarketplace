@@ -19,7 +19,7 @@ namespace Dta.Marketplace.Subscribers.Slack.Worker.Tests {
             var message = 
 $@"*A new buyer has signed up*
 Name: Foo bar
-Email: b.com";
+Email: a@b.com";
 
             var logger = new Mock<ILogger<AppService>>();
 
