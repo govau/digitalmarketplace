@@ -18,7 +18,8 @@ namespace Dta.Marketplace.Subscribers.Slack.Worker.Tests {
             var user_slack_url = "http://user.slack.url";            
             var message = 
 $@"*A new buyer has signed up*
-Domain: b.com";
+Name: Foo bar
+Email: a@b.com";
 
             var logger = new Mock<ILogger<AppService>>();
 
@@ -35,7 +36,8 @@ Domain: b.com";
                 Message = JsonConvert.SerializeObject(new {
                     user = new {
                         email_address = "a@b.com",
-                        role = "buyer"
+                        role = "buyer",
+                        name = "Foo bar"
                     }
                 }),
                 MessageAttributes = new MessageAttributes {

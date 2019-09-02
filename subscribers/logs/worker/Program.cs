@@ -86,6 +86,10 @@ namespace Dta.Marketplace.Subscribers.Logger.Worker {
                             var postgresCredentials = vcapServices.Postgres.First().Credentials;
                             ac.ConnectionString = $"Host={postgresCredentials.Host};Port={postgresCredentials.Port};Database={postgresCredentials.DbName};Username={postgresCredentials.Username};Password={postgresCredentials.Password}";
                         }
+
+                        if (string.IsNullOrWhiteSpace(ac.AwsSqsAccessKeyId) == false) {
+                            ac.AwsSqsServiceUrl = null;
+                        }
                     });
                     var serviceProvider = services.BuildServiceProvider();
                     var appConfigOptions = serviceProvider.GetService<IOptions<AppConfig>>();
