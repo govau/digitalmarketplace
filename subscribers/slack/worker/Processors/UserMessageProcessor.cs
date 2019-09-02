@@ -21,15 +21,16 @@ namespace Dta.Marketplace.Subscribers.Slack.Worker.Processors {
                     var definition = new {
                         user = new {
                             email_address = "",
-                            role = ""
+                            role = "",
+                            name = ""
                         }
                     };
                     var message = JsonConvert.DeserializeAnonymousType(awsSnsMessage.Message, definition);
                     if (message.user.role == "buyer") {
-                        var domain = message.user.email_address.Split("@").Last();
                         var slackMessage =
 $@"*A new buyer has signed up*
-Domain: {domain}";
+Name: {message.user.name}
+Email: {message.user.email_address}";
 
                         return await _slackService.SendSlackMessage(_config.Value.UserSlackUrl, slackMessage);
                     } else {
