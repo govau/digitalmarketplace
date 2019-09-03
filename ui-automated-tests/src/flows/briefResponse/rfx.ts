@@ -10,15 +10,8 @@ const respond = async () => {
   await clickSubmitApplication();
 
   await util.matchText("a", "You must upload your written proposal");
-  await util.matchText("a", "You must upload your completed response template");
   await util.matchText("a", "You must add a valid phone number");
-
   await util.upload("file_0", "document.pdf");
-  await clickSubmitApplication();
-  await util.matchText("a", "You must upload your completed response template");
-  await util.matchText("a", "You must add a valid phone number");
-
-  await util.upload("file_1", "document.pdf");
   await clickSubmitApplication();
 
   await util.matchText("a", "You must add a valid phone number");
