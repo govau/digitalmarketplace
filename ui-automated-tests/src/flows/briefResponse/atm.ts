@@ -10,9 +10,9 @@ const respond = async (params: IAtmResult) => {
   await clickSubmitApplication();
   await utils.matchText("a", "Enter a date for when you can start the project");
   if (params.criteria) {
-    params.criteria.forEach(async (criterion) => {
-      await utils.matchText("a", criterion.criteria);
-    });
+    for (const c of params.criteria) {
+      await utils.matchText("a", c.criterion);
+    }
   }
   await utils.matchText("a", "You must upload your written proposal");
   await utils.matchText("a", "You must add a phone number");

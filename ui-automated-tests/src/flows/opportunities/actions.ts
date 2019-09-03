@@ -48,10 +48,11 @@ export const viewSpecialistApplication = async (title: string) => {
 };
 
 export const applyForTraining = async () => {
-  await util.clickLink("Apply Now");
+  await util.clickLink("Apply for opportunity");
 };
 
-export const viewTrainingApplication = async (title: string) => {
-  await util.clickLink("View your application");
-  await util.matchText("h1", `Thanks for your application. You've now applied for ‘${title}’`);
+export const checkAppliedForTraining = async (title: string) => {
+  await navigate();
+  await selectBrief(title);
+  await util.matchText("p", "You have already applied for this opportunity.");
 };
