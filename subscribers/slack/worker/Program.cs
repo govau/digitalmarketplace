@@ -88,8 +88,11 @@ namespace Dta.Marketplace.Subscribers.Slack.Worker {
                             ac.SentryDsn = credentials.SentryDsn;
                             Sentry.SentrySdk.Init(ac.SentryDsn);
                         }
-                    });
 
+                        if (string.IsNullOrWhiteSpace(ac.AwsSqsAccessKeyId) == false) {
+                            ac.AwsSqsServiceUrl = null;
+                        }
+                    });
 
                     services.AddSingleton<IHostedService, AppService>();
 
