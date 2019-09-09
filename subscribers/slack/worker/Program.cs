@@ -37,13 +37,20 @@ namespace Dta.Marketplace.Subscribers.Slack.Worker {
                     services.Configure<AppConfig>(hostContext.Configuration);
                     services.Configure<AppConfig>(ac => {
                         ac.AwsSqsAccessKeyId = Environment.GetEnvironmentVariable("AWS_SQS_ACCESS_KEY_ID");
-                        ac.AwsSqsQueueUrl = Environment.GetEnvironmentVariable("AWS_SQS_QUEUE_URL");
-                        ac.AwsSqsServiceUrl = Environment.GetEnvironmentVariable("AWS_SQS_SERVICE_URL");
+                        var awsSqsQueueUrl = Environment.GetEnvironmentVariable("AWS_SQS_QUEUE_URL");
+                        if (string.IsNullOrWhiteSpace(awsSqsQueueUrl) == false) {
+                            ac.AwsSqsQueueUrl = awsSqsQueueUrl;
+                        }
+                        var awsSqsServiceUrl = Environment.GetEnvironmentVariable("AWS_SQS_SERVICE_URL");
+                        if (string.IsNullOrWhiteSpace(awsSqsServiceUrl) == false) {
+                            ac.AwsSqsServiceUrl = awsSqsServiceUrl;
+                        }
                         var awsSqsRegion = Environment.GetEnvironmentVariable("AWS_SQS_REGION");
                         if (string.IsNullOrWhiteSpace(awsSqsRegion) == false) {
                             ac.AwsSqsRegion = awsSqsRegion;
                         }
                         ac.AwsSqsSecretAccessKey = Environment.GetEnvironmentVariable("AWS_SQS_SECRET_ACCESS_KEY");
+                        ac.AgencySlackUrl = Environment.GetEnvironmentVariable("AGENCY_SLACK_URL");
                         ac.BuyerSlackUrl = Environment.GetEnvironmentVariable("BUYER_SLACK_URL");
                         ac.SupplierSlackUrl = Environment.GetEnvironmentVariable("SUPPLIER_SLACK_URL");
                         ac.UserSlackUrl = Environment.GetEnvironmentVariable("USER_SLACK_URL");
@@ -68,6 +75,7 @@ namespace Dta.Marketplace.Subscribers.Slack.Worker {
                                 ac.AwsSqsRegion = credentials.AwsSqsRegion;
                             }
                             ac.AwsSqsSecretAccessKey = credentials.AwsSqsSecretAccessKey;
+                            ac.AgencySlackUrl = credentials.AgencySlackUrl;
                             ac.BuyerSlackUrl = credentials.BuyerSlackUrl;
                             ac.SupplierSlackUrl = credentials.SupplierSlackUrl;
                             ac.UserSlackUrl = credentials.UserSlackUrl;
@@ -80,11 +88,15 @@ namespace Dta.Marketplace.Subscribers.Slack.Worker {
                             ac.SentryDsn = credentials.SentryDsn;
                             Sentry.SentrySdk.Init(ac.SentryDsn);
                         }
-                    });
 
+                        if (string.IsNullOrWhiteSpace(ac.AwsSqsAccessKeyId) == false) {
+                            ac.AwsSqsServiceUrl = null;
+                        }
+                    });
 
                     services.AddSingleton<IHostedService, AppService>();
 
+                    services.AddTransient<AgencyMessageProcessor>();
                     services.AddTransient<ApplicationMessageProcessor>();
                     services.AddTransient<BriefMessageProcessor>();
                     services.AddTransient<UserMessageProcessor>();
@@ -92,6 +104,8 @@ namespace Dta.Marketplace.Subscribers.Slack.Worker {
 
                     services.AddTransient<Func<string, IMessageProcessor>>(sp => key => {
                         switch (key) {
+                            case "agency":
+                                return sp.GetService<AgencyMessageProcessor>();
                             case "application":
                                 return sp.GetService<ApplicationMessageProcessor>();
                             case "brief":
