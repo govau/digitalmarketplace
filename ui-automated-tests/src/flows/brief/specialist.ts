@@ -107,7 +107,7 @@ const fillSellerResponses = async (): Promise<{ numberOfSuppliers: string }> => 
 
   await utils.selectRadio("hourlyRate");
   await utils.type("maxRate", { value: "123" });
-  await utils.type("budgetRange", { numberOfCharacters: 1000 });
+  await utils.type("budgetRange", { numberOfCharacters: 100 });
 
   await utils.selectRadio("mustHave");
   await clickSaveContinue();
