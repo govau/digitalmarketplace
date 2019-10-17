@@ -98,7 +98,7 @@ const fillSellerResponses = async (): Promise<{ numberOfSuppliers: string }> => 
 
   const input = await utils.getElementHandle(`//input[@id="numberOfSuppliers"]`);
   await input.press("Backspace");
-  const numberOfSuppliers = await utils.type("numberOfSuppliers", { value: "100" });
+  const numberOfSuppliers = await utils.type("numberOfSuppliers", { value: "6" });
 
   await utils.selectCheck("References");
   await utils.selectCheck("Interviews");
@@ -107,7 +107,7 @@ const fillSellerResponses = async (): Promise<{ numberOfSuppliers: string }> => 
 
   await utils.selectRadio("hourlyRate");
   await utils.type("maxRate", { value: "123" });
-  await utils.type("budgetRange", { numberOfCharacters: 100 });
+  await utils.type("budgetRange", { numberOfCharacters: 1000 });
 
   await utils.selectRadio("mustHave");
   await clickSaveContinue();
