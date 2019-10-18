@@ -94,17 +94,20 @@ const fillSelectionCriteria = async (): Promise<ISelectionCriteria> => {
 
 const fillSellerResponses = async (): Promise<{ numberOfSuppliers: string }> => {
   await clickSaveContinue();
-  await utils.matchText("li", "You must specify how many candidates each seller can submit.");
-  await utils.matchText("li", "You must define the security clearance requirements");
 
   const input = await utils.getElementHandle(`//input[@id="numberOfSuppliers"]`);
   await input.press("Backspace");
+
+  await clickSaveContinue();
+  await utils.matchText("li", "You must specify how many candidates each seller can submit.");
+  await utils.matchText("li", "You must define the security clearance requirements");
 
   let numberOfSuppliers = await utils.type("numberOfSuppliers", { value: "101" });
   await clickSaveContinue();
   await utils.matchText("li", "Number of candidates must be from 1 to 100.");
 
-  numberOfSuppliers = await utils.type("numberOfSuppliers", { value: "100" });
+  await input.press("Backspace");
+  numberOfSuppliers = await utils.type("numberOfSuppliers", { value: "0" });
   
   await utils.selectCheck("References");
   await utils.selectCheck("Interviews");
