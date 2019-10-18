@@ -107,7 +107,6 @@ const fillSellerResponses = async (): Promise<{ numberOfSuppliers: string }> => 
 
   await input.press("Backspace");
   numberOfSuppliers = await utils.type("numberOfSuppliers", { value: "0" });
-  
   await utils.selectCheck("References");
   await utils.selectCheck("Interviews");
   await utils.selectCheck("Scenarios or tests");
