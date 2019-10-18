@@ -97,7 +97,6 @@ const fillSellerResponses = async (): Promise<{ numberOfSuppliers: string }> => 
 
   const input = await utils.getElementHandle(`//input[@id="numberOfSuppliers"]`);
   await input.press("Backspace");
-
   await clickSaveContinue();
   await utils.matchText("li", "You must specify how many candidates each seller can submit.");
   await utils.matchText("li", "You must define the security clearance requirements");
