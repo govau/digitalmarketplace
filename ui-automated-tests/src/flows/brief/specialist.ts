@@ -94,6 +94,7 @@ const fillSelectionCriteria = async (): Promise<ISelectionCriteria> => {
 
 const fillSellerResponses = async (): Promise<{ numberOfSuppliers: string }> => {
   await clickSaveContinue();
+  await utils.matchText("li", "You must specify how many candidates each seller can submit.");
   await utils.matchText("li", "You must define the security clearance requirements");
 
   const input = await utils.getElementHandle(`//input[@id="numberOfSuppliers"]`);
