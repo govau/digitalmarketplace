@@ -99,8 +99,13 @@ const fillSellerResponses = async (): Promise<{ numberOfSuppliers: string }> => 
 
   const input = await utils.getElementHandle(`//input[@id="numberOfSuppliers"]`);
   await input.press("Backspace");
-  const numberOfSuppliers = await utils.type("numberOfSuppliers", { value: "100" });
 
+  let numberOfSuppliers = await utils.type("numberOfSuppliers", { value: "101" });
+  await clickSaveContinue();
+  await utils.matchText("li", "Number of candidates must be from 1 to 100.");
+
+  numberOfSuppliers = await utils.type("numberOfSuppliers", { value: "100" });
+  
   await utils.selectCheck("References");
   await utils.selectCheck("Interviews");
   await utils.selectCheck("Scenarios or tests");
