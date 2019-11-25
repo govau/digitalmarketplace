@@ -23,7 +23,7 @@ namespace Dta.Marketplace.Subscribers.Email.Logger.Worker.Processors {
 
             var notificationLogBodyAnon = JsonConvert.DeserializeAnonymousType(awsSqsMessage.Body, new {
                 Type = "",
-                Timestamp = "",
+                TimeStamp = "",
                 MessageId = "",
                 TopicArn = "",
                 Message = "",
@@ -31,7 +31,7 @@ namespace Dta.Marketplace.Subscribers.Email.Logger.Worker.Processors {
             var notificationLogBodyMessageAnon = JsonConvert.DeserializeAnonymousType(notificationLogBodyAnon.Message, new {
                 notificationType = "",
                 mail = new {
-                    timestamp = "",
+                    TimeStamp = "",
                     Source = "",
                     messageID = "",
                     destination = new List<string>(),
@@ -48,7 +48,7 @@ namespace Dta.Marketplace.Subscribers.Email.Logger.Worker.Processors {
                     complainedRecipients = new List<dynamic>(),
                     complaintFeedbackType = "",
                     arrivalDate = "",
-                    timestamp = "",
+                    TimeStamp = "",
                     feedbackId = ""
                 }
             });
@@ -57,13 +57,13 @@ namespace Dta.Marketplace.Subscribers.Email.Logger.Worker.Processors {
                 { "NotificationBodyMessageId", notificationLogBodyMessageAnon.mail.messageID },
                 { "NotificationBodyTopicARN", notificationLogBodyAnon.TopicArn },
                 { "NotificationBodyType", notificationLogBodyMessageAnon.notificationType },
-                { "NotificationBodyTimestamp", notificationLogBodyAnon.Timestamp.ToString () },
+                { "NotificationBodyTimestamp", notificationLogBodyAnon.TimeStamp.ToString () },
                 { "NotificationBodyMailSource", notificationLogBodyMessageAnon.mail.Source },
                 { "NotificationBodyCommonHeadersSubject", notificationLogBodyMessageAnon.mail.commonHeaders.subject },
                 { "NotificationBodyComplaintUserAgent", notificationLogBodyMessageAnon.complaint.userAgent },
                 { "NotificationBodyComplaintFeedbackType", notificationLogBodyMessageAnon.complaint.complaintFeedbackType },
                 { "NotificationBodyComplaintFeedbackId", notificationLogBodyMessageAnon.complaint.feedbackId },
-                { "NotificationBodyComplaintTimestamp", notificationLogBodyMessageAnon.complaint.timestamp },
+                { "NotificationBodyComplaintTimestamp", notificationLogBodyMessageAnon.complaint.TimeStamp },
             };
             for (var index = 0; index < notificationLogBodyMessageAnon.mail.commonHeaders.from.Count - 1; index++) {
                 dataDictToBeStored.Add("NotificationBodyCommonHeadersFrom" + (index + 1), notificationLogBodyMessageAnon.mail.commonHeaders.from[index]);
