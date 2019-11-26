@@ -27,28 +27,28 @@ namespace Dta.Marketplace.Subscribers.Email.Logger.Worker.Processors {
                 Message = "",
             });
             var notificationLogBodyMessageAnon = JsonConvert.DeserializeAnonymousType(notificationLogBodyAnon.Message, new {
-                NotificationType = "",
-                Mail = new {
-                    Timestamp = "",
+                notificationType = "",
+                mail = new {
+                    timestamp = "",
                     Source = "",
-                    MessageID = "",
-                    Destination = new List<string>(),
-                    CommonHeaders = new {
-                        ReturnPath = "",
-                        From = new List<string>(),
-                        ReplyTo = new List<string>(),
-                        To = new List<string>(),
-                        Subject = ""
+                    messageID = "",
+                    destination = new List<string>(),
+                    commonHeaders = new {
+                        returnPath = "",
+                        from = new List<string>(),
+                        replyTo = new List<string>(),
+                        to = new List<string>(),
+                        subject = ""
                     }
                 },
-                Bounce = new {
-                    BounceType = "",
-                    BounceSubType = "",
-                    BouncedRecipients = new List<dynamic>(),
-                    Timestamp = "",
-                    SmtpResponse = "",
-                    RemoteMtaIp = "",
-                    ReportingMTA = ""
+                bounce = new {
+                    bounceType = "",
+                    bounceSubType = "",
+                    bouncedRecipients = new List<dynamic>(),
+                    timestamp = "",
+                    smtpResponse = "",
+                    remoteMtaIp = "",
+                    reportingMTA = ""
                 },
             });
 
