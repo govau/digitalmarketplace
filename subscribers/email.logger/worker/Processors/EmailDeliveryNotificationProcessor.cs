@@ -20,7 +20,7 @@ namespace Dta.Marketplace.Subscribers.Email.Logger.Worker.Processors {
 
             var notificationLogBodyAnon = JsonConvert.DeserializeAnonymousType(awsSqsMessage.Body, new {
                 Type = "",
-                TimeStamp = "",
+                Timestamp = "",
                 MessageId = "",
                 TopicArn = "",
                 Message = "",
@@ -54,10 +54,10 @@ namespace Dta.Marketplace.Subscribers.Email.Logger.Worker.Processors {
                 { "NotificationBodyMessageId", notificationLogBodyMessageAnon.Mail.MessageID },
                 { "NotificationBodyTopicARN", notificationLogBodyAnon.TopicArn },
                 { "NotificationBodyType", notificationLogBodyMessageAnon.NotificationType },
-                { "NotificationBodyTimeStamp", notificationLogBodyAnon.TimeStamp.ToString () },
+                { "NotificationBodyTimestamp", notificationLogBodyAnon.Timestamp.ToString () },
                 { "NotificationBodyMailSource", notificationLogBodyMessageAnon.Mail.Source },
                 { "NotificationBodyCommonHeadersSubject", notificationLogBodyMessageAnon.Mail.CommonHeaders.Subject },
-                { "NotificationBodyDeliveryTimeStamp", notificationLogBodyMessageAnon.Delivery.TimeStamp },
+                { "NotificationBodyDeliveryTimestamp", notificationLogBodyMessageAnon.Delivery.TimeStamp },
                 { "NotificationBodyDeliveryProcessingTimeMs", notificationLogBodyMessageAnon.Delivery.ProcessingTimeMillis.ToString () },
                 { "NotificationBodyDeliverySMTPResponse", notificationLogBodyMessageAnon.Delivery.SmtpResponse },
                 { "NotificationBodyDeliveryRemoteMtaIp", notificationLogBodyMessageAnon.Delivery.RemoteMtaIp },
@@ -74,14 +74,12 @@ namespace Dta.Marketplace.Subscribers.Email.Logger.Worker.Processors {
             for (var index = 0; index < notificationLogBodyMessageAnon.Mail.CommonHeaders.To.Count - 1; index++) {
                 dataDictToBeStored.Add("NotificationBodyCommonHeadersTo" + (index + 1), notificationLogBodyMessageAnon.Mail.CommonHeaders.To[index]);
             }
-
             if (notificationLogBodyMessageAnon.Mail.CommonHeaders.ReplyTo != null){
                 for (var index = 0; index < notificationLogBodyMessageAnon.Mail.CommonHeaders.ReplyTo.Count - 1; index++) {
                     dataDictToBeStored.Add("NotificationBodyCommonHeadersReplyTo" + (index + 1), notificationLogBodyMessageAnon.Mail.CommonHeaders.ReplyTo[index]);
                 }
             }
-
-            if(notificationLogBodyMessageAnon.Mail.Destination != null){
+            if (notificationLogBodyMessageAnon.Mail.Destination != null){
                 for (var index = 0; index < notificationLogBodyMessageAnon.Mail.Destination.Count - 1; index++) {
                     dataDictToBeStored.Add("NotificationBodyDestination" + (index + 1), notificationLogBodyMessageAnon.Mail.Destination[index]);
                 }
