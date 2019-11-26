@@ -53,35 +53,35 @@ namespace Dta.Marketplace.Subscribers.Email.Logger.Worker.Processors {
             });
 
             Dictionary<string, string> dataDictToBeStored = new Dictionary<string, string>() {
-                    { "NotificationBodyMessageId", notificationLogBodyMessageAnon.Mail.MessageID },
+                    { "NotificationBodyMessageId", notificationLogBodyMessageAnon.mail.messageID },
                     { "NotificationBodyTopicARN", notificationLogBodyAnon.TopicArn },
-                    { "NotificationBodyType", notificationLogBodyMessageAnon.NotificationType },
+                    { "NotificationBodyType", notificationLogBodyMessageAnon.notificationType },
                     { "NotificationBodyTimestamp", notificationLogBodyAnon.Timestamp.ToString () },
-                    { "NotificationBodyMailSource", notificationLogBodyMessageAnon.Mail.Source },
-                    { "NotificationBodyCommonHeadersSubject", notificationLogBodyMessageAnon.Mail.CommonHeaders.Subject },
-                    { "NotificationBodyBounceType", notificationLogBodyMessageAnon.Bounce.BounceType },
-                    { "NotificationBodyBounceSubType", notificationLogBodyMessageAnon.Bounce.BounceSubType },
-                    { "NotificationBodyBounceTimestamp", notificationLogBodyMessageAnon.Bounce.Timestamp },
-                    { "NotificationBodyBounceSMTPResponse", notificationLogBodyMessageAnon.Bounce.SmtpResponse },
-                    { "NotificationBodyBounceRemoteMTAIp", notificationLogBodyMessageAnon.Bounce.RemoteMtaIp },
-                    { "NotificationBodyBounceReportingMTA", notificationLogBodyMessageAnon.Bounce.ReportingMTA },
+                    { "NotificationBodyMailSource", notificationLogBodyMessageAnon.mail.Source },
+                    { "NotificationBodyCommonHeadersSubject", notificationLogBodyMessageAnon.mail.commonHeaders.subject },
+                    { "NotificationBodyBounceType", notificationLogBodyMessageAnon.bounce.bounceType },
+                    { "NotificationBodyBounceSubType", notificationLogBodyMessageAnon.bounce.bounceSubType },
+                    { "NotificationBodyBounceTimestamp", notificationLogBodyMessageAnon.bounce.timestamp },
+                    { "NotificationBodyBounceSMTPResponse", notificationLogBodyMessageAnon.bounce.smtpResponse },
+                    { "NotificationBodyBounceRemoteMTAIp", notificationLogBodyMessageAnon.bounce.remoteMtaIp },
+                    { "NotificationBodyBounceReportingMTA", notificationLogBodyMessageAnon.bounce.reportingMTA },
                 };
             var bouncedRecipients = "";
-            for (var index = 0; index < notificationLogBodyMessageAnon.Bounce.BouncedRecipients.Count; index++) {
-                bouncedRecipients += $"{notificationLogBodyMessageAnon.Bounce.BouncedRecipients[index]},";
+            for (var index = 0; index < notificationLogBodyMessageAnon.bounce.bouncedRecipients.Count; index++) {
+                bouncedRecipients += $"{notificationLogBodyMessageAnon.bounce.bouncedRecipients[index]},";
             }
             dataDictToBeStored.Add("NotificationBodyBounceBouncedRecipients", bouncedRecipients);
-            for (var index = 0; index < notificationLogBodyMessageAnon.Mail.CommonHeaders.From.Count - 1; index++) {
-                dataDictToBeStored.Add("NotificationBodyCommonHeadersFrom" + (index + 1), notificationLogBodyMessageAnon.Mail.CommonHeaders.From[index]);
+            for (var index = 0; index < notificationLogBodyMessageAnon.mail.commonHeaders.from.Count - 1; index++) {
+                dataDictToBeStored.Add("NotificationBodyCommonHeadersFrom" + (index + 1), notificationLogBodyMessageAnon.mail.commonHeaders.from[index]);
             }
-            for (var index = 0; index < notificationLogBodyMessageAnon.Mail.CommonHeaders.To.Count - 1; index++) {
-                dataDictToBeStored.Add("NotificationBodyCommonHeadersTo" + (index + 1), notificationLogBodyMessageAnon.Mail.CommonHeaders.To[index]);
+            for (var index = 0; index < notificationLogBodyMessageAnon.mail.commonHeaders.to.Count - 1; index++) {
+                dataDictToBeStored.Add("NotificationBodyCommonHeadersTo" + (index + 1), notificationLogBodyMessageAnon.mail.commonHeaders.to[index]);
             }
-            for (var index = 0; index < notificationLogBodyMessageAnon.Mail.CommonHeaders.ReplyTo.Count - 1; index++) {
-                dataDictToBeStored.Add("NotificationBodyCommonHeadersReplyTo" + (index + 1), notificationLogBodyMessageAnon.Mail.CommonHeaders.ReplyTo[index]);
+            for (var index = 0; index < notificationLogBodyMessageAnon.mail.commonHeaders.replyTo.Count - 1; index++) {
+                dataDictToBeStored.Add("NotificationBodyCommonHeadersReplyTo" + (index + 1), notificationLogBodyMessageAnon.mail.commonHeaders.replyTo[index]);
             }
-            for (var index = 0; index < notificationLogBodyMessageAnon.Mail.Destination.Count - 1; index++) {
-                dataDictToBeStored.Add("NotificationBodyDestination" + (index + 1), notificationLogBodyMessageAnon.Mail.Destination[index]);
+            for (var index = 0; index < notificationLogBodyMessageAnon.mail.destination.Count - 1; index++) {
+                dataDictToBeStored.Add("NotificationBodyDestination" + (index + 1), notificationLogBodyMessageAnon.mail.destination[index]);
             }
             _saveEmailNotificationService.SaveEmailMessage(dataDictToBeStored);
             return true;
