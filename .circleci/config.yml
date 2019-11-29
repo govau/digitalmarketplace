@@ -40,6 +40,8 @@ commands:
       path:
         type: string
     steps:
+      - run:
+          command: id
       - run: 
           name: Build npm
           command: |
