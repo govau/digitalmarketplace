@@ -28,8 +28,13 @@ export const checkAppliedForSpecialist = async (title: string, specialistNumber:
   }
 };
 
-export const applyForSpecialist = async () => {
-  await util.clickLink("Apply for opportunity");
+export const applyForSpecialist = async (specialistNumber: number) => {
+  if (specialistNumber > 0) {
+    await util.clickLink("Edit or submit candidates");
+    await util.clickLink("Add another candidate");
+  } else {
+    await util.clickLink("Apply for opportunity");
+  }
 };
 
 export const checkAppliedForRfx = async (title: string) => {
