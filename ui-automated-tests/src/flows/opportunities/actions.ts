@@ -15,7 +15,7 @@ export const applyForAtm = async () => {
 export const checkAppliedForAtm = async  (title: string) => {
   await navigate();
   await selectBrief(title);
-  await util.matchText("p", "You have already applied for this opportunity.");
+  await util.matchText("p", "You have already submitted a response.");
 };
 
 export const checkAppliedForSpecialist = async (title: string, specialistNumber: number, numberOfSuppliers: string) => {

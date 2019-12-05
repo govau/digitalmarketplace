@@ -5,7 +5,7 @@ import { buyerLogin, sellerLogin } from "../../flows/login/actions";
 import { applyForRfx, checkAppliedForRfx, navigate, selectBrief } from "../../flows/opportunities/actions";
 import { sleep } from "../../utils";
 
-describe.only("create and respond to RFXs brief", () => {
+describe("create and respond to RFXs brief", () => {
   // in order to get the right brief we are going for the 'today's date'.
   const today = Date.now();
   const title = `RFXs ${today.valueOf()}`;
