@@ -59,5 +59,5 @@ export const applyForTraining = async () => {
 export const checkAppliedForTraining = async (title: string) => {
   await navigate();
   await selectBrief(title);
-  await util.matchText("p", "You have already applied for this opportunity.");
+  await util.matchText("p", "You have already submitted a response.");
 };

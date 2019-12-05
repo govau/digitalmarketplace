@@ -4,7 +4,7 @@ import startBrief from "../../flows/dashboard/buyer";
 import { buyerLogin, sellerLogin } from "../../flows/login/actions";
 import { applyForAtm, checkAppliedForAtm, navigate, selectBrief } from "../../flows/opportunities/actions";
 
-describe.only("should be able to create and respond to ask the market brief", () => {
+describe("should be able to create and respond to ask the market brief", () => {
   const now = Date.now();
   const title = `Ask the market ${now.valueOf()}`;
   let brief: IAtmResult = null;
