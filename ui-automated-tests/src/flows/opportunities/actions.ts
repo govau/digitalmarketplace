@@ -40,7 +40,7 @@ export const applyForSpecialist = async (specialistNumber: number) => {
 export const checkAppliedForRfx = async (title: string) => {
   await navigate();
   await selectBrief(title);
-  await util.matchText("p", "You have already applied for this opportunity.");
+  await util.matchText("p", "You have already submitted a response.");
 };
 
 export const applyForRfx = async () => {
