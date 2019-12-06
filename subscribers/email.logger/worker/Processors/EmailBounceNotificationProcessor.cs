@@ -77,11 +77,15 @@ namespace Dta.Marketplace.Subscribers.Email.Logger.Worker.Processors {
             for (var index = 0; index < notificationLogBodyMessageAnon.mail.commonHeaders.to.Count - 1; index++) {
                 dataDictToBeStored.Add("NotificationBodyCommonHeadersTo" + (index + 1), notificationLogBodyMessageAnon.mail.commonHeaders.to[index]);
             }
-            for (var index = 0; index < notificationLogBodyMessageAnon.mail.commonHeaders.replyTo.Count - 1; index++) {
-                dataDictToBeStored.Add("NotificationBodyCommonHeadersReplyTo" + (index + 1), notificationLogBodyMessageAnon.mail.commonHeaders.replyTo[index]);
+            if (notificationLogBodyMessageAnon.mail.commonHeaders.replyTo != null){
+                for (var index = 0; index < notificationLogBodyMessageAnon.mail.commonHeaders.replyTo.Count - 1; index++) {
+                    dataDictToBeStored.Add("NotificationBodyCommonHeadersReplyTo" + (index + 1), notificationLogBodyMessageAnon.mail.commonHeaders.replyTo[index]);
+                }
             }
-            for (var index = 0; index < notificationLogBodyMessageAnon.mail.destination.Count - 1; index++) {
-                dataDictToBeStored.Add("NotificationBodyDestination" + (index + 1), notificationLogBodyMessageAnon.mail.destination[index]);
+            if (notificationLogBodyMessageAnon.mail.destination != null){
+                for (var index = 0; index < notificationLogBodyMessageAnon.mail.destination.Count - 1; index++) {
+                    dataDictToBeStored.Add("NotificationBodyDestination" + (index + 1), notificationLogBodyMessageAnon.mail.destination[index]);
+                }
             }
             _saveEmailNotificationService.SaveEmailMessage(dataDictToBeStored);
             return true;

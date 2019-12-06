@@ -84,7 +84,6 @@ namespace Dta.Marketplace.Subscribers.Email.Logger.Worker.Processors {
                     dataDictToBeStored.Add("NotificationBodyDestination" + (index + 1), notificationLogBodyMessageAnon.Mail.Destination[index]);
                 }
             }
-
             _saveEmailNotificaitonService.SaveEmailMessage(dataDictToBeStored);
 
             return true;
