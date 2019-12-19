@@ -15,7 +15,7 @@ export const applyForAtm = async () => {
 export const checkAppliedForAtm = async  (title: string) => {
   await navigate();
   await selectBrief(title);
-  await util.matchText("p", "You have already applied for this opportunity.");
+  await util.matchText("p", "You have already submitted a response.");
 };
 
 export const checkAppliedForSpecialist = async (title: string, specialistNumber: number, numberOfSuppliers: string) => {
@@ -28,14 +28,19 @@ export const checkAppliedForSpecialist = async (title: string, specialistNumber:
   }
 };
 
-export const applyForSpecialist = async () => {
-  await util.clickLink("Apply for opportunity");
+export const applyForSpecialist = async (specialistNumber: number) => {
+  if (specialistNumber > 0) {
+    await util.clickLink("Edit or submit candidates");
+    await util.clickLink("Add another candidate");
+  } else {
+    await util.clickLink("Apply for opportunity");
+  }
 };
 
 export const checkAppliedForRfx = async (title: string) => {
   await navigate();
   await selectBrief(title);
-  await util.matchText("p", "You have already applied for this opportunity.");
+  await util.matchText("p", "You have already submitted a response.");
 };
 
 export const applyForRfx = async () => {
@@ -54,5 +59,5 @@ export const applyForTraining = async () => {
 export const checkAppliedForTraining = async (title: string) => {
   await navigate();
   await selectBrief(title);
-  await util.matchText("p", "You have already applied for this opportunity.");
+  await util.matchText("p", "You have already submitted a response.");
 };

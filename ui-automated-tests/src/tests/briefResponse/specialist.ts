@@ -34,7 +34,7 @@ describe("create and respond to specialist opportunity", () => {
       // eslint-disable-next-line no-await-in-loop
       await selectBrief(title);
       // eslint-disable-next-line no-await-in-loop
-      await applyForSpecialist();
+      await applyForSpecialist(i);
       // eslint-disable-next-line no-await-in-loop
       await respond({
         specialistNumber: i,

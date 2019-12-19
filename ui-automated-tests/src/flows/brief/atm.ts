@@ -80,7 +80,7 @@ const fillObjectives = async () => {
   await utils.type("endUsers", { numberOfWords: 500 });
   await utils.type("workAlreadyDone", { numberOfWords: 500 });
   await utils.type("industryBriefing", { numberOfWords: 150 });
-  await utils.upload("file_0", "document.pdf");
+  await utils.upload("file_attachments_0", "document.pdf");
   await clickSaveContinue();
 };
 

@@ -23,10 +23,10 @@ const respond = async (params: IAtmResult) => {
       await utils.type(`criteria.${i}`, { numberOfWords: 500 });
     }
   }
-  await utils.upload("file_0", "document.pdf");
+  await utils.upload("file_writtenProposal_0", "document.pdf");
   await utils.type("respondToPhone", { value: "0123456789" });
   await clickSubmitApplication();
-  await utils.matchText("h4", "Thanks, your response has been successfully submitted.");
+  await utils.matchText("span", "Your response has been successfully submitted.");
 };
 
 export default respond;

@@ -106,7 +106,9 @@ const fillSellerResponses = async (): Promise<{ numberOfSuppliers: string }> => 
   await utils.matchText("li", "Number of candidates must be from 1 to 100.");
 
   await input.press("Backspace");
-  numberOfSuppliers = await utils.type("numberOfSuppliers", { value: "0" });
+  await input.press("Backspace");
+  await input.press("Backspace");
+  numberOfSuppliers = await utils.type("numberOfSuppliers", { value: "3" });
   await utils.selectCheck("References");
   await utils.selectCheck("Interviews");
   await utils.selectCheck("Scenarios or tests");
@@ -144,7 +146,7 @@ const fillTimeframes = async () => {
 const fillAdditionalInformation = async () => {
   await clickSaveContinue();
   await utils.matchText("li", "Contact number is required");
-  await utils.upload("file_0", "document.pdf", "Additional documents (optional)");
+  await utils.upload("file_attachments_0", "document.pdf", "Additional documents (optional)");
   await utils.type("contactNumber", { value: "01234455667733" });
   await utils.selectCheck("comprehensiveTerms", "id");
   await utils.type("internalReference", { numberOfCharacters: 100 });
