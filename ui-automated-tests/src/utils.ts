@@ -129,6 +129,17 @@ export const matchText = async (tag: string, text: string, quote?: string) => {
     .equal(1, `No text found using '//${tag}[contains(text(), ${quote}${text}${quote})]'`);
 };
 
+export const matchText2 = async (tag: string, text: string, quote?: string) => {
+  if (!quote) {
+    quote = '"';
+  }
+  console.log(`matching text: '//${tag}[contains(text(), ${quote}${text}${quote})]'`);
+  const elementHandles = await this.getElementHandles(`//${tag}[text()[contains(., ${quote}${text}${quote})]]`);
+  expect(elementHandles.length)
+    .to
+    .equal(1, `No text found using '//${tag}[text()[contains(., ${quote}${text}${quote})]]'`);
+};
+
 export const sleep = async (ms: number): Promise<NodeJS.Timeout> => {
   console.log(`Sleeping for ${ms} milliseconds`);
   return new Promise((resolve) => setTimeout(resolve, ms));
