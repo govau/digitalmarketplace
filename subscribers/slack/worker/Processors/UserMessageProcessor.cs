@@ -37,6 +37,8 @@ Email: {message.user.email_address}";
                         _logger.LogDebug("Supplier not supported for {@AwsSnsMessage}.", awsSnsMessage);
                     }
                     break;
+                case "abr_failed":
+                    break;
                 default:
                         _logger.LogDebug("Unknown processor for {@AwsSnsMessage}.", awsSnsMessage);
                     break;
