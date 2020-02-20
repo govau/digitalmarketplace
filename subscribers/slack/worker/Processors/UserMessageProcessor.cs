@@ -38,6 +38,7 @@ Email: {message.user.email_address}";
                     }
                     break;
                 case "abr_failed":
+                    Console.WriteLine("YOU HAVE REACHED SLACK");
                     break;
                 default:
                         _logger.LogDebug("Unknown processor for {@AwsSnsMessage}.", awsSnsMessage);
