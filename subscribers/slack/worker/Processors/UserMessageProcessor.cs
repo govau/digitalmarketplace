@@ -18,6 +18,7 @@ namespace Dta.Marketplace.Subscribers.Slack.Worker.Processors {
         public async override Task<bool> Process(AwsSnsMessage awsSnsMessage) {
             switch (awsSnsMessage.MessageAttributes.EventType.Value) {
                 case "created":
+                    Console.WriteLine("YOU HAVE created a user");
                     var definition = new {
                         user = new {
                             email_address = "",
@@ -39,7 +40,19 @@ Email: {message.user.email_address}";
                     break;
                 case "abr_failed":
                     Console.WriteLine("YOU HAVE REACHED SLACK");
-                    break;
+                    var definition2 = new {
+                        user = new {
+                            email_address = "",
+                            role = "",
+                            name = ""
+                        }
+                    };
+                    var message2 = JsonConvert.DeserializeAnonymousType(awsSnsMessage.Message, definition2);
+                        var slackMessage2 =
+$@"*:troll:*ABR Failed for Seller*:troll:*
+Name: {message2.user.name}
+Email: {message2.user.email_address}";
+                        return await _slackService.SendSlackMessage(_config.Value.UserSlackUrl, slackMessage2);
                 default:
                         _logger.LogDebug("Unknown processor for {@AwsSnsMessage}.", awsSnsMessage);
                     break;
