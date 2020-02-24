@@ -49,7 +49,7 @@ Email: {message.user.email_address}";
                     };
                     var message2 = JsonConvert.DeserializeAnonymousType(awsSnsMessage.Message, definition2);
                         var slackMessage2 =
-$@"*:troll:*ABR Failed for Seller*:troll:*
+$@"*:troll:*ABR failed*:troll:*
 Name: {message2.user.name}
 Email: {message2.user.email_address}";
                         return await _slackService.SendSlackMessage(_config.Value.UserSlackUrl, slackMessage2);
