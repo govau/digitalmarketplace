@@ -18,7 +18,6 @@ namespace Dta.Marketplace.Subscribers.Slack.Worker.Processors {
         public async override Task<bool> Process(AwsSnsMessage awsSnsMessage) {
             switch (awsSnsMessage.MessageAttributes.EventType.Value) {
                 case "created":
-                    Console.WriteLine("YOU HAVE created a user");
                     var definition = new {
                         user = new {
                             email_address = "",
