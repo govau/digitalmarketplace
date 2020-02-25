@@ -38,7 +38,6 @@ Email: {message.user.email_address}";
                     }
                     break;
                 case "abr_failed":
-                    Console.WriteLine("YOU HAVE REACHED SLACK");
                     var definition2 = new {
                         user = new {
                             email_address = "",
