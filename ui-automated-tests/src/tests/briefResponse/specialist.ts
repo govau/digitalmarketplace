@@ -9,7 +9,7 @@ import {
   selectBrief,
 } from "../../flows/opportunities/actions";
 
-describe("create and respond to specialist opportunity", () => {
+describe.only("create and respond to specialist opportunity", () => {
   // in order to get the right brief we are going for 'today's date'.
   const today = Date.now();
   const title = `Specialist ${today.valueOf()}`;

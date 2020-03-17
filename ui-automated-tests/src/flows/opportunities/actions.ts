@@ -24,7 +24,7 @@ export const checkAppliedForSpecialist = async (title: string, specialistNumber:
   if (specialistNumber + 1 === parseInt(numberOfSuppliers, 10)) {
     await util.matchText("p", `You can submit up to `);
   } else {
-    await util.matchText2("span", `You submitted `);
+    await util.matchText("span", `You submitted `);
   }
 };
 
