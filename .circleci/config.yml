@@ -95,6 +95,8 @@ jobs:
           path: "subscribers/email.logger/worker"
       - dot_net_build: 
           path: "subscribers/logs/worker"
+      - dot_net_build: 
+          path: "api"
       - persist_to_workspace:
           root: .
           paths:
