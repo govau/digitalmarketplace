@@ -22,18 +22,19 @@ export const checkAppliedForSpecialist = async (title: string, specialistNumber:
   await navigate();
   await selectBrief(title);
   if (specialistNumber + 1 === parseInt(numberOfSuppliers, 10)) {
-    await util.matchText("div", `Sellers can submit up to `);
+    await util.matchText("p", `You can submit up to `);
   } else {
-    await util.matchText("p", `You have submitted ${specialistNumber + 1} candidate`);
+    await util.matchText("span", `You submitted `);
   }
 };
 
 export const applyForSpecialist = async (specialistNumber: number) => {
   if (specialistNumber > 0) {
     await util.clickLink("Edit or submit candidates");
-    await util.clickLink("Add another candidate");
+    await util.clickLink("Submit another candidate");
   } else {
     await util.clickLink("Apply for opportunity");
+    await util.clickLink("Submit a candidate");
   }
 };
 
