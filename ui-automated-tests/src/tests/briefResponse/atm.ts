@@ -4,12 +4,12 @@ import startBrief from "../../flows/dashboard/buyer";
 import { buyerLogin, sellerLogin } from "../../flows/login/actions";
 import { applyForAtm, checkAppliedForAtm, navigate, selectBrief } from "../../flows/opportunities/actions";
 
-describe("should be able to create and respond to ask the market brief", () => {
+describe("should be able to create and respond to ask the market opportunity", () => {
   const now = Date.now();
   const title = `Ask the market ${now.valueOf()}`;
   let brief: IAtmResult = null;
 
-  it("should be able to create ask the market brief", async () => {
+  it("should be able to create ask the market opportunity", async () => {
     await buyerLogin();
     await startBrief();
     brief = await create({
@@ -18,7 +18,7 @@ describe("should be able to create and respond to ask the market brief", () => {
     });
   });
 
-  it("should be able to respond to ask the market brief", async () => {
+  it("should be able to respond to ask the market opportunity", async () => {
     await sellerLogin();
     await navigate();
     await selectBrief(title);
