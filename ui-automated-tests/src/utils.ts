@@ -17,7 +17,7 @@ export const getElementHandles = async (xpath: string): Promise<ElementHandle[]>
 };
 
 export const getElementHandle = async (xpath: string): Promise<ElementHandle> => {
-  const elements = await this.getElementHandles(xpath);
+  const elements = await getElementHandles(xpath);
   if (elements.length > 1) {
     throw new Error(`"${xpath}" returned more than one element`);
   } else if (elements.length === 0) {
@@ -31,7 +31,7 @@ export const selectCheck = async (value: string, attribute?: string) => {
     attribute = "value";
   }
   console.log(`Selecting check box "//input[@${attribute}="${value}"]"`);
-  const checkbox = await this.getElementHandle(`//input[@${attribute}="${value}"]`);
+  const checkbox = await getElementHandle(`//input[@${attribute}="${value}"]`);
   checkbox.click();
 };
 
@@ -40,7 +40,7 @@ export const selectRadio = async (value: string, attribute?: string) => {
     attribute = "value";
   }
   console.log(`Selecting radio "//input[@${attribute}="${value}"]"`);
-  const radio = await this.getElementHandle(`//input[@${attribute}="${value}"]`);
+  const radio = await getElementHandle(`//input[@${attribute}="${value}"]`);
   await radio.press("Space");
 };
 
@@ -67,7 +67,7 @@ export const type = async (id: string, options: {
     }
     value = words(numberOfWords, numberOfCharacters);
   }
-  const input = await this.getElementHandle(`//*[@id="${id}"]`);
+  const input = await getElementHandle(`//*[@id="${id}"]`);
   if (process.env.SHORTEN_TYPED_INPUT === "true") {
     if (value.length > 50) {
       value = value.substring(0, 50);
@@ -85,19 +85,19 @@ export const upload = async (id: string, file: string, title?: string) => {
     xpath = `//input[@id="${id}" and @type="file" and @title="${title}"]`;
   }
   console.log(`Uploading "${xpath}"`);
-  const input = await this.getElementHandle(xpath);
+  const input = await getElementHandle(xpath);
   await input.uploadFile(file);
 };
 
 export const clickButton = async (value: string) => {
   console.log(`Clicking button "//button[.="${value}"]"`);
-  const button = await this.getElementHandle(`//button[.="${value}"]`);
+  const button = await getElementHandle(`//button[.="${value}"]`);
   await button.click();
 };
 
 export const clickInputButton = async (value: string) => {
   console.log(`Clicking input button "//input[@value="${value}"]"`);
-  const button = await this.getElementHandle(`//input[@value="${value}"]`);
+  const button = await getElementHandle(`//input[@value="${value}"]`);
   await button.click();
 };
 
@@ -105,9 +105,9 @@ export const clickLink = async (linkText: string, isUrl?: boolean) => {
   console.log(`Clicking link "${linkText}"`);
   let links;
   if (isUrl) {
-    links = await this.getElementHandles(`//a[contains(@href, "${linkText}")]`);
+    links = await getElementHandles(`//a[contains(@href, "${linkText}")]`);
   } else {
-    links = await this.getElementHandles(`//a[.="${linkText}"]`);
+    links = await getElementHandles(`//a[.="${linkText}"]`);
   }
   if (process.env.IGNORE_MULTIPLE_LINKS !== "true") {
     expect(links.length).to.equal(1, `Number of links found for "${linkText}"=${links.length}`);
@@ -123,7 +123,7 @@ export const matchText = async (tag: string, text: string, quote?: string) => {
     quote = '"';
   }
   console.log(`matching text: '//${tag}[contains(text(), ${quote}${text}${quote})]'`);
-  const elementHandles = await this.getElementHandles(`//${tag}[contains(text(), ${quote}${text}${quote})]`);
+  const elementHandles = await getElementHandles(`//${tag}[contains(text(), ${quote}${text}${quote})]`);
   expect(elementHandles.length)
     .to
     .equal(1, `No text found using '//${tag}[contains(text(), ${quote}${text}${quote})]'`);
