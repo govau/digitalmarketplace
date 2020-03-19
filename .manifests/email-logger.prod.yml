@@ -5,7 +5,7 @@ applications:
   health-check-type: process
   instances: 1
   memory: 128M
-  disk_quota: 100M
+  disk_quota: 256M
   services:
   - ups-dm-email-logger
   - db-service-dm-email-logger
