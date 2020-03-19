@@ -15,7 +15,6 @@ const respond = async (params: IAtmResult) => {
     }
   }
   await utils.matchText("a", "You must upload your written proposal");
-  await utils.matchText("a", "You must add a phone number");
   await utils.type("availability", { numberOfCharacters: 100 });
   if (params.criteria) {
     for (let i = 0; i < params.criteria.length; i += 1) {
@@ -24,7 +23,6 @@ const respond = async (params: IAtmResult) => {
     }
   }
   await utils.upload("file_writtenProposal_0", "document.pdf");
-  await utils.type("respondToPhone", { value: "0123456789" });
   await clickSubmitApplication();
   await utils.matchText("span", "Your response has been successfully submitted.");
 };
