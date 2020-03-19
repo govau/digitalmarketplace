@@ -29,7 +29,7 @@ export AWS_BODY_SQS_SERVICE_URL=[http://localhost:4576]
 ```
 
 ## Requirements:
-[.NET Core 2.2 SDK](https://dotnet.microsoft.com/download/dotnet-core/2.2)  
+[.NET Core SDK](https://dotnet.microsoft.com/download/dotnet-core)  
 In VSCode [OmniSharp](http://www.omnisharp.net)
 
 ## Running:

@@ -5,6 +5,6 @@ applications:
   health-check-type: process
   instances: 1
   memory: 50M
-  disk_quota: 100M
+  disk_quota: 256M
   services:
   - ups-dm-rc-slack-worker
