@@ -105,9 +105,9 @@ const fillClosingDate = async () => {
   await utils.matchText("li", "You must add a contact number");
   const now = new Date();
   const future = new Date(now.setDate(now.getDate() + 14));
-  await utils.type("day", { value: `${format(future, "DD")}` });
+  await utils.type("day", { value: `${format(future, "dd")}` });
   await utils.type("month", { value: `${format(future, "MM")}` });
-  await utils.type("year", { value: `${format(future, "YYYY")}` });
+  await utils.type("year", { value: `${format(future, "yyyy")}` });
   await utils.type("contact", { value: "0123456789" });
   await utils.selectCheck("comprehensiveTerms", "id");
   await utils.type("internalReference", { numberOfCharacters: 100 });
