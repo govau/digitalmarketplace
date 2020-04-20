@@ -1,4 +1,4 @@
-namespace Dta.Marketplace.Api.Helpers
+namespace Dta.Marketplace.Api.Web.Helpers
 {
     public class AppSettings
     {

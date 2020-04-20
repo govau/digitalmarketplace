@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Dta.Marketplace.Api.Helpers;
-using Dta.Marketplace.Api.Services;
+using Dta.Marketplace.Api.Web.Helpers;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -48,7 +48,8 @@ namespace Dta.Marketplace.Api {
             });
 
             // configure DI for application services
-            services.AddScoped<IUserService, UserService>();
+            //services.AddScoped<IUserService, UserService>();
+            services.AddAutoMapper(typeof(Startup));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

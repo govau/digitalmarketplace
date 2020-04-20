@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
-using Dta.Marketplace.Api.Entities;
+using Dta.Marketplace.Api.Web.Entities;
 
-namespace Dta.Marketplace.Api.Helpers
+namespace Dta.Marketplace.Api.Web.Helpers
 {
     public static class ExtensionMethods
     {

@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Dta.Marketplace.Api.Models
+namespace Dta.Marketplace.Api.Web.Models
 {
     public class AuthenticateModel
     {
