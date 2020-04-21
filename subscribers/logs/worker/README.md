@@ -18,7 +18,7 @@ export CONNCECTION_STRING=[Host=localhost;Port=5432;Database=logger;Username=pos
 ```WORK_INTERVAL_IN_SECONDS``` and ```AWS_SQS_LONG_POLL_TIME_IN_SECONDS``` are optional.
 
 ## Requirements:
-[.NET Core 2.2 SDK](https://dotnet.microsoft.com/download/dotnet-core/2.2)  
+[.NET Core SDK](https://dotnet.microsoft.com/download/dotnet-core)  
 In VSCode [OmniSharp](http://www.omnisharp.net)
 
 ## Running:
