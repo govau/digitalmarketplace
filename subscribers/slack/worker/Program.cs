@@ -54,6 +54,7 @@ namespace Dta.Marketplace.Subscribers.Slack.Worker {
                         ac.BuyerSlackUrl = Environment.GetEnvironmentVariable("BUYER_SLACK_URL");
                         ac.SupplierSlackUrl = Environment.GetEnvironmentVariable("SUPPLIER_SLACK_URL");
                         ac.UserSlackUrl = Environment.GetEnvironmentVariable("USER_SLACK_URL");
+                        ac.MailChimpSlackUrl = Environment.GetEnvironmentVariable("MAILCHIMP_SLACK_URL");
                         var workIntervalInSeconds = Environment.GetEnvironmentVariable("WORK_INTERVAL_IN_SECONDS");
                         if (string.IsNullOrWhiteSpace(workIntervalInSeconds) == false) {
                             ac.WorkIntervalInSeconds = int.Parse(workIntervalInSeconds);
@@ -79,6 +80,7 @@ namespace Dta.Marketplace.Subscribers.Slack.Worker {
                             ac.BuyerSlackUrl = credentials.BuyerSlackUrl;
                             ac.SupplierSlackUrl = credentials.SupplierSlackUrl;
                             ac.UserSlackUrl = credentials.UserSlackUrl;
+                            ac.MailChimpSlackUrl = credentials.MailChimpSlackUrl;
                             if (credentials.WorkIntervalInSeconds != 0) {
                                 ac.WorkIntervalInSeconds = credentials.WorkIntervalInSeconds;
                             }
@@ -100,6 +102,7 @@ namespace Dta.Marketplace.Subscribers.Slack.Worker {
                     services.AddTransient<ApplicationMessageProcessor>();
                     services.AddTransient<BriefMessageProcessor>();
                     services.AddTransient<UserMessageProcessor>();
+                    services.AddTransient<MailChimpMessageProcessor>();
                     services.AddTransient<ISlackService, SlackService>();
 
                     services.AddTransient<Func<string, IMessageProcessor>>(sp => key => {
@@ -112,6 +115,8 @@ namespace Dta.Marketplace.Subscribers.Slack.Worker {
                                 return sp.GetService<BriefMessageProcessor>();
                             case "user":
                                 return sp.GetService<UserMessageProcessor>();
+                              case "mailchimp":
+                                return sp.GetService<MailChimpMessageProcessor>();
                             default:
                                 return null;
                         }
