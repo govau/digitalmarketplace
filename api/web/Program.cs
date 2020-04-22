@@ -1,13 +1,15 @@
 ﻿using Lamar.Microsoft.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.CompilerServices;
 
+[assembly: InternalsVisibleToAttribute("Dta.Marketplace.Api.Web.Tests")]
 namespace Dta.Marketplace.Api {
     public class Program {
         public static void Main(string[] args) {

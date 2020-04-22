@@ -43,7 +43,6 @@ namespace Dta.Marketplace.Api.Web.Controllers {
             }
 
             var user = _userBusiness.GetById(id);
-
             if (user == null) {
                 return NotFound();
             }
