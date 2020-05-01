@@ -1,16 +1,26 @@
 using AutoMapper;
-using System.Collections.Generic;
 using Dta.Marketplace.Api.Web.Business.Exceptions;
 using Dta.Marketplace.Api.Web.Business.Interfaces;
-using Dta.Marketplace.Api.Web.Services.Interfaces;
+using Dta.Marketplace.Api.Web.Entities;
+using Dta.Marketplace.Api.Web.Helpers;
 using Dta.Marketplace.Api.Web.Models;
+using Dta.Marketplace.Api.Web.Services.Interfaces;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
+using System;
+using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 namespace Dta.Marketplace.Api.Web.Business {
     public class UserBusiness : IUserBusiness {
+        private readonly AppSettings _appSettings;
         private IUserService _userService;
         private IMapper _mapper;
 
-        public UserBusiness(IUserService userService, IMapper mapper) {
+        public UserBusiness(IOptions<AppSettings> appSettings, IUserService userService, IMapper mapper) {
+            _appSettings = appSettings.Value;
             _userService = userService;
             _mapper = mapper;
         }
@@ -21,7 +31,24 @@ namespace Dta.Marketplace.Api.Web.Business {
             if (user == null) {
                 throw new CannotAuthenticateException();
             }
-            return _mapper.Map<UserModel>(user);
+
+            // authentication successful so generate jwt token
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
+            var tokenDescriptor = new SecurityTokenDescriptor {
+                Subject = new ClaimsIdentity(new Claim[]
+                {
+                    new Claim(ClaimTypes.Name, user.Id.ToString()),
+                    new Claim(ClaimTypes.Role, Enum.GetName(typeof(UserRole), user.Role))
+                }),
+                Expires = DateTime.UtcNow.AddDays(7),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            };
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+
+            var result = _mapper.Map<UserModel>(user);
+            result.Token = tokenHandler.WriteToken(token);
+            return result;
         }
 
         public IEnumerable<UserModel> GetAll() => _mapper.Map<IEnumerable<UserModel>>(_userService.GetAll());
