@@ -1,6 +1,6 @@
 using Lamar;
 
-namespace Dta.Marketplace.Api {
+namespace Dta.Marketplace.Api.Web {
     public class SelfServiceRegistry: ServiceRegistry {
         public SelfServiceRegistry() {
             Scan(x => {

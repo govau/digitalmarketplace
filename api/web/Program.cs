@@ -10,7 +10,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 
 [assembly: InternalsVisibleToAttribute("Dta.Marketplace.Api.Web.Tests")]
-namespace Dta.Marketplace.Api {
+namespace Dta.Marketplace.Api.Web {
     public class Program {
         public static void Main(string[] args) {
             var vcapServicesString = Environment.GetEnvironmentVariable("VCAP_SERVICES");

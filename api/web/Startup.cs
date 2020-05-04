@@ -10,7 +10,7 @@ using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Dta.Marketplace.Api.Web.Entities;
 
-namespace Dta.Marketplace.Api {
+namespace Dta.Marketplace.Api.Web {
     public class Startup {
         public Startup(IConfiguration configuration) {
             Configuration = configuration;
