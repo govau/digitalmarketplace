@@ -12,7 +12,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace Dta.Marketplace.Api.Business.Impl {
+namespace Dta.Marketplace.Api.Business {
     public class UserBusiness : IUserBusiness {
         private readonly AppSettings _appSettings;
         private IUserService _userService;

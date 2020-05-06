@@ -1,3 +1,3 @@
-namespace Dta.Marketplace.Api.Business.Impl {
+namespace Dta.Marketplace.Api.Business {
     public class BaseBusiness : IBusiness { }
 }

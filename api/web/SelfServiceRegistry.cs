@@ -1,6 +1,5 @@
 using Lamar;
 using Dta.Marketplace.Api.Business;
-using Dta.Marketplace.Api.Business.Impl;
 using Dta.Marketplace.Api.Services;
 using Dta.Marketplace.Api.Services.Impl;
 
