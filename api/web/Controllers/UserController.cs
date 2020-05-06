@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-using Dta.Marketplace.Api.Web.Business.Exceptions;
-using Dta.Marketplace.Api.Web.Business.Interfaces;
-using Dta.Marketplace.Api.Web.Helpers;
-using Dta.Marketplace.Api.Web.Models;
+using Dta.Marketplace.Api.Business.Exceptions;
+using Dta.Marketplace.Api.Business;
+using Dta.Marketplace.Api.Shared;
+using Dta.Marketplace.Api.Business.Models;
 
 namespace Dta.Marketplace.Api.Web.Controllers {
     [Authorize]

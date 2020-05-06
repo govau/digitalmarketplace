@@ -2,6 +2,16 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Business\Dta.Marketplace.Api.Business.csproj" />
+    <ProjectReference Include="..\Shared\Dta.Marketplace.Api.Shared.csproj" />
+    <ProjectReference Include="..\Services\Dta.Marketplace.Api.Services.csproj" />
+    <ProjectReference Include="..\Business.Impl\Dta.Marketplace.Api.Business.Impl.csproj" />
+    <ProjectReference Include="..\Services.Impl\Dta.Marketplace.Api.Services.Impl.csproj" />
+    <ProjectReference Include="..\Mapping\Dta.Marketplace.Api.Mapping.csproj" />
+  </ItemGroup>
+
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="9.0.0" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />

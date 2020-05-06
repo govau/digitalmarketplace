@@ -4,11 +4,12 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Dta.Marketplace.Api.Web.Helpers;
+using Dta.Marketplace.Api.Shared;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Dta.Marketplace.Api.Web.Entities;
+using Dta.Marketplace.Api.Entities;
+using Dta.Marketplace.Api.Mapping;
 
 namespace Dta.Marketplace.Api.Web {
     public class Startup {
@@ -53,7 +54,7 @@ namespace Dta.Marketplace.Api.Web {
 
             // configure DI for application services
             //services.AddScoped<IUserService, UserService>();
-            services.AddAutoMapper(typeof(Startup));
+            services.AddAutoMapper(typeof(AutoMapping));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
