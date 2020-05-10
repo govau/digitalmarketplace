@@ -49,8 +49,8 @@ namespace Dta.Marketplace.Api.Web {
             services.AddEntityFrameworkNpgsql()
                     .AddDbContext<DigitalMarketplaceContext>(options => {
                         options.UseNpgsql(appSettings.ConnectionString);
-                    })
-                    .BuildServiceProvider();
+                    });
+                    //.BuildServiceProvider();
 
             // configure DI for application services
             //services.AddScoped<IUserService, UserService>();
