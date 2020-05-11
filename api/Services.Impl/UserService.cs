@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
-using Dta.Marketplace.Api.Entities;
+using Dta.Marketplace.Api.Services.Entities;
 
 namespace Dta.Marketplace.Api.Services.Impl {
     public class UserService : IUserService {

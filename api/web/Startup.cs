@@ -8,7 +8,7 @@ using Dta.Marketplace.Api.Shared;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Dta.Marketplace.Api.Entities;
+using Dta.Marketplace.Api.Services.Impl;
 using Dta.Marketplace.Api.Mapping;
 
 namespace Dta.Marketplace.Api.Web {

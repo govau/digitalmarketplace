@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using Dta.Marketplace.Api.Entities;
+using Dta.Marketplace.Api.Services.Entities;
 
 namespace Dta.Marketplace.Api.Services {
     public interface IUserService {

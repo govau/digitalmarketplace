@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
-    <ProjectReference Include="..\Entities\Dta.Marketplace.Api.Entities.csproj" />
     <ProjectReference Include="..\Business\Dta.Marketplace.Api.Business.csproj" />
+    <ProjectReference Include="..\Services\Dta.Marketplace.Api.Services.csproj" />
   </ItemGroup>
 
   <PropertyGroup>

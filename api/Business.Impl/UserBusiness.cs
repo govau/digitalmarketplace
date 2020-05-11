@@ -1,6 +1,6 @@
 using AutoMapper;
 using Dta.Marketplace.Api.Business.Exceptions;
-using Dta.Marketplace.Api.Entities;
+using Dta.Marketplace.Api.Services.Entities;
 using Dta.Marketplace.Api.Shared;
 using Dta.Marketplace.Api.Business.Models;
 using Dta.Marketplace.Api.Services;
