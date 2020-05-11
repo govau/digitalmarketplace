@@ -129,4 +129,37 @@ Global
 		{0C1EB8D6-D2C0-4067-9BB8-FF4C91D78BF8}.Release|x86.ActiveCfg = Release|Any CPU
 		{0C1EB8D6-D2C0-4067-9BB8-FF4C91D78BF8}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		Policies = $0
+		$0.TextStylePolicy = $1
+		$1.inheritsSet = null
+		$1.scope = text/x-csharp
+		$0.CSharpFormattingPolicy = $2
+		$2.NewLinesForBracesInTypes = False
+		$2.NewLinesForBracesInMethods = False
+		$2.NewLinesForBracesInProperties = False
+		$2.NewLinesForBracesInAccessors = False
+		$2.NewLinesForBracesInAnonymousMethods = False
+		$2.NewLinesForBracesInControlBlocks = False
+		$2.NewLinesForBracesInAnonymousTypes = False
+		$2.NewLinesForBracesInObjectCollectionArrayInitializers = False
+		$2.NewLinesForBracesInLambdaExpressionBody = False
+		$2.NewLineForElse = False
+		$2.NewLineForCatch = False
+		$2.NewLineForFinally = False
+		$2.scope = text/x-csharp
+		$0.TextStylePolicy = $3
+		$3.FileWidth = 80
+		$3.TabsToSpaces = True
+		$3.scope = text/plain
+		$0.TextStylePolicy = $4
+		$4.inheritsSet = null
+		$4.scope = text/x-json
+		$0.JSONFormattingPolicy = $5
+		$5.AutoStructureCompletion = True
+		$5.BracePositions = SemiExpanded
+		$5.FormatOnPaste = True
+		$5.scope = text/x-json
+		$0.VersionControlPolicy = $6
+	EndGlobalSection
 EndGlobal
