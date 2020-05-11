@@ -9,7 +9,6 @@
     <ProjectReference Include="..\Services\Dta.Marketplace.Api.Services.csproj" />
     <ProjectReference Include="..\Business.Impl\Dta.Marketplace.Api.Business.Impl.csproj" />
     <ProjectReference Include="..\Services.Impl\Dta.Marketplace.Api.Services.Impl.csproj" />
-    <ProjectReference Include="..\Mapping\Dta.Marketplace.Api.Mapping.csproj" />
   </ItemGroup>
 
   <ItemGroup>

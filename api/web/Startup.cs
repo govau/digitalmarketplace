@@ -9,7 +9,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Dta.Marketplace.Api.Services.Impl;
-using Dta.Marketplace.Api.Mapping;
+using Dta.Marketplace.Api.Business.Mapping;
 
 namespace Dta.Marketplace.Api.Web {
     public class Startup {
