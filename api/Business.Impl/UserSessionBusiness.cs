@@ -27,7 +27,7 @@ namespace Dta.Marketplace.Api.Business {
             if (!userId.HasValue) {
                 throw new SessionExpiredException();
             }
-            return _mapper.Map<UserModel>(_userService.GetById(userId.Value));
+            return _mapper.Map<UserModel>(await _userService.GetByIdAsync(userId.Value));
         }
         public async Task<string> CreateSessionAsync(UserModel user) {
             if (user == null) {
@@ -40,7 +40,7 @@ namespace Dta.Marketplace.Api.Business {
             }
 
             string token = Convert.ToBase64String(KeyDerivation.Pbkdf2(
-                password: $"{user.Id}+{user.Name}+{user.EmailAddress}",
+                password: $"{user.Id}+{user.Name}+{user.EmailAddress}+{Guid.NewGuid()}",
                 salt: salt,
                 prf: KeyDerivationPrf.HMACSHA1,
                 iterationCount: 10000,

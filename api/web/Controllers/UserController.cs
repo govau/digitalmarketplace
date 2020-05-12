@@ -31,19 +31,19 @@ namespace Dta.Marketplace.Api.Web.Controllers {
 
         [Authorize(Roles = Roles.Admin)]
         [HttpGet]
-        public IActionResult GetAll() {
-            var users = _userBusiness.GetAll();
+        public async Task<IActionResult> GetAll() {
+            var users = await _userBusiness.GetAllAsync();
             return Ok(users);
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetById(int id) {
+        public async Task<IActionResult> GetByIdAsync(int id) {
             var currentUserId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
             if (id != currentUserId && !User.IsInRole(Roles.Admin)) {
                 return Forbid();
             }
 
-            var user = _userBusiness.GetById(id);
+            var user = await _userBusiness.GetByIdAsync(id);
             if (user == null) {
                 return NotFound();
             }
@@ -53,13 +53,13 @@ namespace Dta.Marketplace.Api.Web.Controllers {
 
         [Authorize(AuthenticationSchemes = Schemes.ApiKeyAuthenticationHandler, Roles = Roles.Admin)]
         [HttpGet("api/{id}")]
-        public IActionResult GetByIdApi(int id) {
+        public async Task<IActionResult> GetByIdApi(int id) {
             // var currentUserId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
             // if (id != currentUserId && !User.IsInRole(Roles.Admin)) {
             //     return Forbid();
             // }
 
-            var user = _userBusiness.GetById(id);
+            var user = await _userBusiness.GetByIdAsync(id);
             if (user == null) {
                 return NotFound();
             }

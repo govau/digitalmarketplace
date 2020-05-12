@@ -1,10 +1,11 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Dta.Marketplace.Api.Services.Entities;
 
 namespace Dta.Marketplace.Api.Services {
     public interface IUserService {
-        User Authenticate(string username, string password);
-        IEnumerable<User> GetAll();
-        User GetById(int id);
+        Task<User> AuthenticateAsync(string username, string password);
+        Task<IEnumerable<User>> GetAllAsync();
+        Task<User> GetByIdAsync(int id);
     }
 }

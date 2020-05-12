@@ -24,7 +24,7 @@ namespace Dta.Marketplace.Api.Business {
         }
 
         public async Task<UserModel> AuthenticateAsync(AuthenticateModel model) {
-            var user = _userService.Authenticate(model.Username, model.Password);
+            var user = await _userService.AuthenticateAsync(model.Username, model.Password);
 
             if (user == null) {
                 throw new CannotAuthenticateException();
@@ -35,8 +35,8 @@ namespace Dta.Marketplace.Api.Business {
             return result;
         }
 
-        public IEnumerable<UserModel> GetAll() => _mapper.Map<IEnumerable<UserModel>>(_userService.GetAll());
-        public UserModel GetById(int id) => _mapper.Map<UserModel>(_userService.GetById(id));
+        public async Task<IEnumerable<UserModel>> GetAllAsync() => _mapper.Map<IEnumerable<UserModel>>(await _userService.GetAllAsync());
+        public async Task<UserModel> GetByIdAsync(int id) => _mapper.Map<UserModel>(await _userService.GetByIdAsync(id));
 
         public async Task<UserModel> GetByApiKeyAsync(string apiKey) {
             var api = await _apiKeyService.GetAsync(apiKey);

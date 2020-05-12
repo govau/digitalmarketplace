@@ -1,5 +1,6 @@
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
-using System.Linq;
+using System.Threading.Tasks;
 using Dta.Marketplace.Api.Services.Entities;
 
 namespace Dta.Marketplace.Api.Services.EF {
@@ -10,15 +11,15 @@ namespace Dta.Marketplace.Api.Services.EF {
             _context = context;
         }
 
-        public User Authenticate(string username, string password) => (
-            _context.User.SingleOrDefault(u =>
+        public async Task<User> AuthenticateAsync(string username, string password) => (
+            await _context.User.SingleOrDefaultAsync(u =>
                 u.EmailAddress == username &&
                 // u.Password == password &&
                 u.FailedLoginCount <= 5 &&
                 u.Active == true
             )
         );
-        public IEnumerable<User> GetAll() => _context.User.ToList();
-        public User GetById(int id) => _context.User.SingleOrDefault(x => x.Id == id);
+        public async Task<IEnumerable<User>> GetAllAsync() => await _context.User.ToListAsync();
+        public async Task<User> GetByIdAsync(int id) => await _context.User.SingleOrDefaultAsync(x => x.Id == id);
     }
 }

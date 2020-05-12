@@ -5,8 +5,8 @@ using Dta.Marketplace.Api.Business.Models;
 namespace Dta.Marketplace.Api.Business {
     public interface IUserBusiness {
         Task<UserModel> AuthenticateAsync(AuthenticateModel model);
-        IEnumerable<UserModel> GetAll();
-        UserModel GetById(int id);
+        Task<IEnumerable<UserModel>> GetAllAsync();
+        Task<UserModel> GetByIdAsync(int id);
         Task<UserModel> GetByApiKeyAsync(string apiKey);
     }
 }
