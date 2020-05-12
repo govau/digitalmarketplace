@@ -2,17 +2,29 @@ using System;
 
 namespace Dta.Marketplace.Api.Shared {
     public class AppSettings {
-        public string Secret { get; set; }
-        private string _connectionString;
-        public string ConnectionString {
+        private string _marketplaceConnectionString;
+        public string MarketplaceConnectionString {
             get {
-                if (!string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("ConnectionString"))) {
-                    _connectionString = Environment.GetEnvironmentVariable("ConnectionString");
+                if (!string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("MarketplaceConnectionString"))) {
+                    _marketplaceConnectionString = Environment.GetEnvironmentVariable("MarketplaceConnectionString");
                 }
-                return _connectionString;
+                return _marketplaceConnectionString;
             }
             set {
-                _connectionString = value;
+                _marketplaceConnectionString = value;
+            }
+        }
+
+        private string _redisConnectionString;
+        public string RedisConnectionString {
+            get {
+                if (!string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("RedisConnectionString"))) {
+                    _redisConnectionString = Environment.GetEnvironmentVariable("RedisConnectionString");
+                }
+                return _redisConnectionString;
+            }
+            set {
+                _redisConnectionString = value;
             }
         }
     }

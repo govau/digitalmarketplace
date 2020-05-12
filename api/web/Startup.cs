@@ -1,14 +1,14 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Dta.Marketplace.Api.Shared;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Dta.Marketplace.Api.Services.Impl;
+using Dta.Marketplace.Api.Web.Handlers;
+using Dta.Marketplace.Api.Services.EF;
+using Dta.Marketplace.Api.Services.Redis;
 using Dta.Marketplace.Api.Business.Mapping;
 
 namespace Dta.Marketplace.Api.Web {
@@ -27,33 +27,19 @@ namespace Dta.Marketplace.Api.Web {
             // configure strongly typed settings objects
             var appSettingsSection = Configuration.GetSection("AppSettings");
             services.Configure<AppSettings>(appSettingsSection);
-
-            // configure jwt authentication
             var appSettings = appSettingsSection.Get<AppSettings>();
-            var key = Encoding.ASCII.GetBytes(appSettings.Secret);
-            services.AddAuthentication(x => {
-                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
-            .AddJwtBearer(x => {
-                x.RequireHttpsMetadata = false;
-                x.SaveToken = true;
-                x.TokenValidationParameters = new TokenValidationParameters {
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(key),
-                    ValidateIssuer = false,
-                    ValidateAudience = false
-                };
-            });
+
+            services
+                .AddAuthentication("MarketplaceAuthentication")
+                .AddScheme<AuthenticationSchemeOptions, MarketplaceAuthenticationHandler>("MarketplaceAuthentication", null);
 
             services.AddEntityFrameworkNpgsql()
                     .AddDbContext<DigitalMarketplaceContext>(options => {
-                        options.UseNpgsql(appSettings.ConnectionString);
+                        options.UseNpgsql(appSettings.MarketplaceConnectionString);
                     });
-                    //.BuildServiceProvider();
 
-            // configure DI for application services
-            //services.AddScoped<IUserService, UserService>();
+            services.AddSingleton<IRedisConnectionFactory, RedisConnectionFactory>();
+
             services.AddAutoMapper(typeof(AutoMapping));
         }
 

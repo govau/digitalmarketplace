@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Dta.Marketplace.Api.Services.Entities;
 
-namespace Dta.Marketplace.Api.Services.Impl {
+namespace Dta.Marketplace.Api.Services.EF {
     public class UserService : IUserService {
         private readonly DigitalMarketplaceContext _context;
 

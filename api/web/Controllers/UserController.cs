@@ -1,9 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 using Dta.Marketplace.Api.Business.Exceptions;
 using Dta.Marketplace.Api.Business;
 using Dta.Marketplace.Api.Shared;
 using Dta.Marketplace.Api.Business.Models;
+using System.Threading.Tasks;
 
 namespace Dta.Marketplace.Api.Web.Controllers {
     [Authorize]
@@ -18,9 +20,9 @@ namespace Dta.Marketplace.Api.Web.Controllers {
 
         [AllowAnonymous]
         [HttpPost("authenticate")]
-        public IActionResult Authenticate([FromBody]AuthenticateModel model) {
+        public async Task<IActionResult> AuthenticateAsync([FromBody]AuthenticateModel model) {
             try {
-                var user = _userBusiness.Authenticate(model);
+                var user = await _userBusiness.AuthenticateAsync(model);
                 return Ok(user);
             } catch (CannotAuthenticateException) {
                 return BadRequest(new { message = "Username or password is incorrect" });
@@ -36,8 +38,7 @@ namespace Dta.Marketplace.Api.Web.Controllers {
 
         [HttpGet("{id}")]
         public IActionResult GetById(int id) {
-            // only allow admins to access other user records
-            var currentUserId = int.Parse(User.Identity.Name);
+            var currentUserId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
             if (id != currentUserId && !User.IsInRole(Roles.Admin)) {
                 return Forbid();
             }
