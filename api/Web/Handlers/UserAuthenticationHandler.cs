@@ -7,11 +7,11 @@ using System.Security.Claims;
 using Dta.Marketplace.Api.Business;
 
 namespace Dta.Marketplace.Api.Web.Handlers {
-    public class MarketplaceAuthenticationHandler : AuthenticationHandler<AuthenticationSchemeOptions> {
+    public class UserAuthenticationHandler : AuthenticationHandler<AuthenticationSchemeOptions> {
         private readonly IUserSessionBusiness _userSessionBusiness;
         private readonly IUserBusiness _userBusiness;
 
-        public MarketplaceAuthenticationHandler(
+        public UserAuthenticationHandler(
             IOptionsMonitor<AuthenticationSchemeOptions> options,
             ILoggerFactory logger,
             UrlEncoder encoder,

@@ -10,12 +10,14 @@ using System.Threading.Tasks;
 namespace Dta.Marketplace.Api.Business {
     public class UserBusiness : IUserBusiness {
         private readonly AppSettings _appSettings;
+        private IApiKeyService _apiKeyService;
         private IUserService _userService;
         private IUserSessionBusiness _userSessionBusiness;
         private IMapper _mapper;
 
-        public UserBusiness(IOptions<AppSettings> appSettings, IUserService userService, IUserSessionBusiness userSessionBusiness, IMapper mapper) {
+        public UserBusiness(IOptions<AppSettings> appSettings, IApiKeyService apiKeyService, IUserService userService, IUserSessionBusiness userSessionBusiness, IMapper mapper) {
             _appSettings = appSettings.Value;
+            _apiKeyService = apiKeyService;
             _userService = userService;
             _userSessionBusiness = userSessionBusiness;
             _mapper = mapper;
@@ -35,5 +37,7 @@ namespace Dta.Marketplace.Api.Business {
 
         public IEnumerable<UserModel> GetAll() => _mapper.Map<IEnumerable<UserModel>>(_userService.GetAll());
         public UserModel GetById(int id) => _mapper.Map<UserModel>(_userService.GetById(id));
+
+        public UserModel GetByApiKey(string apiKey) => _mapper.Map<UserModel>(_apiKeyService.Get(apiKey)?.User);
     }
 }
