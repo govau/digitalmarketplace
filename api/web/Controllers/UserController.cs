@@ -5,6 +5,7 @@ using Dta.Marketplace.Api.Business.Exceptions;
 using Dta.Marketplace.Api.Business;
 using Dta.Marketplace.Api.Shared;
 using Dta.Marketplace.Api.Business.Models;
+using Dta.Marketplace.Api.Web.Utils;
 using System.Threading.Tasks;
 
 namespace Dta.Marketplace.Api.Web.Controllers {
@@ -12,10 +13,12 @@ namespace Dta.Marketplace.Api.Web.Controllers {
     [ApiController]
     [Route("[controller]")]
     public class UsersController : ControllerBase {
-        private IUserBusiness _userBusiness;
+        private readonly IAuthorizationUtil _authorizationUtil; 
+        private readonly IUserBusiness _userBusiness;
 
-        public UsersController(IUserBusiness userBusiness) {
+        public UsersController(IUserBusiness userBusiness, IAuthorizationUtil authorizationUtil) {
             _userBusiness = userBusiness;
+            _authorizationUtil = authorizationUtil;
         }
 
         [AllowAnonymous]
@@ -38,8 +41,7 @@ namespace Dta.Marketplace.Api.Web.Controllers {
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetByIdAsync(int id) {
-            var currentUserId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-            if (id != currentUserId && !User.IsInRole(Roles.Admin)) {
+            if (!_authorizationUtil.IsUserInRole(User, Roles.Admin) && !_authorizationUtil.IsUserTheSame(User, id)) {
                 return Forbid();
             }
 
