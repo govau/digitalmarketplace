@@ -30,8 +30,9 @@ namespace Dta.Marketplace.Api.Web {
             var appSettings = appSettingsSection.Get<AppSettings>();
 
             services
-                .AddAuthentication("UserAuthenticationHandler")
-                .AddScheme<AuthenticationSchemeOptions, UserAuthenticationHandler>("UserAuthenticationHandler", null);
+                .AddAuthentication(Schemes.UserAuthenticationHandler)
+                .AddScheme<AuthenticationSchemeOptions, UserAuthenticationHandler>(Schemes.UserAuthenticationHandler, null)
+                .AddScheme<AuthenticationSchemeOptions, ApiKeyAuthenticationHandler>(Schemes.ApiKeyAuthenticationHandler, null);
 
             services.AddEntityFrameworkNpgsql()
                     .AddDbContext<DigitalMarketplaceContext>(options => {

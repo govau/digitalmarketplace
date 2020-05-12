@@ -38,6 +38,9 @@ namespace Dta.Marketplace.Api.Business {
         public IEnumerable<UserModel> GetAll() => _mapper.Map<IEnumerable<UserModel>>(_userService.GetAll());
         public UserModel GetById(int id) => _mapper.Map<UserModel>(_userService.GetById(id));
 
-        public UserModel GetByApiKey(string apiKey) => _mapper.Map<UserModel>(_apiKeyService.Get(apiKey)?.User);
+        public async Task<UserModel> GetByApiKeyAsync(string apiKey) {
+            var api = await _apiKeyService.GetAsync(apiKey);
+            return _mapper.Map<UserModel>(api.User);
+        }
     }
 }

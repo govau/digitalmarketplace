@@ -21,15 +21,14 @@ namespace Dta.Marketplace.Api.Web.Handlers {
         }
 
         protected override async Task<AuthenticateResult> HandleAuthenticateAsync() {
-            await Task.Run(() => {});
             if (!Request.Headers.ContainsKey("X-Api-Key")) {
-                return AuthenticateResult.NoResult();
+                return AuthenticateResult.Fail("x-api-key is missing");
             }
 
             var apiKey = Request.Headers["X-Api-Key"];
-            var user = _userBusiness.GetByApiKey(apiKey);
+            var user = await _userBusiness.GetByApiKeyAsync(apiKey);
             if (user == null) {
-                return AuthenticateResult.NoResult();
+                return AuthenticateResult.Fail("Invalid x-api-key");
             }
 
             var identity = new ClaimsIdentity(new Claim[] {
