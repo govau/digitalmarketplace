@@ -7,7 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Dta.Marketplace.Api.Shared;
 using Dta.Marketplace.Api.Web.Handlers;
-using Dta.Marketplace.Api.Services.EF;
+using Dta.Marketplace.Api.Services.Sql;
 using Dta.Marketplace.Api.Services.Redis;
 using Dta.Marketplace.Api.Business.Mapping;
 

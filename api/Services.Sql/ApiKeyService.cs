@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using Dta.Marketplace.Api.Services.Entities;
 
-namespace Dta.Marketplace.Api.Services.EF {
+namespace Dta.Marketplace.Api.Services.Sql {
     public class ApiKeyService : IApiKeyService {
         private readonly DigitalMarketplaceContext _context;
 

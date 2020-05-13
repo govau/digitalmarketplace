@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dta.Marketplace.Api.Busines
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dta.Marketplace.Api.Business.Impl", "Business.Impl\Dta.Marketplace.Api.Business.Impl.csproj", "{3E7E575E-27A1-4D20-929F-1C5949173D54}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dta.Marketplace.Api.Services.EF", "Services.EF\Dta.Marketplace.Api.Services.EF.csproj", "{B23AA9F0-E6B6-4736-9FBB-E77CF789A118}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dta.Marketplace.Api.Services.Sql", "Services.Sql\Dta.Marketplace.Api.Services.Sql.csproj", "{B23AA9F0-E6B6-4736-9FBB-E77CF789A118}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dta.Marketplace.Api.Services", "Services\Dta.Marketplace.Api.Services.csproj", "{DE6E6422-ECB0-4DB2-B468-56EEDEFF45A5}"
 EndProject

@@ -4,7 +4,7 @@ using Xunit;
 using Moq;
 using System;
 using System.Threading.Tasks;
-using Dta.Marketplace.Api.Services.EF;
+using Dta.Marketplace.Api.Services.Sql;
 
 namespace Dta.Marketplace.Api.Tests.Controllers.UsersControllerTests {
     public class AuthenticateAsync : IDisposable {

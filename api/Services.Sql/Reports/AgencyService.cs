@@ -5,7 +5,7 @@ using System.Text.Json;
 using Dapper;
 using Dta.Marketplace.Api.Services.Reports;
 
-namespace Dta.Marketplace.Api.Services.EF.Reports {
+namespace Dta.Marketplace.Api.Services.Sql.Reports {
     public class AgencyService : IAgencyService {
         private readonly DigitalMarketplaceContext _context;
 

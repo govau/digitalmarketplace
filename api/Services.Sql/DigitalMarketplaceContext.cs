@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Dta.Marketplace.Api.Services.Entities;
 
-namespace Dta.Marketplace.Api.Services.EF {
+namespace Dta.Marketplace.Api.Services.Sql {
     public partial class DigitalMarketplaceContext : DbContext {
         static DigitalMarketplaceContext() {
             Npgsql.NpgsqlConnection.GlobalTypeMapper.MapEnum<ApplicationStatus>();

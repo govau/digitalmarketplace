@@ -8,7 +8,7 @@
     <ProjectReference Include="..\Shared\Dta.Marketplace.Api.Shared.csproj" />
     <ProjectReference Include="..\Services\Dta.Marketplace.Api.Services.csproj" />
     <ProjectReference Include="..\Business.Impl\Dta.Marketplace.Api.Business.Impl.csproj" />
-    <ProjectReference Include="..\Services.EF\Dta.Marketplace.Api.Services.EF.csproj" />
+    <ProjectReference Include="..\Services.Sql\Dta.Marketplace.Api.Services.Sql.csproj" />
     <ProjectReference Include="..\Services.Redis\Dta.Marketplace.Api.Services.Redis.csproj" />
   </ItemGroup>
 
