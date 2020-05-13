@@ -52,21 +52,5 @@ namespace Dta.Marketplace.Api.Web.Controllers {
 
             return Ok(user);
         }
-
-        [Authorize(AuthenticationSchemes = Schemes.ApiKeyAuthenticationHandler, Roles = Roles.Admin)]
-        [HttpGet("api/{id}")]
-        public async Task<IActionResult> GetByIdApi(int id) {
-            // var currentUserId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-            // if (id != currentUserId && !User.IsInRole(Roles.Admin)) {
-            //     return Forbid();
-            // }
-
-            var user = await _userBusiness.GetByIdAsync(id);
-            if (user == null) {
-                return NotFound();
-            }
-
-            return Ok(user);
-        }
     }
 }
