@@ -4,103 +4,69 @@ using Dta.Marketplace.Api.Web.Controllers;
 using Dta.Marketplace.Api.Web.Utils;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using Moq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Dta.Marketplace.Api.Tests.Controllers.UsersControllerTests {
-    [TestClass]
     public class GetById {
-        [TestMethod]
-        public async Task Test_It_Is_Possible_To_Get_User_As_Admin() {
-            var userBusinessMock = new Mock<IUserBusiness>();
-            userBusinessMock
+        private Mock<IUserBusiness> _userBusinessMock;
+        public GetById() {
+            _userBusinessMock = new Mock<IUserBusiness>();
+            _userBusinessMock
                 .Setup(m => m.GetByIdAsync(1))
                 .ReturnsAsync(new UserModel {
                     Id = 1
                 });
-
-            var authorizationUtilMock = new Mock<IAuthorizationUtil>();
-            authorizationUtilMock
-                .Setup(a => a.IsUserInRole(It.IsAny<ClaimsPrincipal>(), It.IsAny<string>()))
-                .Returns(true);
-
-            authorizationUtilMock
-                .Setup(a => a.IsUserTheSame(It.IsAny<ClaimsPrincipal>(), It.IsAny<int>()))
-                .Returns(false);
-
-            var usersController = new UsersController(userBusinessMock.Object, authorizationUtilMock.Object);
-
-            var result = await usersController.GetByIdAsync(1) as ObjectResult;
-            Assert.IsNotNull(result);
-            Assert.AreEqual(StatusCodes.Status200OK, result.StatusCode);
-
-            Assert.IsInstanceOfType(result, typeof(OkObjectResult));
-            var okResult = result as OkObjectResult;
-
-            Assert.IsInstanceOfType(okResult.Value, typeof(UserModel));
-            var userModel = okResult.Value as UserModel;
-
-            Assert.AreEqual(userModel.Id, 1);
         }
 
-        [TestMethod]
-        public async Task Test_It_Is_Possible_To_Get_User_As_Self() {
-            var userBusinessMock = new Mock<IUserBusiness>();
-            userBusinessMock
-                .Setup(m => m.GetByIdAsync(1))
-                .ReturnsAsync(new UserModel {
-                    Id = 1
-                });
-
+        [Theory]
+        [InlineData(true, false)]
+        [InlineData(false, true)]
+        [InlineData(true, true)]
+        public async Task Test_It_Is_Possible_To_Get_User(bool userInAdminRole, bool userTheSame) {
             var authorizationUtilMock = new Mock<IAuthorizationUtil>();
             authorizationUtilMock
                 .Setup(a => a.IsUserInRole(It.IsAny<ClaimsPrincipal>(), It.IsAny<string>()))
-                .Returns(false);
+                .Returns(userInAdminRole);
 
             authorizationUtilMock
                 .Setup(a => a.IsUserTheSame(It.IsAny<ClaimsPrincipal>(), It.IsAny<int>()))
-                .Returns(true);
+                .Returns(userTheSame);
 
-            var usersController = new UsersController(userBusinessMock.Object, authorizationUtilMock.Object);
+            var usersController = new UsersController(_userBusinessMock.Object, authorizationUtilMock.Object);
 
             var result = await usersController.GetByIdAsync(1) as ObjectResult;
-            Assert.IsNotNull(result);
-            Assert.AreEqual(StatusCodes.Status200OK, result.StatusCode);
+            Assert.NotNull(result);
+            Assert.Equal(StatusCodes.Status200OK, result.StatusCode);
 
-            Assert.IsInstanceOfType(result, typeof(OkObjectResult));
+            Assert.IsType<OkObjectResult>(result);
             var okResult = result as OkObjectResult;
 
-            Assert.IsInstanceOfType(okResult.Value, typeof(UserModel));
+            Assert.IsType<UserModel>(okResult.Value);
             var userModel = okResult.Value as UserModel;
 
-            Assert.AreEqual(userModel.Id, 1);
+            Assert.Equal(userModel.Id, 1);
         }
         
-        [TestMethod]
-        public async Task Test_It_Is_Not_Possible_To_Get_User() {
-            var userBusinessMock = new Mock<IUserBusiness>();
-            userBusinessMock
-                .Setup(m => m.GetByIdAsync(1))
-                .ReturnsAsync(new UserModel {
-                    Id = 1
-                });
-
+        [Theory]
+        [InlineData(false, false)]
+        public async Task Test_It_Is_Not_Possible_To_Get_User(bool userInAdminRole, bool userTheSame) {
             var authorizationUtilMock = new Mock<IAuthorizationUtil>();
             authorizationUtilMock
                 .Setup(a => a.IsUserInRole(It.IsAny<ClaimsPrincipal>(), It.IsAny<string>()))
-                .Returns(false);
+                .Returns(userInAdminRole);
 
             authorizationUtilMock
                 .Setup(a => a.IsUserTheSame(It.IsAny<ClaimsPrincipal>(), It.IsAny<int>()))
-                .Returns(false);
+                .Returns(userTheSame);
 
-            var usersController = new UsersController(userBusinessMock.Object, authorizationUtilMock.Object);
+            var usersController = new UsersController(_userBusinessMock.Object, authorizationUtilMock.Object);
 
             var result = await usersController.GetByIdAsync(1) as ForbidResult;
-            Assert.IsNotNull(result);
-            Assert.IsInstanceOfType(result, typeof(ForbidResult));
+            Assert.NotNull(result);
+            Assert.IsType<ForbidResult>(result);
         }
     }
 }
