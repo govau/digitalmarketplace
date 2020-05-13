@@ -31,7 +31,7 @@ namespace Dta.Marketplace.Api.Business {
             if (user == null) {
                 throw new ArgumentNullException("User cannot be null");
             }
-            string token = _encryptionUtil.Encrypt($"{user.Id}+{user.Name}+{user.EmailAddress}+{Guid.NewGuid()}");
+            string token = _encryptionUtil.Encrypt($"{user.Id}+{user.Name}+{user.EmailAddress}+{Guid.NewGuid()}", true);
             await _userSessionService.CreateAsync(user.Id, token);
             return token;
         }
