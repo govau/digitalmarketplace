@@ -9,8 +9,12 @@ namespace Dta.Marketplace.Api.Services.EF {
         public ApiKeyService(DigitalMarketplaceContext context) {
             _context = context;
         }
-        public async Task<ApiKey> GetAsync(string apiKey) {
-            return await _context.ApiKey.Include(a => a.User).SingleOrDefaultAsync(a => a.Key == apiKey);
-        }
+        public async Task<ApiKey> GetAsync(string apiKey) => (
+            await _context
+                .ApiKey
+                .AsNoTracking()
+                .Include(a => a.User)
+                .SingleOrDefaultAsync(a => a.Key == apiKey)
+        );
     }
 }

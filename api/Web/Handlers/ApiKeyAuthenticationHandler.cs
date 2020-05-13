@@ -26,7 +26,7 @@ namespace Dta.Marketplace.Api.Web.Handlers {
             }
 
             var apiKey = Request.Headers["X-Api-Key"];
-            var user = await _userBusiness.GetByApiKeyAsync(apiKey);
+            var user = await _userBusiness.AuthenticateByApiKeyAsync(apiKey);
             if (user == null) {
                 return AuthenticateResult.Fail("Invalid x-api-key");
             }

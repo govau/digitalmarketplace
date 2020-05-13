@@ -7,6 +7,6 @@ namespace Dta.Marketplace.Api.Business {
         Task<UserModel> AuthenticateAsync(AuthenticateModel model);
         Task<IEnumerable<UserModel>> GetAllAsync();
         Task<UserModel> GetByIdAsync(int id);
-        Task<UserModel> GetByApiKeyAsync(string apiKey);
+        Task<UserModel> AuthenticateByApiKeyAsync(string apiKey);
     }
 }
