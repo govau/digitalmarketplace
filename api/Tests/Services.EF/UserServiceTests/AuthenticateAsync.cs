@@ -28,7 +28,7 @@ namespace Dta.Marketplace.Api.Tests.Controllers.UsersControllerTests {
         [InlineData("foo@email.com3", "foobar", true, 3)]
         [InlineData("foo@email.com4", "foobar", true, 4)]
         [InlineData("foo@email.com5", "foobar", true, 5)]
-        public async Task Test_Can_Authenticate(string emailAddress, string password, bool active, int failedLoginCount) {
+        public async Task Can_Authenticate(string emailAddress, string password, bool active, int failedLoginCount) {
             await _context.User.AddAsync(new User {
                 EmailAddress = emailAddress,
                 Password = password,
@@ -48,7 +48,7 @@ namespace Dta.Marketplace.Api.Tests.Controllers.UsersControllerTests {
         [InlineData("fail@email.com1", "foobar", true, 6, null, null)]
         [InlineData("fail@email.com2", "foobar", true, 0, "fail@email.com22", null)]
         [InlineData("fail@email.com3", "foobar", true, 0, null, "barfoo")]
-        public async Task Test_Cannot_Authenticate(string emailAddress, string password, bool active, int failedLoginCount, string wrongEmailAddress, string wrongPassword) {
+        public async Task Cannot_Authenticate(string emailAddress, string password, bool active, int failedLoginCount, string wrongEmailAddress, string wrongPassword) {
             await _context.User.AddAsync(new User {
                 EmailAddress = emailAddress,
                 Password = password,

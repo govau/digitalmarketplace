@@ -25,7 +25,7 @@ namespace Dta.Marketplace.Api.Tests.Controllers.UsersControllerTests {
         [InlineData(true, false)]
         [InlineData(false, true)]
         [InlineData(true, true)]
-        public async Task Test_It_Is_Possible_To_Get_User(bool userInAdminRole, bool userTheSame) {
+        public async Task Can_Get_User(bool userInAdminRole, bool userTheSame) {
             var authorizationUtilMock = new Mock<IAuthorizationUtil>();
             authorizationUtilMock
                 .Setup(a => a.IsUserInRole(It.IsAny<ClaimsPrincipal>(), It.IsAny<string>()))
@@ -47,12 +47,12 @@ namespace Dta.Marketplace.Api.Tests.Controllers.UsersControllerTests {
             Assert.IsType<UserModel>(okResult.Value);
             var userModel = okResult.Value as UserModel;
 
-            Assert.Equal(userModel.Id, 1);
+            Assert.Equal(1, userModel.Id);
         }
         
         [Theory]
         [InlineData(false, false)]
-        public async Task Test_It_Is_Not_Possible_To_Get_User(bool userInAdminRole, bool userTheSame) {
+        public async Task Cannot_Get_User(bool userInAdminRole, bool userTheSame) {
             var authorizationUtilMock = new Mock<IAuthorizationUtil>();
             authorizationUtilMock
                 .Setup(a => a.IsUserInRole(It.IsAny<ClaimsPrincipal>(), It.IsAny<string>()))

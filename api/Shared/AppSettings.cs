@@ -27,5 +27,17 @@ namespace Dta.Marketplace.Api.Shared {
                 _redisConnectionString = value;
             }
         }
+        private string _salt;
+        public string Salt {
+            get {
+                if (!string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("Salt"))) {
+                    _salt = Environment.GetEnvironmentVariable("Salt");
+                }
+                return _salt;
+            }
+            set {
+                _salt = value;
+            }
+        }
     }
 }
