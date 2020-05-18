@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using System.Threading.Tasks;
 using Dta.Marketplace.Api.Services.Entities;
 
@@ -14,7 +15,8 @@ namespace Dta.Marketplace.Api.Services.Sql {
                 .ApiKey
                 .AsNoTracking()
                 .Include(a => a.User)
-                .SingleOrDefaultAsync(a => a.Key == apiKey)
+                .Where(a => a.Key == apiKey)
+                .SingleOrDefaultAsync()
         );
     }
 }
