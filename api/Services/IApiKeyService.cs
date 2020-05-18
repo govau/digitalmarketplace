@@ -4,5 +4,6 @@ using Dta.Marketplace.Api.Services.Entities;
 namespace Dta.Marketplace.Api.Services {
     public interface IApiKeyService {
         Task<ApiKey> GetAsync(string apiKey);
+        Task<ApiKey> GetForUpdateAsync(string apiKey);
     }
 }

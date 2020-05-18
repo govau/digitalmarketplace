@@ -10,10 +10,18 @@ namespace Dta.Marketplace.Api.Services.Sql {
         public ApiKeyService(DigitalMarketplaceContext context) {
             _context = context;
         }
+        
         public async Task<ApiKey> GetAsync(string apiKey) => (
             await _context
                 .ApiKey
                 .AsNoTracking()
+                .Include(a => a.User)
+                .Where(a => a.Key == apiKey && a.RevokedAt != null)
+                .SingleOrDefaultAsync()
+        );
+        public async Task<ApiKey> GetForUpdateAsync(string apiKey) => (
+            await _context
+                .ApiKey
                 .Include(a => a.User)
                 .Where(a => a.Key == apiKey)
                 .SingleOrDefaultAsync()
