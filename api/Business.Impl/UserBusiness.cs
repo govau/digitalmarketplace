@@ -37,6 +37,9 @@ namespace Dta.Marketplace.Api.Business {
         public async Task<UserModel> GetByIdAsync(int id) => _mapper.Map<UserModel>(await _userService.GetByIdAsync(id));
         public async Task<UserModel> AuthenticateByApiKeyAsync(string apiKey) {
             var api = await _apiKeyService.GetAsync(apiKey);
+            if (api == null) {
+                throw new CannotAuthenticateException();
+            }
             return _mapper.Map<UserModel>(api.User);
         }
     }
