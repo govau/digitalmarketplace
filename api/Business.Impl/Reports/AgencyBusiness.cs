@@ -13,7 +13,6 @@ namespace Dta.Marketplace.Api.Business.Reports {
 
         public async Task<IEnumerable<dynamic>> GetAgenciesAsync() {
             var results = await _agencyService.GetAgenciesAsync();
-            System.Console.WriteLine(results.First().domains);
             return results;
         }
     }
