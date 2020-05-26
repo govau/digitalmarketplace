@@ -67,17 +67,28 @@ commands:
 
 jobs:
 
+  checkout_code:
+    docker:
+      - image: circleci/node:12
+    steps:
+      - attach_workspace:
+          at: .
+      - checkout
+      - persist_to_workspace:
+          root: .
+          paths:
+            - "**/*"
+
   run_npm_builds:
     docker:
       - image: circleci/node:12-stretch-browsers
     steps:
       - attach_workspace:
           at: .
-      - checkout
       - npm_build:
           path: "ui-automated-tests"
       - persist_to_workspace:
-          root: ui-automated-tests
+          root: .
           paths:
             - "**/*"
 
@@ -86,8 +97,7 @@ jobs:
       - image: circleci/node:12-stretch-browsers
     steps:
       - attach_workspace:
-          at: ui-automated-tests
-      - checkout
+          at: .
       - run: 
           name: Run Tests
           command: |
@@ -111,12 +121,11 @@ jobs:
       - image: mcr.microsoft.com/dotnet/core/sdk:3.1
     steps:
       - attach_workspace:
-          at: subscribers/slack
-      - checkout
+          at: .
       - dot_net_build: 
           path: "subscribers/slack/worker"
       - persist_to_workspace:
-          root: subscribers/slack
+          root: .
           paths:
             - "**/*"
 
@@ -125,7 +134,7 @@ jobs:
       - image: mcr.microsoft.com/dotnet/core/sdk:3.1
     steps:
       - attach_workspace:
-          at: subscribers/slack
+          at: .
       - dot_net_test:
           path: "subscribers/slack/worker.tests"
 
@@ -134,12 +143,11 @@ jobs:
       - image: mcr.microsoft.com/dotnet/core/sdk:3.1
     steps:
       - attach_workspace:
-          at: subscribers/logs
-      - checkout
+          at: .
       - dot_net_build: 
           path: "subscribers/logs/worker"
       - persist_to_workspace:
-          root: subscribers/logs
+          root: .
           paths:
             - "**/*"
 
@@ -148,7 +156,7 @@ jobs:
       - image: mcr.microsoft.com/dotnet/core/sdk:3.1
     steps:
       - attach_workspace:
-          at: subscribers/logs
+          at: .
       - dot_net_test:
           path: "subscribers/logs/worker.tests"
 
@@ -158,11 +166,10 @@ jobs:
     steps:
       - attach_workspace:
           at: .
-      - checkout
       - dot_net_build:
           path: "subscribers/email.logger/worker"
       - persist_to_workspace:
-          root: subscribers/email.logger
+          root: .
           paths:
             - "**/*"
 
@@ -171,7 +178,7 @@ jobs:
       - image: mcr.microsoft.com/dotnet/core/sdk:3.1
     steps:
       - attach_workspace:
-          at: subscribers/email.logger
+          at: .
       - dot_net_test:
           path: "subscribers/email.logger/worker.tests"
 
@@ -180,12 +187,11 @@ jobs:
       - image: mcr.microsoft.com/dotnet/core/sdk:3.1
     steps:
       - attach_workspace:
-          at: api
-      - checkout
+          at: .
       - dot_net_build: 
           path: "api"
       - persist_to_workspace:
-          root: api
+          root: .
           paths:
             - "**/*"
 
@@ -194,7 +200,7 @@ jobs:
       - image: mcr.microsoft.com/dotnet/core/sdk:3.1
     steps:
       - attach_workspace:
-          at: api
+          at: .
       - dot_net_test:
           path: "api/Tests"
     
@@ -280,23 +286,37 @@ workflows:
               only: master
   build_test_deploy:
     jobs:
+      - checkout_code:
+          filters:
+            tags:
+              only: /[0-9]+(\.[0-9]+)*/
       - run_npm_builds:
+          requires:
+            - checkout_code
           filters:
             tags:
               only: /[0-9]+(\.[0-9]+)*/
       - run_slack_worker_build:
+          requires:
+            - checkout_code
           filters:
             tags:
               only: /[0-9]+(\.[0-9]+)*/
       - run_email_logger_build:
+          requires:
+            - checkout_code
           filters:
             tags:
               only: /[0-9]+(\.[0-9]+)*/
       - run_logger_build:
+          requires:
+            - checkout_code
           filters:
             tags:
               only: /[0-9]+(\.[0-9]+)*/
       - run_api_build:
+          requires:
+            - checkout_code
           filters:
             tags:
               only: /[0-9]+(\.[0-9]+)*/
