@@ -66,7 +66,7 @@ commands:
     
 
 jobs:
-  run_dot_net_builds:
+  run_slack_worker_build:
     docker:
       - image: mcr.microsoft.com/dotnet/core/sdk:3.1
     steps:
@@ -75,14 +75,50 @@ jobs:
       - checkout
       - dot_net_build: 
           path: "subscribers/slack/worker"
+      - persist_to_workspace:
+          root: subscribers/slack
+          paths:
+            - "**/*"
+
+  run_email_logger_build:
+    docker:
+      - image: mcr.microsoft.com/dotnet/core/sdk:3.1
+    steps:
+      - attach_workspace:
+          at: .
+      - checkout
       - dot_net_build:
           path: "subscribers/email.logger/worker"
+      - persist_to_workspace:
+          root: subscribers/email.logger
+          paths:
+            - "**/*"
+
+  run_logger_build:
+    docker:
+      - image: mcr.microsoft.com/dotnet/core/sdk:3.1
+    steps:
+      - attach_workspace:
+          at: .
+      - checkout
       - dot_net_build: 
           path: "subscribers/logs/worker"
+      - persist_to_workspace:
+          root: subscribers/logs
+          paths:
+            - "**/*"
+
+  run_api_build:
+    docker:
+      - image: mcr.microsoft.com/dotnet/core/sdk:3.1
+    steps:
+      - attach_workspace:
+          at: .
+      - checkout
       - dot_net_build: 
           path: "api"
       - persist_to_workspace:
-          root: .
+          root: api
           paths:
             - "**/*"
 
@@ -100,7 +136,7 @@ jobs:
           paths:
             - "**/*"
 
-  run_dot_net_tests:
+  run_slack_worker_test:
     docker:
       - image: mcr.microsoft.com/dotnet/core/sdk:3.1
     steps:
@@ -108,16 +144,33 @@ jobs:
           at: .
       - dot_net_test:
           path: "subscribers/slack/worker.tests"
+
+  run_email_logger_test:
+    docker:
+      - image: mcr.microsoft.com/dotnet/core/sdk:3.1
+    steps:
+      - attach_workspace:
+          at: .
       - dot_net_test:
           path: "subscribers/email.logger/worker.tests"
+
+  run_logger_test:
+    docker:
+      - image: mcr.microsoft.com/dotnet/core/sdk:3.1
+    steps:
+      - attach_workspace:
+          at: .
       - dot_net_test:
           path: "subscribers/logs/worker.tests"
+
+  run_api_test:
+    docker:
+      - image: mcr.microsoft.com/dotnet/core/sdk:3.1
+    steps:
+      - attach_workspace:
+          at: .
       - dot_net_test:
           path: "api/Tests"
-      - persist_to_workspace:
-          root: .
-          paths:
-            - "**/*"
 
   run_automated_tests:
     docker:
@@ -230,19 +283,52 @@ workflows:
           filters:
             tags:
               only: /[0-9]+(\.[0-9]+)*/
-      - run_dot_net_builds:
+      - run_slack_worker_build:
           filters:
             tags:
               only: /[0-9]+(\.[0-9]+)*/
-      - run_dot_net_tests:
+      - run_email_logger_build:
+          filters:
+            tags:
+              only: /[0-9]+(\.[0-9]+)*/
+      - run_logger_build:
+          filters:
+            tags:
+              only: /[0-9]+(\.[0-9]+)*/
+      - run_api_build:
+          filters:
+            tags:
+              only: /[0-9]+(\.[0-9]+)*/
+      - run_slack_worker_test:
           requires:
-            - run_dot_net_builds
+            - run_slack_worker_build
+          filters:
+            tags:
+              only: /[0-9]+(\.[0-9]+)*/
+      - run_email_logger_test:
+          requires:
+            - run_email_logger_build
+          filters:
+            tags:
+              only: /[0-9]+(\.[0-9]+)*/
+      - run_logger_test:
+          requires:
+            - run_logger_build
+          filters:
+            tags:
+              only: /[0-9]+(\.[0-9]+)*/
+      - run_api_test:
+          requires:
+            - run_api_build
           filters:
             tags:
               only: /[0-9]+(\.[0-9]+)*/
       - deploy_to_alpha:
           requires:
-            - run_dot_net_tests
+            - run_slack_worker_test
+            - run_email_logger_test
+            - run_logger_test
+            - run_api_test
           filters:
             tags:
               ignore: /.*/
@@ -250,7 +336,10 @@ workflows:
               only: alpha
       - deploy_to_rc:
           requires:
-            - run_dot_net_tests
+            - run_slack_worker_test
+            - run_email_logger_test
+            - run_logger_test
+            - run_api_test
           filters:
             tags:
               ignore: /.*/
@@ -258,7 +347,10 @@ workflows:
               only: rc
       - deploy_to_staging:
           requires:
-            - run_dot_net_tests
+            - run_slack_worker_test
+            - run_email_logger_test
+            - run_logger_test
+            - run_api_test
           filters:
             tags:
               ignore: /.*/
@@ -266,7 +358,10 @@ workflows:
               only: master
       - deploy_to_production:
           requires:
-            - run_dot_net_tests
+            - run_slack_worker_test
+            - run_email_logger_test
+            - run_logger_test
+            - run_api_test
           filters:
             tags:
               only: /[0-9]+(\.[0-9]+)*/
