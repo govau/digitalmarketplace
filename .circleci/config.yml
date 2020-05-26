@@ -25,6 +25,8 @@ commands:
       path:
         type: string
     steps:
+      - attach_workspace:
+          at: .
       - run: 
           name: Dotnet test
           command: |
@@ -133,8 +135,6 @@ jobs:
     docker:
       - image: mcr.microsoft.com/dotnet/core/sdk:3.1
     steps:
-      - attach_workspace:
-          at: .
       - dot_net_test:
           path: "subscribers/slack/worker.tests"
 
@@ -142,21 +142,13 @@ jobs:
     docker:
       - image: mcr.microsoft.com/dotnet/core/sdk:3.1
     steps:
-      - attach_workspace:
-          at: .
       - dot_net_build: 
           path: "subscribers/logs/worker"
-      - persist_to_workspace:
-          root: .
-          paths:
-            - "**/*"
 
   run_logger_test:
     docker:
       - image: mcr.microsoft.com/dotnet/core/sdk:3.1
     steps:
-      - attach_workspace:
-          at: .
       - dot_net_test:
           path: "subscribers/logs/worker.tests"
 
@@ -164,21 +156,13 @@ jobs:
     docker:
       - image: mcr.microsoft.com/dotnet/core/sdk:3.1
     steps:
-      - attach_workspace:
-          at: .
       - dot_net_build:
           path: "subscribers/email.logger/worker"
-      - persist_to_workspace:
-          root: .
-          paths:
-            - "**/*"
 
   run_email_logger_test:
     docker:
       - image: mcr.microsoft.com/dotnet/core/sdk:3.1
     steps:
-      - attach_workspace:
-          at: .
       - dot_net_test:
           path: "subscribers/email.logger/worker.tests"
 
@@ -186,21 +170,13 @@ jobs:
     docker:
       - image: mcr.microsoft.com/dotnet/core/sdk:3.1
     steps:
-      - attach_workspace:
-          at: .
       - dot_net_build: 
           path: "api"
-      - persist_to_workspace:
-          root: .
-          paths:
-            - "**/*"
 
   run_api_test:
     docker:
       - image: mcr.microsoft.com/dotnet/core/sdk:3.1
     steps:
-      - attach_workspace:
-          at: .
       - dot_net_test:
           path: "api/Tests"
     
