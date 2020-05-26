@@ -39,6 +39,8 @@ commands:
       path:
         type: string
     steps:
+      - attach_workspace:
+          at: .
       - run: 
           name: Build npm
           command: |
@@ -46,6 +48,10 @@ commands:
             npm install
             npm run build
             npm run lint
+      - persist_to_workspace:
+          root: .
+          paths:
+            - "**/*"
 
   cf_deploy:
     description: "cf deploy"
@@ -74,7 +80,6 @@ commands:
     
 
 jobs:
-
   checkout_code:
     docker:
       - image: circleci/node:12
@@ -87,18 +92,12 @@ jobs:
           paths:
             - "**/*"
 
-  run_npm_builds:
+  run_automated_tests_build:
     docker:
       - image: circleci/node:12-stretch-browsers
     steps:
-      - attach_workspace:
-          at: .
       - npm_build:
           path: "ui-automated-tests"
-      - persist_to_workspace:
-          root: .
-          paths:
-            - "**/*"
 
   run_automated_tests:
     docker:
@@ -266,7 +265,7 @@ workflows:
           filters:
             tags:
               only: /[0-9]+(\.[0-9]+)*/
-      - run_npm_builds:
+      - run_automated_tests_build:
           requires:
             - checkout_code
           filters:
