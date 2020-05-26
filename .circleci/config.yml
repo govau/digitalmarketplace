@@ -7,11 +7,17 @@ commands:
       path:
         type: string
     steps:
+      - attach_workspace:
+          at: .
       - run: 
           name: Dotnet build
           command: |
             cd << parameters.path >>
             dotnet build
+      - persist_to_workspace:
+          root: .
+          paths:
+            - "**/*"
   
   dot_net_test:
     description: "Test dot net project"
@@ -120,14 +126,8 @@ jobs:
     docker:
       - image: mcr.microsoft.com/dotnet/core/sdk:3.1
     steps:
-      - attach_workspace:
-          at: .
       - dot_net_build: 
           path: "subscribers/slack/worker"
-      - persist_to_workspace:
-          root: .
-          paths:
-            - "**/*"
 
   run_slack_worker_test:
     docker:
