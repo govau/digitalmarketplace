@@ -43,7 +43,7 @@ namespace Dta.Marketplace.Api.Services.Sql.Reports {
                             SUBSTRING(u.email_address, '@(.*)') AS domain
                         FROM brief_user bu
                         INNER JOIN ""user"" u ON u.id = bu.user_id
-                        GROUP BY bu.brief_id, u.email_address)
+                        GROUP BY bu.brief_id, u.email_address
                         ) r on r.brief_id = b.id
                     WHERE b.published_at IS NOT NULL
                     ORDER BY b.id
