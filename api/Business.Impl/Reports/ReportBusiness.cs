@@ -26,10 +26,7 @@ namespace Dta.Marketplace.Api.Business.Reports {
         public async Task<IEnumerable<dynamic>> GetAgenciesAsync() =>  await _agencyService.GetAgenciesAsync();
         public async Task<IEnumerable<dynamic>> GetPublishedBriefsAsync() => await _briefService.GetPublishedBriefsAsync();
         public async Task<IEnumerable<dynamic>> GetSubmittedBriefResponsesAsync() => await _briefResponseService.GetSubmittedBriefResponsesAsync();
-        public async Task<IEnumerable<dynamic>> GetFeedbacksAsync() {
-            var results = await _feedbackService.GetFeedbacksAsync();
-            return results;
-        }
+        public async Task<IEnumerable<dynamic>> GetFeedbacksAsync() => await _feedbackService.GetFeedbacksAsync();
         public async Task<IEnumerable<dynamic>> GetSuppliersAsync() {
             var results = await _supplierService.GetSuppliersAsync();
             return results;
