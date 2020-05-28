@@ -22,7 +22,7 @@ namespace Dta.Marketplace.Api.Services.Sql.Reports {
                         br.created_at,
                         br.data ->> 'dayRate' AS day_rate,
                         l.name as brief_type,
-                        br.data ->> 'areaOfExpertise' AS areaOfExpertise
+                        br.data ->> 'areaOfExpertise' AS brief_category
                     FROM brief_response br	
                     INNER JOIN brief b ON b.id = br.brief_id
                     INNER JOIN lot l  ON l.id = br.brief_id
