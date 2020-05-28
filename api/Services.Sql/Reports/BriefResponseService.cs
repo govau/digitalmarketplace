@@ -20,7 +20,7 @@ namespace Dta.Marketplace.Api.Services.Sql.Reports {
                         br.brief_id,
                         br.supplier_code,
                         br.created_at,
-                        br.data ->> 'dayRate' AS dayRate,
+                        br.data ->> 'dayRate' AS day_rate,
                         l.name as brief_type,
                         br.data ->> 'areaOfExpertise' AS areaOfExpertise
                     FROM brief_response br	
