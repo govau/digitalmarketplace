@@ -29,7 +29,7 @@ namespace Dta.Marketplace.Api.Services.Sql.Reports {
                     FROM brief b
                     INNER JOIN lot l ON l.id = b.id
                     INNER JOIN(
-                        (SELECT
+                        SELECT
                             tb.brief_id,
                             SUBSTRING(u.email_address, '@(.*)') AS domain
                         FROM team_brief tb
