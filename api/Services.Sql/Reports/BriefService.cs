@@ -31,7 +31,7 @@ namespace Dta.Marketplace.Api.Services.Sql.Reports {
                     INNER JOIN(
                         SELECT
                             tb.brief_id,
-                            SUBSTRING(u.email_address, '@(.*)') AS domain
+                            array_agg(SUBSTRING(u.email_address, '@(.*)')) AS domain
                         FROM team_brief tb
                         INNER JOIN team t ON t.id = tb.team_id
                         INNER JOIN ""user"" u ON u.id = tb.user_id
@@ -40,7 +40,7 @@ namespace Dta.Marketplace.Api.Services.Sql.Reports {
                         UNION
                         SELECT
                             bu.brief_id,
-                            SUBSTRING(u.email_address, '@(.*)') AS domain
+                            array_agg(SUBSTRING(u.email_address, '@(.*)')) AS domain
                         FROM brief_user bu
                         INNER JOIN ""user"" u ON u.id = bu.user_id
                         GROUP BY bu.brief_id, u.email_address

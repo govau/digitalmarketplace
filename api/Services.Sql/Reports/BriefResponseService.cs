@@ -26,6 +26,8 @@ namespace Dta.Marketplace.Api.Services.Sql.Reports {
                     FROM brief_response br	
                     INNER JOIN brief b ON b.id = br.brief_id
                     INNER JOIN lot l  ON l.id = br.brief_id
+                    WHERE br.withdrawn_at IS NULL
+                    AND br.submitted_at IS NOT NULL
                     ORDER BY b.id
                 ");
         }

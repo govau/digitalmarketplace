@@ -57,10 +57,10 @@ namespace Dta.Marketplace.Api.Services.Sql.Reports {
 									'placedCandidates', ri.placed_candidates,
 									'margin', ri.margin,
 									'markup', ri.markup
-								), -- as 'recruiters',
+								),
 								'pricing', json_build_object(
 									'supplierPrice',
-									s.data ->> 'pricing', -- [d.name]['maxPrice'] AS 'maxPrice',
+									s.data -> 'pricing' -> d.name ->> 'maxPrice',
 									'priceStatus', sd.price_status,
 									'priceMinimum', d.price_minimum,
 									'priceMaximum', d.price_maximum,
