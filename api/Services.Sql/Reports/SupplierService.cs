@@ -14,7 +14,7 @@ namespace Dta.Marketplace.Api.Services.Sql.Reports {
         }
         public async Task<IEnumerable<dynamic>> GetSuppliersAsync() {
             var connection = _context.Database.GetDbConnection();
-            return await connection.QueryAsync<dynamic>(
+            return await connection.QueryAsync<dynamic, dynamic, dynamic>(
                 sql: @"
 					SELECT
 						s.code,
@@ -105,7 +105,14 @@ namespace Dta.Marketplace.Api.Services.Sql.Reports {
 						GROUP BY a.supplier_code
 					) ad on ad.supplier_code = s.code
 					ORDER BY s.code
-                ");
+                ",
+				map: (a, ad) => {
+					a.categories = JsonSerializer.Deserialize<dynamic>(ad.categories);
+					a.products = JsonSerializer.Deserialize<dynamic>(ad.products);
+					a.addresses = JsonSerializer.Deserialize<dynamic>(ad.addresses);
+                    return a;
+                },
+				splitOn: "categories");
         }
     }
 }
