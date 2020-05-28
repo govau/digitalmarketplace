@@ -38,7 +38,7 @@ namespace Dta.Marketplace.Api.Services.Sql.Reports {
                         WHERE t.status = 'completed'
                         GROUP BY tb.brief_id, u.email_address
                         UNION
-                        (SELECT
+                        SELECT
                             bu.brief_id,
                             SUBSTRING(u.email_address, '@(.*)') AS domain
                         FROM brief_user bu
