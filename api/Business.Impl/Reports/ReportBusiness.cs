@@ -23,11 +23,7 @@ namespace Dta.Marketplace.Api.Business.Reports {
             _feedbackService = feedbackService;
             _supplierService = supplierService;
         }
-        public async Task<IEnumerable<dynamic>> GetAgenciesAsync() {
-            var results = await _agencyService.GetAgenciesAsync();
-            // System.Console.WriteLine(results.First().domains);
-            return results;
-        }
+        public async Task<IEnumerable<dynamic>> GetAgenciesAsync() =>  await _agencyService.GetAgenciesAsync();
         public async Task<IEnumerable<dynamic>> GetPublishedBriefsAsync() => await _briefService.GetPublishedBriefsAsync();
         public async Task<IEnumerable<dynamic>> GetSubmittedBriefResponsesAsync() {
             var results = await _briefResponseService.GetSubmittedBriefResponsesAsync();
