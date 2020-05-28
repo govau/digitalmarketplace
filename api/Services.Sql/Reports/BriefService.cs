@@ -36,7 +36,7 @@ namespace Dta.Marketplace.Api.Services.Sql.Reports {
                         INNER JOIN team t ON t.id = tb.team_id
                         INNER JOIN ""user"" u ON u.id = tb.user_id
                         WHERE t.status = 'completed'
-                        GROUP BY tb.brief_id, u.email_address)
+                        GROUP BY tb.brief_id, u.email_address
                         UNION
                         (SELECT
                             bu.brief_id,
