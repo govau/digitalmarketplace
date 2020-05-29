@@ -35,7 +35,7 @@ namespace Dta.Marketplace.Api.Tests.Controllers.UsersControllerTests {
                 .Setup(a => a.IsUserTheSame(It.IsAny<ClaimsPrincipal>(), It.IsAny<int>()))
                 .Returns(userTheSame);
 
-            var usersController = new UsersController(_userBusinessMock.Object, authorizationUtilMock.Object);
+            var usersController = new UserController(_userBusinessMock.Object, authorizationUtilMock.Object);
 
             var result = await usersController.GetByIdAsync(1) as ObjectResult;
             Assert.NotNull(result);
@@ -62,7 +62,7 @@ namespace Dta.Marketplace.Api.Tests.Controllers.UsersControllerTests {
                 .Setup(a => a.IsUserTheSame(It.IsAny<ClaimsPrincipal>(), It.IsAny<int>()))
                 .Returns(userTheSame);
 
-            var usersController = new UsersController(_userBusinessMock.Object, authorizationUtilMock.Object);
+            var usersController = new UserController(_userBusinessMock.Object, authorizationUtilMock.Object);
 
             var result = await usersController.GetByIdAsync(1) as ForbidResult;
             Assert.NotNull(result);

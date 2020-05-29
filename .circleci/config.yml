@@ -1,13 +1,4 @@
 version: 2.1
-references:
-  deploy_docker: &deploy_docker
-    docker:
-      - image: mcr.microsoft.com/dotnet/core/sdk:3.1
-        environment:
-          TZ: "/usr/share/zoneinfo/Australia/Sydney"
-  circleci_deploy: &circleci_deploy
-    docker:
-      - image: circleci/node:12-stretch
 
 commands:
   dot_net_build:
@@ -16,11 +7,17 @@ commands:
       path:
         type: string
     steps:
+      - attach_workspace:
+          at: .
       - run: 
           name: Dotnet build
           command: |
             cd << parameters.path >>
             dotnet build
+      - persist_to_workspace:
+          root: .
+          paths:
+            - "**/*"
   
   dot_net_test:
     description: "Test dot net project"
@@ -28,6 +25,8 @@ commands:
       path:
         type: string
     steps:
+      - attach_workspace:
+          at: .
       - run: 
           name: Dotnet test
           command: |
@@ -40,6 +39,8 @@ commands:
       path:
         type: string
     steps:
+      - attach_workspace:
+          at: .
       - run: 
           name: Build npm
           command: |
@@ -47,6 +48,10 @@ commands:
             npm install
             npm run build
             npm run lint
+      - persist_to_workspace:
+          root: .
+          paths:
+            - "**/*"
 
   cf_deploy:
     description: "cf deploy"
@@ -68,14 +73,6 @@ commands:
       - attach_workspace:
           at: .
       - run:
-          name: Install Cloud Foundry CLI
-          command: |
-            curl -v -L -o cf-cli_amd64.deb 'https://cli.run.pivotal.io/stable?release=debian64&source=github'
-            sudo dpkg -i cf-cli_amd64.deb
-            cf install-plugin https://github.com/contraband/autopilot/releases/download/0.0.8/autopilot-linux -f
-            cf install-plugin https://github.com/govau/cf-run-and-wait/releases/download/0.1/run-and-wait.linux64 -f
-            cf -v
-      - run:
           name: Deploy
           command: |
             cf login -a << parameters.cf_url >> -o dta -s marketplace -u << parameters.cf_user >> -p << parameters.cf_password >>
@@ -83,54 +80,24 @@ commands:
     
 
 jobs:
-  run_dot_net_builds:
-    <<: *deploy_docker
+  checkout_code:
+    docker:
+      - image: circleci/node:12
     steps:
       - attach_workspace:
           at: .
       - checkout
-      - dot_net_build: 
-          path: "subscribers/slack/worker"
-      - dot_net_build:
-          path: "subscribers/email.logger/worker"
-      - dot_net_build: 
-          path: "subscribers/logs/worker"
-      - dot_net_build: 
-          path: "api"
       - persist_to_workspace:
           root: .
           paths:
             - "**/*"
 
-  run_npm_builds:
+  run_automated_tests_build:
     docker:
       - image: circleci/node:12-stretch-browsers
     steps:
-      - attach_workspace:
-          at: .
-      - checkout
       - npm_build:
           path: "ui-automated-tests"
-      - persist_to_workspace:
-          root: .
-          paths:
-            - "**/*"
-
-  run_dot_net_tests:
-    <<: *deploy_docker
-    steps:
-      - attach_workspace:
-          at: .
-      - dot_net_test:
-          path: "subscribers/slack/worker.tests"
-      - dot_net_test:
-          path: "subscribers/email.logger/worker.tests"
-      - dot_net_test:
-          path: "subscribers/logs/worker.tests"
-      - persist_to_workspace:
-          root: .
-          paths:
-            - "**/*"
 
   run_automated_tests:
     docker:
@@ -138,7 +105,6 @@ jobs:
     steps:
       - attach_workspace:
           at: .
-      - checkout
       - run: 
           name: Run Tests
           command: |
@@ -156,9 +122,66 @@ jobs:
             export SELLER_NAME=auto
             export SLOW_MO=10
             npm test
+
+  run_slack_worker_build:
+    docker:
+      - image: mcr.microsoft.com/dotnet/core/sdk:3.1
+    steps:
+      - dot_net_build: 
+          path: "subscribers/slack/worker"
+
+  run_slack_worker_test:
+    docker:
+      - image: mcr.microsoft.com/dotnet/core/sdk:3.1
+    steps:
+      - dot_net_test:
+          path: "subscribers/slack/worker.tests"
+
+  run_logger_build:
+    docker:
+      - image: mcr.microsoft.com/dotnet/core/sdk:3.1
+    steps:
+      - dot_net_build: 
+          path: "subscribers/logs/worker"
+
+  run_logger_test:
+    docker:
+      - image: mcr.microsoft.com/dotnet/core/sdk:3.1
+    steps:
+      - dot_net_test:
+          path: "subscribers/logs/worker.tests"
+
+  run_email_logger_build:
+    docker:
+      - image: mcr.microsoft.com/dotnet/core/sdk:3.1
+    steps:
+      - dot_net_build:
+          path: "subscribers/email.logger/worker"
+
+  run_email_logger_test:
+    docker:
+      - image: mcr.microsoft.com/dotnet/core/sdk:3.1
+    steps:
+      - dot_net_test:
+          path: "subscribers/email.logger/worker.tests"
+
+  run_api_build:
+    docker:
+      - image: mcr.microsoft.com/dotnet/core/sdk:3.1
+    steps:
+      - dot_net_build: 
+          path: "api"
+
+  run_api_test:
+    docker:
+      - image: mcr.microsoft.com/dotnet/core/sdk:3.1
+    steps:
+      - dot_net_test:
+          path: "api/Tests"
     
   deploy_to_rc:
-    <<: *circleci_deploy
+    docker:
+      - image: govau/cf-cli
     steps:
       - cf_deploy:
           cf_app_name: dm-rc-slack-worker
@@ -168,7 +191,8 @@ jobs:
           cf_manifest: logger.rc.yml    
 
   deploy_to_production_clone:
-    <<: *circleci_deploy
+    docker:
+      - image: govau/cf-cli
     steps:
       - cf_deploy:
           cf_app_name: dm-pc-slack-worker
@@ -178,7 +202,8 @@ jobs:
           cf_manifest: logger.pc.yml
 
   deploy_to_staging:
-    <<: *circleci_deploy
+    docker:
+      - image: govau/cf-cli
     steps:
       - cf_deploy:
           cf_app_name: dm-dev-slack-worker
@@ -188,14 +213,16 @@ jobs:
           cf_manifest: logger.dev.yml
 
   deploy_to_alpha:
-    <<: *circleci_deploy
+    docker:
+      - image: govau/cf-cli
     steps:
       - cf_deploy:
           cf_app_name: dm-alpha-logger
           cf_manifest: logger.alpha.yml
 
   deploy_to_production:
-    <<: *circleci_deploy
+    docker:
+      - image: govau/cf-cli
     steps:
       - cf_deploy:
           cf_url: https://api.system.b.cld.gov.au
@@ -234,23 +261,70 @@ workflows:
               only: master
   build_test_deploy:
     jobs:
-      - run_npm_builds:
+      - checkout_code:
           filters:
             tags:
               only: /[0-9]+(\.[0-9]+)*/
-      - run_dot_net_builds:
-          filters:
-            tags:
-              only: /[0-9]+(\.[0-9]+)*/
-      - run_dot_net_tests:
+      - run_automated_tests_build:
           requires:
-            - run_dot_net_builds
+            - checkout_code
+          filters:
+            tags:
+              only: /[0-9]+(\.[0-9]+)*/
+      - run_slack_worker_build:
+          requires:
+            - checkout_code
+          filters:
+            tags:
+              only: /[0-9]+(\.[0-9]+)*/
+      - run_email_logger_build:
+          requires:
+            - checkout_code
+          filters:
+            tags:
+              only: /[0-9]+(\.[0-9]+)*/
+      - run_logger_build:
+          requires:
+            - checkout_code
+          filters:
+            tags:
+              only: /[0-9]+(\.[0-9]+)*/
+      - run_api_build:
+          requires:
+            - checkout_code
+          filters:
+            tags:
+              only: /[0-9]+(\.[0-9]+)*/
+      - run_slack_worker_test:
+          requires:
+            - run_slack_worker_build
+          filters:
+            tags:
+              only: /[0-9]+(\.[0-9]+)*/
+      - run_email_logger_test:
+          requires:
+            - run_email_logger_build
+          filters:
+            tags:
+              only: /[0-9]+(\.[0-9]+)*/
+      - run_logger_test:
+          requires:
+            - run_logger_build
+          filters:
+            tags:
+              only: /[0-9]+(\.[0-9]+)*/
+      - run_api_test:
+          requires:
+            - run_api_build
           filters:
             tags:
               only: /[0-9]+(\.[0-9]+)*/
       - deploy_to_alpha:
           requires:
-            - run_dot_net_tests
+            - run_slack_worker_test
+            - run_email_logger_test
+            - run_logger_test
+            - run_api_test
           filters:
             tags:
               ignore: /.*/
@@ -258,7 +332,10 @@ workflows:
               only: alpha
       - deploy_to_rc:
           requires:
-            - run_dot_net_tests
+            - run_slack_worker_test
+            - run_email_logger_test
+            - run_logger_test
+            - run_api_test
           filters:
             tags:
               ignore: /.*/
@@ -266,7 +343,10 @@ workflows:
               only: rc
       - deploy_to_staging:
           requires:
-            - run_dot_net_tests
+            - run_slack_worker_test
+            - run_email_logger_test
+            - run_logger_test
+            - run_api_test
           filters:
             tags:
               ignore: /.*/
@@ -274,7 +354,10 @@ workflows:
               only: master
       - deploy_to_production:
           requires:
-            - run_dot_net_tests
+            - run_slack_worker_test
+            - run_email_logger_test
+            - run_logger_test
+            - run_api_test
           filters:
             tags:
               only: /[0-9]+(\.[0-9]+)*/
