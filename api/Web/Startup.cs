@@ -34,10 +34,11 @@ namespace Dta.Marketplace.Api.Web {
                 .AddScheme<AuthenticationSchemeOptions, UserAuthenticationHandler>(Schemes.UserAuthenticationHandler, null)
                 .AddScheme<AuthenticationSchemeOptions, ApiKeyAuthenticationHandler>(Schemes.ApiKeyAuthenticationHandler, null);
 
-            services.AddEntityFrameworkNpgsql()
-                    .AddDbContext<DigitalMarketplaceContext>(options => {
-                        options.UseNpgsql(appSettings.MarketplaceConnectionString);
-                    });
+            services
+                .AddEntityFrameworkNpgsql()
+                .AddDbContext<DigitalMarketplaceContext>(options => {
+                    options.UseNpgsql(appSettings.MarketplaceConnectionString);
+                });
 
             services.AddSingleton<IRedisConnectionFactory, RedisConnectionFactory>();
 

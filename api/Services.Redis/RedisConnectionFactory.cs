@@ -8,7 +8,6 @@ namespace Dta.Marketplace.Api.Services.Redis {
         private readonly Lazy<ConnectionMultiplexer> _connection;
 
         public RedisConnectionFactory(IOptions<AppSettings> appSettings) {
-
             this._connection = new Lazy<ConnectionMultiplexer>(() => ConnectionMultiplexer.Connect(appSettings.Value.RedisConnectionString));
         }
 

@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-using System.Security.Claims;
 using Dta.Marketplace.Api.Business.Exceptions;
 using Dta.Marketplace.Api.Business;
 using Dta.Marketplace.Api.Shared;
@@ -12,11 +11,11 @@ namespace Dta.Marketplace.Api.Web.Controllers {
     [Authorize]
     [ApiController]
     [Route("[controller]")]
-    public class UsersController : ControllerBase {
+    public class UserController : ControllerBase {
         private readonly IAuthorizationUtil _authorizationUtil; 
         private readonly IUserBusiness _userBusiness;
 
-        public UsersController(IUserBusiness userBusiness, IAuthorizationUtil authorizationUtil) {
+        public UserController(IUserBusiness userBusiness, IAuthorizationUtil authorizationUtil) {
             _userBusiness = userBusiness;
             _authorizationUtil = authorizationUtil;
         }
