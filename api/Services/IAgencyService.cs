@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 namespace Dta.Marketplace.Api.Services {
     public interface IAgencyService {
         Task<IEnumerable<dynamic>> GetAgenciesAsync();
-        Task<IEnumerable<dynamic>> GetAgencyAsync(int agency_id);
-        Task<IEnumerable<dynamic>> UpdateAsync(int agency_id, dynamic agency, string updated_by);
+        Task<dynamic> GetAgencyAsync(int id);
+        Task<bool> UpdateAsync(int id, dynamic agency, string updatedBy);
     }
 }

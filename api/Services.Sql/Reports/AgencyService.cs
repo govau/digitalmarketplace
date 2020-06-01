@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Text.Json;
 using Dapper;
-using Dta.Marketplace.Api.Services.Reports;
 
 namespace Dta.Marketplace.Api.Services.Sql.Reports {
-    public class AgencyService : IAgencyService {
+    public class AgencyService : Dta.Marketplace.Api.Services.Reports.IAgencyService {
         private readonly DigitalMarketplaceContext _context;
-
         public AgencyService(DigitalMarketplaceContext context) {
             _context = context;
         }

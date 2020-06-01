@@ -14,8 +14,8 @@ namespace Dta.Marketplace.Api.Business {
         }
         public async Task<IEnumerable<dynamic>> GetAgenciesAsync() =>  await _agencyService.GetAgenciesAsync();
 
-        public async Task<IEnumerable<dynamic>> GetAgencyAsync(int agency_id) => await _agencyService.GetAgencyAsync(agency_id);
+        public async Task<dynamic> GetAgencyAsync(int id) => await _agencyService.GetAgencyAsync(id);
 
-        public async Task<IEnumerable<dynamic>> UpdateAsync(int agency_id, dynamic agency, string updated_by) => await _agencyService.UpdateAsync(agency_id, agency, updated_by);
+        public async Task<bool> UpdateAsync(int id, dynamic agency, string updatedBy) => await _agencyService.UpdateAsync(id, agency, updatedBy);
     }
 }
