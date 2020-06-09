@@ -138,7 +138,9 @@ namespace Dta.Marketplace.Api.Services.Sql {
                 entity.HasOne(d => d.Agency)
                     .WithMany(p => p.AgencyDomain)
                     .HasForeignKey(d => d.AgencyId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    // TODO: Currently AgencyId is contrained to be not null
+                    //.OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("agency_domain_agency_id_fkey");
             });
 

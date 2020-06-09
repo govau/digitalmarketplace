@@ -7,9 +7,10 @@ using Dta.Marketplace.Api.Business.Models;
 using Dta.Marketplace.Api.Web.Utils;
 using System.Threading.Tasks;
 using Dta.Marketplace.Api.Services.Entities;
+using System.Security.Claims;
 
 namespace Dta.Marketplace.Api.Web.Controllers {
-    // [Authorize]
+    [Authorize]
     [ApiController]
     [Route("[controller]")]
     public class AgencyController : ControllerBase {
@@ -19,41 +20,31 @@ namespace Dta.Marketplace.Api.Web.Controllers {
             _agencyBusiness = agencyBusiness;
         }
 
-        // [Authorize(Roles = Roles.Admin)]
+        [Authorize(Roles = Roles.Admin)]
         [HttpGet]
         public async Task<IActionResult> GetAgenciesAsync() {
             var users = await _agencyBusiness.GetAgenciesAsync();
             return Ok(users);
         }
 
+        [Authorize(Roles = Roles.Admin)]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetAgencyAsync(int id) {
-            // if (!_authorizationUtil.IsUserInRole(User, Roles.Admin) && !_authorizationUtil.IsUserTheSame(User, id)) {
-            //     return Forbid();
-            // }
-
             var agency = await _agencyBusiness.GetAgencyAsync(id);
             if (agency == null) {
                 return NotFound();
             }
-
             return Ok(agency);
         }
 
+        [Authorize(Roles = Roles.Admin)]
         [HttpPost]
-        public async Task<IActionResult> UpdateAgencyAsync([FromBody]Agency model) {
-            var result = await _agencyBusiness.UpdateAsync(model.Id, model, "user");
+        public async Task<IActionResult> UpdateAgencyAsync([FromBody]AgencyModel model) {
+            var result = await _agencyBusiness.UpdateAsync(model.Id, model, User.FindFirstValue(ClaimTypes.NameIdentifier));
             if (!result){
                 return BadRequest();
             }
             return Ok();
-            
-            // try {
-            //     var user = await _userBusiness.AuthenticateAsync(model);
-            //     return Ok(user);
-            // } catch (CannotAuthenticateException) {
-            //     return BadRequest(new { message = "Username or password is incorrect" });
-            // }
         }
     }
 }
