@@ -38,19 +38,19 @@ Email: {message.user.email_address}";
                     }
                     break;
                 case "abr_failed":
-                    var definition2 = new {
+                    var definition = new {
                         user = new {
                             email_address = "",
                             role = "",
                             name = ""
                         }
                     };
-                    var message2 = JsonConvert.DeserializeAnonymousType(awsSnsMessage.Message, definition2);
-                        var slackMessage2 =
+                    var message = JsonConvert.DeserializeAnonymousType(awsSnsMessage.Message, definition);
+                        var slackMessage =
 $@"*:troll:*ABR API failed*:troll:*
-Name: {message2.user.name}
-Email: {message2.user.email_address}";
-                        return await _slackService.SendSlackMessage(_config.Value.UserSlackUrl, slackMessage2);
+Name: {message.user.name}
+Email: {message.user.email_address}";
+                        return await _slackService.SendSlackMessage(_config.Value.UserSlackUrl, slackMessage);
                 default:
                         _logger.LogDebug("Unknown processor for {@AwsSnsMessage}.", awsSnsMessage);
                     break;
