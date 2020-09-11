@@ -17,7 +17,7 @@
     "random-words": "^1.1.1",
     "ts-node": "^9.0.0",
     "tslint": "^5.18.0",
-    "typescript": "^3.8.3"
+    "typescript": "^4.0.2"
   },
   "scripts": {
     "build": "tsc",
