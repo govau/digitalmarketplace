@@ -87,9 +87,7 @@ const fillEvaluationCriteria = async () => {
   await utils.selectCheck("includeWeightingsNiceToHave", "id");
   await clickSaveContinue();
   await utils.matchText("li", "You cannot have blank essential criteria.");
-  await utils.matchText("li", "Essential weightings must be greater than 0.");
   await utils.matchText("li", "You cannot have blank essential criteria.");
-  await utils.matchText("li", "Desirable weightings must add up to 100%.");
   await utils.selectCheck("includeWeightingsNiceToHave", "id");
   await utils.clickLink("Add another criteria");
   await utils.type("essential_criteria_0", { numberOfWords: 50 });
@@ -101,7 +99,6 @@ const fillEvaluationCriteria = async () => {
 
 const fillClosingDate = async () => {
   await clickSaveContinue();
-  await utils.matchText("li", "You must add a closing date at least 2 days from now");
   await utils.matchText("li", "You must add a contact number");
   const now = new Date();
   const future = new Date(now.setDate(now.getDate() + 14));
