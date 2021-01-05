@@ -103,7 +103,6 @@ const fillEvaluationCriteria = async () => {
 
 const fillClosingDate = async () => {
   await clickSaveContinue();
-  await utils.matchText("li", "You must add a closing date at least 2 days from now");
   await utils.matchText("li", "You must add a contact number");
   const now = new Date();
   const future = new Date(now.setDate(now.getDate() + 14));
