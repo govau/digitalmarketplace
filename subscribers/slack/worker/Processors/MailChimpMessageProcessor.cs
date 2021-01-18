@@ -29,7 +29,7 @@ $@":email:*MailChimp Error*:email:
 Message: {message.mailchimp.message}
 Error: {message.mailchimp.error}";
 
-                    return await _slackService.SendSlackMessage(_config.Value.MailChimpSlackUrl, slackMessage);
+                    return await _slackService.SendSlackMessage(_config.Value.MailchimpSlackUrl, slackMessage);
                 
                 default:
                         _logger.LogDebug("Unknown processor for {@AwsSnsMessage}.", awsSnsMessage);
