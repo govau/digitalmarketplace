@@ -80,7 +80,8 @@ namespace Dta.Marketplace.Subscribers.Slack.Worker {
                             ac.BuyerSlackUrl = credentials.BuyerSlackUrl;
                             ac.SupplierSlackUrl = credentials.SupplierSlackUrl;
                             ac.UserSlackUrl = credentials.UserSlackUrl;
-                            ac.MailChimpSlackUrl = credentials.MailChimpSlackUrl;
+                            ac.MailchimpSlackUrl = credentials.MailchimpSlackUrl;
+
                             if (credentials.WorkIntervalInSeconds != 0) {
                                 ac.WorkIntervalInSeconds = credentials.WorkIntervalInSeconds;
                             }
