@@ -7,7 +7,7 @@ using Dta.Marketplace.Subscribers.Slack.Worker.Model;
 using Dta.Marketplace.Subscribers.Slack.Worker.Services;
 
 namespace Dta.Marketplace.Subscribers.Slack.Worker.Processors {
-    internal class MailChimpMessageProcessor : AbstractMessageProcessor {
+    internal class MailchimpMessageProcessor : AbstractMessageProcessor {
         private readonly ISlackService _slackService;
 
         public MailchimpMessageProcessor(ILogger<AppService> logger, IOptions<AppConfig> config, ISlackService slackService) : base(logger, config) {
