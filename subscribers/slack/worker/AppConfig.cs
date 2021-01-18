@@ -12,7 +12,8 @@ namespace Dta.Marketplace.Subscribers.Slack.Worker {
         public string SupplierSlackUrl { get; set; }
         public string BuyerSlackUrl { get; set; }
         public string UserSlackUrl { get; set; }
-        public string MailChimpSlackUrl { get; set; }
+        public string MailchimpSlackUrl { get; set; }
+
         public int WorkIntervalInSeconds { get; set; } = 60;
         public string SentryDsn { get; set; }
     }
