@@ -73,7 +73,7 @@ namespace Dta.Marketplace.Subscribers.Slack.Worker.Model {
         public string UserSlackUrl { get; set; }
 
         [JsonProperty("MAILCHIMP_SLACK_URL")]
-        public string MailChimpSlackUrl { get; set; }
+        public string MailchimpSlackUrl { get; set; }
 
         [JsonProperty("WORK_INTERVAL_IN_SECONDS")]
         public int WorkIntervalInSeconds { get; set; }
