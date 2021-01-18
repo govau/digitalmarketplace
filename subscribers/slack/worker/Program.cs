@@ -102,7 +102,8 @@ namespace Dta.Marketplace.Subscribers.Slack.Worker {
                     services.AddTransient<ApplicationMessageProcessor>();
                     services.AddTransient<BriefMessageProcessor>();
                     services.AddTransient<UserMessageProcessor>();
-                    services.AddTransient<MailChimpMessageProcessor>();
+                    services.AddTransient<MailchimpMessageProcessor>();
+
                     services.AddTransient<ISlackService, SlackService>();
 
                     services.AddTransient<Func<string, IMessageProcessor>>(sp => key => {
