@@ -25,7 +25,7 @@ namespace Dta.Marketplace.Subscribers.Slack.Worker.Processors {
                     };
                     var message = JsonConvert.DeserializeAnonymousType(awsSnsMessage.Message, definition);
                     var slackMessage =
-$@":email:*MailChimp Error*:email:
+$@":email:*Mailchimp Error*:email:
 Message: {message.mailchimp.message}
 Error: {message.mailchimp.error}";
 
