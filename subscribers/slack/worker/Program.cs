@@ -117,7 +117,8 @@ namespace Dta.Marketplace.Subscribers.Slack.Worker {
                             case "user":
                                 return sp.GetService<UserMessageProcessor>();
                               case "mailchimp":
-                                return sp.GetService<MailChimpMessageProcessor>();
+                                return sp.GetService<MailchimpMessageProcessor>();
+
                             default:
                                 return null;
                         }
