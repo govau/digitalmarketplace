@@ -10,7 +10,7 @@ namespace Dta.Marketplace.Subscribers.Slack.Worker.Processors {
     internal class MailChimpMessageProcessor : AbstractMessageProcessor {
         private readonly ISlackService _slackService;
 
-        public MailChimpMessageProcessor(ILogger<AppService> logger, IOptions<AppConfig> config, ISlackService slackService) : base(logger, config) {
+        public MailchimpMessageProcessor(ILogger<AppService> logger, IOptions<AppConfig> config, ISlackService slackService) : base(logger, config) {
             _slackService = slackService;
         }
 
