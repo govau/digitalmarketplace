@@ -99,15 +99,12 @@ namespace Dta.Marketplace.Subscribers.Slack.Worker {
                     });
 
                     services.AddSingleton<IHostedService, AppService>();
-
                     services.AddTransient<AgencyMessageProcessor>();
                     services.AddTransient<ApplicationMessageProcessor>();
                     services.AddTransient<BriefMessageProcessor>();
                     services.AddTransient<UserMessageProcessor>();
                     services.AddTransient<MailchimpMessageProcessor>();
-
                     services.AddTransient<ISlackService, SlackService>();
-
                     services.AddTransient<Func<string, IMessageProcessor>>(sp => key => {
                         switch (key) {
                             case "agency":
@@ -120,8 +117,6 @@ namespace Dta.Marketplace.Subscribers.Slack.Worker {
                                 return sp.GetService<UserMessageProcessor>();
                             case "mailchimp":
                                 return sp.GetService<MailchimpMessageProcessor>();
-
-
                             default:
                                 return null;
                         }
