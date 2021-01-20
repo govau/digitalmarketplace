@@ -153,7 +153,7 @@ const fillAdditionalInformation = async () => {
 };
 
 const publishBrief = async () => {
-  await utils.selectCheck("cb-declaration", "id");
+  await utils.selectCheck("cb-declaration");
   await utils.clickButton("Publish");
 };
 
