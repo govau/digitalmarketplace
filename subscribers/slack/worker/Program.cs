@@ -55,7 +55,6 @@ namespace Dta.Marketplace.Subscribers.Slack.Worker {
                         ac.SupplierSlackUrl = Environment.GetEnvironmentVariable("SUPPLIER_SLACK_URL");
                         ac.UserSlackUrl = Environment.GetEnvironmentVariable("USER_SLACK_URL");
                         ac.MailchimpSlackUrl = Environment.GetEnvironmentVariable("MAILCHIMP_SLACK_URL");
-
                         var workIntervalInSeconds = Environment.GetEnvironmentVariable("WORK_INTERVAL_IN_SECONDS");
                         if (string.IsNullOrWhiteSpace(workIntervalInSeconds) == false) {
                             ac.WorkIntervalInSeconds = int.Parse(workIntervalInSeconds);
