@@ -109,14 +109,14 @@ const fillClosingDate = async () => {
   await utils.type("day", { value: `${format(future, "dd")}` });
   await utils.type("month", { value: `${format(future, "MM")}` });
   await utils.type("year", { value: `${format(future, "yyyy")}` });
-  await utils.type("contact", { value: "0123456789" });
+  await utils.type("contactNumber", { value: "01234455667733" });
   await utils.selectCheck("comprehensiveTerms", "id");
   await utils.type("internalReference", { numberOfCharacters: 100 });
   await clickSaveContinue();
 };
 
 const fillPublishBrief = async () => {
-  await utils.selectCheck("cb-declaration", "id");
+  await utils.selectCheck("cb-declaration");
   await utils.clickButton("Publish");
   await utils.matchText("h1", "Your opportunity is now live, and the invited sellers have been notified.");
 };
