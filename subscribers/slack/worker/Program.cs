@@ -82,7 +82,6 @@ namespace Dta.Marketplace.Subscribers.Slack.Worker {
                             ac.SupplierSlackUrl = credentials.SupplierSlackUrl;
                             ac.UserSlackUrl = credentials.UserSlackUrl;
                             ac.MailchimpSlackUrl = credentials.MailchimpSlackUrl;
-
                             if (credentials.WorkIntervalInSeconds != 0) {
                                 ac.WorkIntervalInSeconds = credentials.WorkIntervalInSeconds;
                             }
@@ -99,11 +98,13 @@ namespace Dta.Marketplace.Subscribers.Slack.Worker {
                     });
 
                     services.AddSingleton<IHostedService, AppService>();
+
                     services.AddTransient<AgencyMessageProcessor>();
                     services.AddTransient<ApplicationMessageProcessor>();
                     services.AddTransient<BriefMessageProcessor>();
                     services.AddTransient<UserMessageProcessor>();
                     services.AddTransient<MailchimpMessageProcessor>();
+
                     services.AddTransient<ISlackService, SlackService>();
                     services.AddTransient<Func<string, IMessageProcessor>>(sp => key => {
                         switch (key) {
