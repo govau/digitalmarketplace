@@ -88,7 +88,7 @@ const fillTimeframes = async () => {
   await clickSaveContinue();
   await utils.matchText("li", "Enter an estimated start date for the brief");
 
-  await utils.type("start_date", { numberOfWords: 10 });
+  await utils.type("start_date", { numberOfCharacters: 100 });
   await utils.type("timeframeConstraints", { numberOfWords: 150 });
   await clickSaveContinue();
 };
@@ -96,7 +96,7 @@ const fillTimeframes = async () => {
 const fillResponseCriteria = async (numberOfCriteria: number): Promise<ICriteriaItem[]> => {
   await clickSaveContinue();
   await utils.matchText("li", "You must not have any empty criteria.");
-  await utils.selectCheck("yes");
+  await utils.selectCheck("include_weightings");
   const criteria: ICriteriaItem[] = [];
   for (let i = 0; i < numberOfCriteria; i += 1) {
     if (i > 0) {
@@ -119,11 +119,6 @@ const fillResponseCriteria = async (numberOfCriteria: number): Promise<ICriteria
 const fillClosingDate = async () => {
   await clickSaveContinue();
   await utils.matchText("li", "Contact number is required");
-  const now = new Date();
-  const future = new Date(now.setDate(now.getDate() + 14));
-  await utils.type("day", { value: `${format(future, "dd")}` });
-  await utils.type("month", { value: `${format(future, "MM")}` });
-  await utils.type("year", { value: `${format(future, "yyyy")}` });
   await utils.type("contactNumber", { value: "0123456789" });
   await clickSaveContinue();
 };
