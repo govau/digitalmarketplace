@@ -60,7 +60,7 @@ const fillResponseFormats = async () => {
   await utils.selectCheck("Response template");
   await clickSaveContinue();
   await utils.matchText("li", "You must select at least one proposal type.");
-  await utils.matchText("li", `You can only select either "Written proposal" or "Completed response template".`, "'");
+  await utils.matchText("li", `You can only select either "Written proposal" or "Completed response template".`);
   await utils.selectCheck("Response template");
   await utils.selectCheck("Breakdown of costs");
   await utils.selectCheck("Case study");
@@ -83,7 +83,7 @@ const fillTimeframesAndBudget = async () => {
   await clickSaveContinue();
   await utils.matchText("li", "You must add an estimated start date");
   await utils.matchText("li", "You must add a contract length");
-  await utils.type("start_date", { numberOfCharacters: 150 });
+  await utils.type("start_date", { numberOfCharacters: 100 });
   await utils.type("contract_length-label", { numberOfCharacters: 50 });
   await utils.type("contract_extensions", { numberOfCharacters: 50 });
   await utils.type("budget_range", { numberOfWords: 150 });
@@ -92,6 +92,7 @@ const fillTimeframesAndBudget = async () => {
 
 const fillEvaluationCriteria = async () => {
   await clickSaveContinue();
+  await utils.matchText("li", "You cannot have blank essential weightings.");
   await utils.matchText("li", "You cannot have blank essential criteria.");
   await utils.clickLink("Add another criteria");
   await utils.type("essential_criteria_0", { numberOfWords: 50 });
