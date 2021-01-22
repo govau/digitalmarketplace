@@ -116,7 +116,7 @@ const fillClosingDate = async () => {
 };
 
 const fillPublishBrief = async () => {
-  await utils.selectCheck("cb-declaration");
+  await utils.selectCheck("cb-declaration", "id");
   await utils.clickButton("Publish");
   await utils.matchText("h1", "Your opportunity is now live, and the invited sellers have been notified.");
 };

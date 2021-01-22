@@ -129,7 +129,7 @@ const fillClosingDate = async () => {
 };
 
 const publishBrief = async () => {
-  await utils.selectCheck("cb-declaration");
+  await utils.selectCheck("cb-declaration", "id");
   await utils.clickButton("Publish");
   await utils.matchText("h1", "Your opportunity is now live.");
 };
