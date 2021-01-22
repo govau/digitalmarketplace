@@ -76,7 +76,7 @@ const fillTimeframesAndBudget = async () => {
   await clickSaveContinue();
   await utils.matchText("li", "You must add an estimated start date");
   await utils.matchText("li", "You must add a contract length");
-  await utils.type("start_date", { numberOfCharacters: 150 });
+  await utils.type("start_date", { numberOfCharacters: 100 });
   await utils.type("contract_length-label", { numberOfCharacters: 50 });
   await utils.type("contract_extensions", { numberOfCharacters: 50 });
   await utils.type("budget_range", { numberOfWords: 150 });
@@ -88,6 +88,7 @@ const fillEvaluationCriteria = async () => {
   await clickSaveContinue();
   await utils.matchText("li", "You cannot have blank essential criteria.");
   await utils.matchText("li", "You cannot have blank essential criteria.");
+  await utils.matchText("li", "Desirable weightings must add up to 100%.");
   await utils.selectCheck("includeWeightingsNiceToHave", "id");
   await utils.clickLink("Add another criteria");
   await utils.type("essential_criteria_0", { numberOfWords: 50 });
@@ -100,11 +101,6 @@ const fillEvaluationCriteria = async () => {
 const fillClosingDate = async () => {
   await clickSaveContinue();
   await utils.matchText("li", "Contact number is required");
-  const now = new Date();
-  const future = new Date(now.setDate(now.getDate() + 14));
-  await utils.type("day", { value: `${format(future, "dd")}` });
-  await utils.type("month", { value: `${format(future, "MM")}` });
-  await utils.type("year", { value: `${format(future, "yyyy")}` });
   await utils.type("contactNumber", { value: "01234455667733" });
   await utils.selectCheck("comprehensiveTerms", "id");
   await utils.type("internalReference", { numberOfCharacters: 100 });
