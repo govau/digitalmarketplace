@@ -35,7 +35,7 @@ const createBrief = async () => {
 const fillAbout = async (role: string, locations: string[]) => {
   await clickSaveContinue();
   await utils.matchText("li", "Enter the title for your opportunity.");
-  await utils.matchText("li", "what will the specialist do");
+  await utils.matchText("li", `You must answer "what will the specialist do."`);
   await utils.matchText("li", "You must select at least one location.");
   await utils.type("title", { value: role });
   await utils.type("summary", { numberOfWords: 1000 });
