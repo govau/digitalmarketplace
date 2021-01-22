@@ -160,6 +160,7 @@ const fillAdditionalInformation = async () => {
 const publishBrief = async () => {
   await utils.selectCheck("cb-declaration", "id");
   await utils.clickButton("Publish");
+  await utils.matchText("h1", "Your opportunity is now live.");
 };
 
 const create = async (params: ISpecialistParams): Promise<ISpecialistResult> => {
