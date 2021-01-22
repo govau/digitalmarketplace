@@ -105,11 +105,6 @@ const fillEvaluationCriteria = async () => {
 const fillClosingDate = async () => {
   await clickSaveContinue();
   await utils.matchText("li", "Contact number is required");
-  const now = new Date();
-  const future = new Date(now.setDate(now.getDate() + 14));
-  await utils.type("day", { value: `${format(future, "dd")}` });
-  await utils.type("month", { value: `${format(future, "MM")}` });
-  await utils.type("year", { value: `${format(future, "yyyy")}` });
   await utils.type("contactNumber", { value: "01234455667733" });
   await utils.selectCheck("comprehensiveTerms", "id");
   await utils.type("internalReference", { numberOfCharacters: 100 });
