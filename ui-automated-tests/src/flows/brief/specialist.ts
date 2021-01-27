@@ -35,7 +35,7 @@ const createBrief = async () => {
 const fillAbout = async (role: string, locations: string[]) => {
   await clickSaveContinue();
   await utils.matchText("li", "Enter the title for your opportunity.");
-  await utils.matchText("li", "what will the specialist do");
+  await utils.matchText("li", `You must answer "what will the specialist do."`);
   await utils.matchText("li", "You must select at least one location.");
   await utils.type("title", { value: role });
   await utils.type("summary", { numberOfWords: 1000 });
@@ -61,17 +61,22 @@ const fillWhoCanRespond = async (categoryId: string) => {
 };
 
 const fillSelectionCriteria = async (): Promise<ISelectionCriteria> => {
+  await clickSaveContinue();
+  await utils.matchText("li", "You cannot have blank essential criteria.");
+
   await utils.selectCheck("includeWeightingsEssential", "id");
   await utils.selectCheck("includeWeightingsNiceToHave", "id");
   await clickSaveContinue();
-  await utils.matchText("li", "You cannot have blank essential criteria.");
+
   await utils.matchText("li", "You cannot have blank essential weightings.");
+  await utils.matchText("li", "You cannot have blank essential criteria.");
   await utils.matchText("li", "Desirable weightings must add up to 100%.");
 
   const essCriteria = await utils.type("essential_criteria_0", { numberOfWords: 50 });
   const essWeighting = await utils.type("essential_weighting_0", { value: "10" });
   await clickSaveContinue();
   await utils.matchText("li", "Essential weightings must add up to 100%.");
+  await utils.matchText("li", "Desirable weightings must add up to 100%.");
   await utils.type("essential_weighting_0", { value: "0" });
   const essentialCriteria = {
     criteria: essCriteria,
@@ -94,7 +99,7 @@ const fillSelectionCriteria = async (): Promise<ISelectionCriteria> => {
 
 const fillSellerResponses = async (): Promise<{ numberOfSuppliers: string }> => {
   await clickSaveContinue();
-
+  await utils.matchText("li", "You must define the security clearance requirements");
   const input = await utils.getElementHandle(`//input[@id="numberOfSuppliers"]`);
   await input.press("Backspace");
   await clickSaveContinue();
@@ -153,8 +158,9 @@ const fillAdditionalInformation = async () => {
 };
 
 const publishBrief = async () => {
-  await utils.selectCheck("cb-declaration");
+  await utils.selectCheck("cb-declaration", "id");
   await utils.clickButton("Publish");
+  await utils.matchText("h1", "Your opportunity is now live.");
 };
 
 const create = async (params: ISpecialistParams): Promise<ISpecialistResult> => {
