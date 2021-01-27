@@ -41,7 +41,6 @@ Email: {message.user.email_address}";
                     var abrDefinition = new {
                         user = new {
                             email_address = "",
-                            role = "",
                             name = ""
                         }
                     };
