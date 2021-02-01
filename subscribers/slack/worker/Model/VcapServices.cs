@@ -48,6 +48,9 @@ namespace Dta.Marketplace.Subscribers.Slack.Worker.Model {
     }
 
     public partial class Credentials {
+        [JsonProperty("ABR_SLACK_URL")]
+        public string AbrSlackUrl { get; set; }
+
         [JsonProperty("AWS_SQS_ACCESS_KEY_ID")]
         public string AwsSqsAccessKeyId { get; set; }
 

@@ -8,6 +8,7 @@ namespace Dta.Marketplace.Subscribers.Slack.Worker {
         public string AwsSqsAccessKeyId { get; set; }
         public string AwsSqsSecretAccessKey { get; set; }
         public int AwsSqsLongPollTimeInSeconds { get; set; } = 20;
+        public string AbrSlackUrl { get; set; }
         public string AgencySlackUrl { get; set; }
         public string SupplierSlackUrl { get; set; }
         public string BuyerSlackUrl { get; set; }
