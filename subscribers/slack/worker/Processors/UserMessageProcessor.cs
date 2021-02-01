@@ -37,19 +37,6 @@ Email: {message.user.email_address}";
                         _logger.LogDebug("Supplier not supported for {@AwsSnsMessage}.", awsSnsMessage);
                     }
                     break;
-                case "abr_failed":
-                    var abrDefinition = new {
-                        user = new {
-                            email_address = "",
-                            name = ""
-                        }
-                    };
-                    var abrMessage = JsonConvert.DeserializeAnonymousType(awsSnsMessage.Message, abrDefinition);
-                        var abrSlackMessage =
-$@"*:imp:*ABR API failed*:imp:*
-Name: {abrMessage.user.name}
-Email: {abrMessage.user.email_address}";
-                        return await _slackService.SendSlackMessage(_config.Value.UserSlackUrl, abrSlackMessage);
                 default:
                         _logger.LogDebug("Unknown processor for {@AwsSnsMessage}.", awsSnsMessage);
                     break;
