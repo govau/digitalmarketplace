@@ -18,8 +18,7 @@ namespace Dta.Marketplace.Subscribers.Slack.Worker.Processors {
             switch (awsSnsMessage.MessageAttributes.EventType.Value) {
                 case "abr_failed":
                     var definition = new {
-                        abr = 
-                            error = ""
+                        error = ""
                     };
                     var message = JsonConvert.DeserializeAnonymousType(awsSnsMessage.Message, definition);
                     var slackMessage =
