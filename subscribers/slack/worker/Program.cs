@@ -109,7 +109,7 @@ namespace Dta.Marketplace.Subscribers.Slack.Worker {
                     services.AddTransient<ISlackService, SlackService>();
                     services.AddTransient<Func<string, IMessageProcessor>>(sp => key => {
                         switch (key) {
-                            case "abr_failed":
+                            case "abr":
                                 return sp.GetService<AbrMessageProcessor>();
                             case "agency":
                                 return sp.GetService<AgencyMessageProcessor>();
