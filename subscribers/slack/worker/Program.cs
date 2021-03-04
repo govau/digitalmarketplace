@@ -49,6 +49,7 @@ namespace Dta.Marketplace.Subscribers.Slack.Worker {
                         if (string.IsNullOrWhiteSpace(awsSqsRegion) == false) {
                             ac.AwsSqsRegion = awsSqsRegion;
                         }
+                        ac.AbrSlackUrl = Environment.GetEnvironmentVariable("ABR_SLACK_URL");
                         ac.AwsSqsSecretAccessKey = Environment.GetEnvironmentVariable("AWS_SQS_SECRET_ACCESS_KEY");
                         ac.AgencySlackUrl = Environment.GetEnvironmentVariable("AGENCY_SLACK_URL");
                         ac.BuyerSlackUrl = Environment.GetEnvironmentVariable("BUYER_SLACK_URL");
@@ -76,6 +77,7 @@ namespace Dta.Marketplace.Subscribers.Slack.Worker {
                                 ac.AwsSqsRegion = credentials.AwsSqsRegion;
                             }
                             ac.AwsSqsSecretAccessKey = credentials.AwsSqsSecretAccessKey;
+                            ac.AbrSlackUrl = credentials.AbrSlackUrl;
                             ac.AgencySlackUrl = credentials.AgencySlackUrl;
                             ac.BuyerSlackUrl = credentials.BuyerSlackUrl;
                             ac.SupplierSlackUrl = credentials.SupplierSlackUrl;
@@ -97,7 +99,7 @@ namespace Dta.Marketplace.Subscribers.Slack.Worker {
                     });
 
                     services.AddSingleton<IHostedService, AppService>();
-
+                    services.AddTransient<AbrMessageProcessor>();
                     services.AddTransient<AgencyMessageProcessor>();
                     services.AddTransient<ApplicationMessageProcessor>();
                     services.AddTransient<BriefMessageProcessor>();
@@ -107,6 +109,8 @@ namespace Dta.Marketplace.Subscribers.Slack.Worker {
                     services.AddTransient<ISlackService, SlackService>();
                     services.AddTransient<Func<string, IMessageProcessor>>(sp => key => {
                         switch (key) {
+                            case "abr":
+                                return sp.GetService<AbrMessageProcessor>();
                             case "agency":
                                 return sp.GetService<AgencyMessageProcessor>();
                             case "application":
