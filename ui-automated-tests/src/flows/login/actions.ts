@@ -13,8 +13,9 @@ export const login = async (email: string, password: string) => {
     // eslint-disable-next-line no-param-reassign
     password = process.env.SELLER_PASSWORD;
   }
-  await utils.type("input_email_address", { value: email });
-  await utils.type("input_password", { value: password });
+  // since we are using the new login these fields need to be updated
+  await utils.type("emailAddress", { value: email });
+  await utils.type("password", { value: password });
   await utils.clickInputButton("Sign in");
 };
 
