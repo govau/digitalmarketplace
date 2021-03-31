@@ -43,7 +43,7 @@ export const sellerLogin = async (email?: string, password?: string) => {
     // eslint-disable-next-line no-param-reassign
     password = process.env.SELLER_PASSWORD;
   }
-  await login(email, password);
+  await login(email, password)
 };
 
 export const signOut = async (userType: string) => {

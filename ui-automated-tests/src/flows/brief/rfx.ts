@@ -60,7 +60,6 @@ const fillResponseFormats = async () => {
   await utils.selectCheck("Response template");
   await clickSaveContinue();
   await utils.matchText("li", "You must select at least one proposal type.");
-  // await utils.matchText("li", `You can only select either "Written proposal" or "Completed response template".`);
   await utils.selectCheck("Response template");
   await utils.selectCheck("Breakdown of costs");
   await utils.selectCheck("Case study");
@@ -73,7 +72,7 @@ const fillResponseFormats = async () => {
 
 const fillRequirements = async () => {
   await clickSaveContinue();
-  // await utils.matchText("li", "You must upload a requirements document");
+  await utils.matchText("li", "You must upload a requirements document");
   await utils.upload("file_requirementsDocument_0", "document.pdf", "Requirements document");
   await utils.upload("file_attachments_0", "document.pdf", "Additional documents (optional)");
   await utils.sleep(100);

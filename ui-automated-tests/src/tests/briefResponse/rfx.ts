@@ -21,6 +21,7 @@ describe("create and respond to RFXs opportunity", () => {
 
   it("should be able to respond RFXs opportunity", async () => {
     await sellerLogin();
+    await sleep(1000);
     await navigate();
     await selectBrief(title);
     await sleep(1000);
