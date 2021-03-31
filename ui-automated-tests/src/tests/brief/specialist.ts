@@ -20,7 +20,7 @@ describe("should be able to create specialist opportunity", () => {
     18: "ICT systems integration",
     19: "Digital sourcing and ICT procurement",
     20: "Platforms integration",
-    21: "Service Integration and Management"
+    21: "Service Integration and Management",
   };
 
   Object.keys(categories).forEach((id) => {
