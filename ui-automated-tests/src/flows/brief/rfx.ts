@@ -75,7 +75,6 @@ const fillRequirements = async () => {
   await utils.matchText("li", "You must upload a requirements document");
   await utils.upload("file_requirementsDocument_0", "document.pdf", "Requirements document");
   await utils.upload("file_attachments_0", "document.pdf", "Additional documents (optional)");
-  await utils.sleep(100);
   await utils.type("industryBriefing", { numberOfWords: 150 });
   await clickSaveContinue();
 };
