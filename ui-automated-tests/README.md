@@ -19,7 +19,7 @@ and start the tests with `source [PATH_TO_ENVIRONMENT_FILE] && npm test`
 
 
 # Troubleshooting on Ubuntu
-There are a few issues you would encounter when running the ui-automation tests on Ubuntu.
+There are a few issues you might encounter when running the ui-automation tests on Ubuntu.
 
 If there is issue with an outdated version of node. 
 Install the latest version.
