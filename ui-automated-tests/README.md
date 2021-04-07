@@ -21,11 +21,8 @@ and start the tests with `source [PATH_TO_ENVIRONMENT_FILE] && npm test`
 # Troubleshooting on Ubuntu
 There are a few issues you might encounter when running the ui-automation tests on Ubuntu.
 
-If there is issue with an outdated version of node. 
-Install the latest version.
+If there is an issue with an outdated version of node, install the latest version and then switch to use that version of node.
 `nvm install v14.16.0`
-
-Switch to use that version of node
 `nvm use v14.16.0`
 
 running `npm i puppeter` will not install Chromium and you will need to add the following dependecies manually.
