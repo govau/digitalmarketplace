@@ -96,7 +96,7 @@ const fillTimeframes = async () => {
 const fillResponseCriteria = async (numberOfCriteria: number): Promise<ICriteriaItem[]> => {
   await clickSaveContinue();
   await utils.matchText("li", "You must not have any empty criteria.");
-  await utils.selectCheck("include_weightings");
+  await utils.selectCheck("yes");
   const criteria: ICriteriaItem[] = [];
   for (let i = 0; i < numberOfCriteria; i += 1) {
     if (i > 0) {

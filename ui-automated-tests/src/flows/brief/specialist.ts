@@ -35,7 +35,6 @@ const createBrief = async () => {
 const fillAbout = async (role: string, locations: string[]) => {
   await clickSaveContinue();
   await utils.matchText("li", "Enter the title for your opportunity.");
-  await utils.matchText("li", `You must answer "what will the specialist do."`);
   await utils.matchText("li", "You must select at least one location.");
   await utils.type("title", { value: role });
   await utils.type("summary", { numberOfWords: 1000 });
@@ -139,9 +138,9 @@ const fillTimeframes = async () => {
   await utils.matchText("li", "Enter a contract length for the opportunity");
   const now = new Date();
   const future = new Date(now.setDate(now.getDate() + 14));
-  await utils.type("day", { value: `${format(future, "dd")}` });
+  await utils.type("day", { value: `${format(future, "DD")}` });
   await utils.type("month", { value: `${format(future, "MM")}` });
-  await utils.type("year", { value: `${format(future, "yyyy")}` });
+  await utils.type("year", { value: `${format(future, "YYYY")}` });
   await utils.type("contractLength", { numberOfCharacters: 100 });
   await utils.type("contractExtensions", { numberOfCharacters: 100 });
   await clickSaveContinue();

@@ -16,6 +16,11 @@ describe("should be able to create specialist opportunity", () => {
     8: "Cyber security",
     11: "Data science",
     13: "Emerging technologies",
+    17: "ICT risk management and audit activities",
+    18: "ICT systems integration",
+    19: "Digital sourcing and ICT procurement",
+    20: "Platforms integration",
+    21: "Service Integration and Management",
   };
 
   Object.keys(categories).forEach((id) => {

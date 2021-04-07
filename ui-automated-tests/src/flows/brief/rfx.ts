@@ -60,7 +60,6 @@ const fillResponseFormats = async () => {
   await utils.selectCheck("Response template");
   await clickSaveContinue();
   await utils.matchText("li", "You must select at least one proposal type.");
-  await utils.matchText("li", `You can only select either "Written proposal" or "Completed response template".`);
   await utils.selectCheck("Response template");
   await utils.selectCheck("Breakdown of costs");
   await utils.selectCheck("Case study");
