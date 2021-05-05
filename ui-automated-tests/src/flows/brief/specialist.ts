@@ -138,7 +138,7 @@ const fillTimeframes = async () => {
   await utils.matchText("li", "Enter a contract length for the opportunity");
   const now = new Date();
   const future = new Date(now.setDate(now.getDate() + 14));
-  await utils.type("day", { value: `${format(future, "DD")}` });
+  await utils.type("day", { value: `${format(future, "dd")}` });
   await utils.type("month", { value: `${format(future, "MM")}` });
   await utils.type("year", { value: `${format(future, "YYYY")}` });
   await utils.type("contractLength", { numberOfCharacters: 100 });
