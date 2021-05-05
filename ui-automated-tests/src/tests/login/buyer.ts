@@ -3,9 +3,7 @@ import * as util from "../../utils";
 
 describe("should fail sign in", function() {
   const testCases = [
-    { args: ["a", ""], expected: ["a", "You must provide a valid email address"] },
-    { args: ["a@b.cm", ""], expected: ["a", "You must provide your password"] },
-    { args: ["a@b.cm", "a"], expected: ["p", "Make sure you've entered the right email address and password."] },
+    { args: ["a@b.cm", "a"], expected: ["a", "Make sure you've entered the right email address and password. Accounts are locked after 5 failed attempts."] }
   ];
 
   for (const test of testCases) {
