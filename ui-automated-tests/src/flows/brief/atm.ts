@@ -86,7 +86,7 @@ const fillObjectives = async () => {
 
 const fillTimeframes = async () => {
   await clickSaveContinue();
-  await utils.matchText("li", "Enter an estimated start date for the brief");
+  await utils.matchText("li", "Enter an estimated start date for the opportunity");
 
   await utils.type("start_date", { numberOfCharacters: 100 });
   await utils.type("timeframeConstraints", { numberOfWords: 150 });
@@ -130,7 +130,7 @@ const publishBrief = async () => {
 };
 
 const create = async (params: IAtmParams): Promise<IAtmResult> => {
-  console.log("Starting to create atm brief");
+  console.log("Starting to create atm opportunity");
   await createBrief();
   await fillWhoCanRespond();
   await fillAbout(params.title, params.locations);
