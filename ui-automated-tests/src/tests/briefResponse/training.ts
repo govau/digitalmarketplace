@@ -21,6 +21,7 @@ describe("create and respond to training brief", () => {
 
   it("should be able to respond to a training brief", async () => {
     await sellerLogin();
+    await sleep(500);
     await navigate();
     await selectBrief(title);
     await applyForTraining();

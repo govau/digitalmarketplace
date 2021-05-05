@@ -8,6 +8,7 @@ import {
   navigate,
   selectBrief,
 } from "../../flows/opportunities/actions";
+import { sleep } from "../../utils";
 
 describe("create and respond to specialist opportunity", () => {
   // in order to get the right brief we are going for 'today's date'.
@@ -28,6 +29,7 @@ describe("create and respond to specialist opportunity", () => {
 
   it("should be able to respond to specialist opportunity", async () => {
     await sellerLogin();
+    await sleep(500);
     for (let i = 0; i < parseInt(brief.numberOfSuppliers, 10); i += 1) {
       // eslint-disable-next-line no-await-in-loop
       await navigate();
