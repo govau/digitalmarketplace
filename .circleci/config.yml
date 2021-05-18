@@ -189,6 +189,9 @@ jobs:
     <<: *circleci_deploy
     steps:
       - cf_deploy:
+          cf_app_name: dm-alpha-slack-worker
+          cf_manifest: slack-worker.alpha.yml
+      - cf_deploy:
           cf_app_name: dm-alpha-logger
           cf_manifest: logger.alpha.yml
 
